@@ -271,7 +271,7 @@
   <div class="eyebrow">The real thing</div>
   <h2>Thirty seconds inside the app.</h2>
   <div class="vid-frame">
-    <video src="demo.mp4" poster="shots/01_recall.png" autoplay muted loop playsinline></video>
+    <video id="demovid" data-src="demo.mp4" poster="shots/01_recall.png" muted loop playsinline preload="none"></video>
   </div>
 </section>
 
@@ -538,6 +538,15 @@ document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 /* marquee: duplicate content for seamless loop */
 const marq = $('marq');
 if (!reduce) marq.innerHTML += marq.innerHTML;
+
+/* lazy-load the 8MB demo video only when it approaches the viewport */
+const dv = $('demovid');
+new IntersectionObserver((es, obs) => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  dv.src = dv.dataset.src;
+  dv.play().catch(() => {});
+  obs.disconnect();
+}), {rootMargin: '600px'}).observe(dv);
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
