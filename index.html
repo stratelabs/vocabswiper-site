@@ -99,29 +99,24 @@
   .pill:active{transform:scale(.95)}
   .pill.speaking{box-shadow:0 0 0 8px rgba(124,77,255,.1);border-color:rgba(124,77,255,.5)}
 
-  .meaning-slot{height:62px;margin-top:12px;display:grid;place-items:center}
-  .meaning-slot > *{grid-area:1/1}
-  .reveal-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);
-    border-radius:999px;padding:12px 26px;font-size:14.5px;color:rgba(255,255,255,.8);cursor:pointer;
-    font-weight:700;display:inline-flex;align-items:center;gap:8px;
-    animation:nudge 2.8s ease-in-out infinite;transition:background .2s}
-  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(124,77,255,0)}50%{box-shadow:0 0 0 7px rgba(124,77,255,.08)}}
-  .reveal-btn:hover{background:rgba(255,255,255,.11)}
+  .meaning-slot{height:52px;margin-top:10px;display:grid;place-items:center}
   .meaning{font-size:clamp(21px,3.2vw,28px);color:#e9e9ee;font-weight:700;letter-spacing:-.4px}
 
   .example-slot{min-height:62px;margin-top:4px;max-width:560px;padding:0 16px}
   .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(255,255,255,.88)}
   .example-slot .n{font-size:13.5px;color:rgba(255,255,255,.42);margin-top:5px;min-height:20px}
 
-  .grade-row{display:flex;gap:12px;margin-top:24px;height:52px;justify-content:center}
-  .grade{width:168px;border-radius:15px;font-weight:800;font-size:15px;cursor:pointer;border:1.5px solid;
-    display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;
-    transition:opacity .25s, transform .1s}
-  .grade:active{transform:scale(.96)}
-  .grade.forgot{color:var(--orange);border-color:rgba(255,138,61,.4);background:rgba(255,138,61,.07)}
-  .grade.got{color:var(--green);border-color:rgba(99,230,190,.4);background:rgba(99,230,190,.07)}
-  .grade[disabled]{opacity:0;pointer-events:none}
-  .hidden{visibility:hidden}
+  .swipe-cue{margin-top:30px;background:none;border:none;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    color:rgba(255,255,255,.45);transition:color .2s}
+  .swipe-cue:hover{color:rgba(255,255,255,.8)}
+  .swipe-cue .chev{display:block;transform:rotate(90deg);font-size:30px;line-height:.9;
+    font-weight:700;animation:rise 1.8s ease-in-out infinite}
+  .swipe-cue .lbl{font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase}
+  @keyframes rise{0%,100%{transform:rotate(90deg) translateX(0);opacity:.9}
+    50%{transform:rotate(90deg) translateX(-9px);opacity:.35}}
+  @media (prefers-reduced-motion: reduce){.swipe-cue .chev{animation:none}}
+  .big-word{touch-action:none}
 
   .scroll-cue{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
     color:rgba(255,255,255,.2);font-size:10.5px;letter-spacing:3px;text-transform:uppercase;
@@ -243,17 +238,16 @@
         <span id="w-reading"></span> <span>🔊</span>
       </button>
       <div class="meaning-slot">
-        <button class="reveal-btn" id="reveal">👁 Tap to reveal</button>
-        <div class="meaning hidden" id="w-meaning"></div>
+        <div class="meaning" id="w-meaning"></div>
       </div>
       <div class="example-slot">
         <div class="t" id="w-ex"></div>
         <div class="n" id="w-exn"></div>
       </div>
-      <div class="grade-row">
-        <button class="grade forgot" id="g-forgot" disabled>↺ Forgot</button>
-        <button class="grade got" id="g-got" disabled>✓ Got it</button>
-      </div>
+      <button class="swipe-cue" id="next-btn" aria-label="Next word">
+        <span class="chev">‹</span>
+        <span class="lbl">swipe up — next word</span>
+      </button>
     </div>
 
     <div class="scroll-cue">scroll</div>
@@ -377,7 +371,7 @@ const DECKS = {
   ]},
 };
 
-let lang='ja', i=0, revealed=false, streak=0, busy=false;
+let lang='ja', i=0, streak=0, busy=false, interacted=false;
 const $ = id => document.getElementById(id);
 const stage = $('stage');
 
@@ -388,6 +382,7 @@ Object.entries(DECKS).forEach(([code,d]) => {
   if (code === lang) b.classList.add('on');
   b.addEventListener('click', () => {
     if (busy || code === lang) return;
+    interacted = true;
     lang = code; i = 0;
     [...langsEl.children].forEach(x => x.classList.remove('on'));
     b.classList.add('on');
@@ -404,21 +399,7 @@ function render(){
   $('w-reading').textContent = w.r || w.s;
   $('w-meaning').textContent = w.m;
   $('w-ex').textContent = w.ex;
-  $('w-exn').textContent = '';
-  $('w-meaning').classList.add('hidden');
-  $('reveal').style.display = '';
-  $('g-forgot').disabled = true;
-  $('g-got').disabled = true;
-  revealed = false;
-}
-function reveal(){
-  if (revealed) return;
-  revealed = true;
-  $('reveal').style.display = 'none';
-  $('w-meaning').classList.remove('hidden');
-  $('w-exn').textContent = cur().exn;
-  $('g-forgot').disabled = false;
-  $('g-got').disabled = false;
+  $('w-exn').textContent = w.exn;
 }
 function transition(afterFly){
   busy = true;
@@ -435,16 +416,14 @@ function transition(afterFly){
     }));
   }, 330);
 }
-function grade(gotIt){
-  if (busy || !revealed) return;
-  if (gotIt) {
-    streak++;
-    const s = $('streak');
-    s.style.visibility = 'visible';
-    $('streak-n').textContent = streak;
-    s.classList.add('pop');
-    setTimeout(() => s.classList.remove('pop'), 180);
-  }
+function next(){
+  if (busy) return;
+  streak++;
+  const s = $('streak');
+  s.style.visibility = 'visible';
+  $('streak-n').textContent = streak;
+  s.classList.add('pop');
+  setTimeout(() => s.classList.remove('pop'), 180);
   transition(() => { i++; });
 }
 function speak(){
@@ -458,24 +437,26 @@ function speak(){
     setTimeout(() => pill.classList.remove('speaking'), 3000);
   } catch(e) {}
 }
-$('reveal').addEventListener('click', reveal);
-$('g-forgot').addEventListener('click', () => grade(false));
-$('g-got').addEventListener('click', () => grade(true));
-$('w-pill').addEventListener('click', speak);
+$('next-btn').addEventListener('click', () => { interacted = true; next(); });
+$('w-pill').addEventListener('click', () => { interacted = true; speak(); });
 
-/* mouse drag: physically throw the card up (desktop only) */
+/* auto-demo: one gentle swipe shortly after load so visitors SEE the feed
+   motion before touching anything; stops the moment they interact */
+setTimeout(() => { if (!interacted && !busy) next(); }, 2600);
+
+/* mouse drag: physically throw the card up (desktop) */
 let dragY = null;
 stage.addEventListener('pointerdown', e => {
   if (e.pointerType !== 'mouse' || busy) return;
   if (e.target.closest('button')) return;
+  interacted = true;
   dragY = e.clientY;
   stage.style.transition = 'none';
 });
 window.addEventListener('pointermove', e => {
   if (dragY === null) return;
   const dy = Math.min(0, e.clientY - dragY);
-  const damp = revealed ? 1 : .25;
-  stage.style.transform = `translateY(${dy * damp}px)`;
+  stage.style.transform = `translateY(${dy}px)`;
   stage.style.opacity = String(1 + dy / 900);
 });
 window.addEventListener('pointerup', e => {
@@ -483,18 +464,38 @@ window.addEventListener('pointerup', e => {
   const dy = e.clientY - dragY;
   dragY = null;
   stage.style.transition = '';
-  if (dy < -90 && revealed) { grade(true); }
+  if (dy < -80) { next(); }
   else { stage.style.transform = ''; stage.style.opacity = ''; }
 });
 
-/* keyboard (silent) */
+/* touch swipe on the big word itself (rest of the hero still scrolls) */
+let ty = null;
+const bigWord = $('w-surface');
+bigWord.addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, {passive:true});
+bigWord.addEventListener('touchmove', e => {
+  if (ty === null) return;
+  const dy = Math.min(0, e.touches[0].clientY - ty);
+  stage.style.transition = 'none';
+  stage.style.transform = `translateY(${dy}px)`;
+}, {passive:true});
+bigWord.addEventListener('touchend', e => {
+  if (ty === null) return;
+  const dy = e.changedTouches[0].clientY - ty;
+  ty = null;
+  stage.style.transition = '';
+  interacted = true;
+  if (dy < -60) { next(); }
+  else { stage.style.transform = ''; }
+}, {passive:true});
+
+/* keyboard (silent): space / arrow-up = next */
 window.addEventListener('keydown', e => {
   const heroVisible = stage.getBoundingClientRect().bottom > 100;
   if (!heroVisible || busy) return;
-  if (e.code === 'Space' || e.code === 'Enter') {
-    if (!revealed && document.activeElement.tagName !== 'A') { e.preventDefault(); reveal(); }
-  } else if (e.code === 'ArrowRight') { e.preventDefault(); grade(true); }
-  else if (e.code === 'ArrowLeft') { e.preventDefault(); grade(false); }
+  if ((e.code === 'Space' || e.code === 'ArrowUp') &&
+      document.activeElement.tagName !== 'A') {
+    e.preventDefault(); interacted = true; next();
+  }
 });
 
 /* mouse-reactive glow */
