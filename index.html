@@ -9,6 +9,8 @@
 <meta property="og:description" content="Swipe to learn vocabulary. This page is the demo.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://vocabswiper.com/shots/02_revealed.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <style>
   :root{
     --bg:#17181d; --card:#24252B; --accent:#7C4DFF; --accent2:#9B7DFF;
@@ -39,8 +41,8 @@
   nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;
     position:relative;z-index:10}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px}
-  .brand-mark{width:26px;height:26px;border-radius:8px;background:var(--accent);
-    display:grid;place-items:center;font-size:15px;box-shadow:0 4px 20px rgba(124,77,255,.5)}
+  .brand-img{width:30px;height:30px;border-radius:9px;display:block;
+    box-shadow:0 4px 18px rgba(124,77,255,.45)}
   nav .cta-mini{font-size:13px;font-weight:700;background:rgba(124,77,255,.15);
     border:1px solid rgba(124,77,255,.4);padding:8px 16px;border-radius:999px;color:var(--accent2);
     text-decoration:none;transition:all .2s}
@@ -51,8 +53,9 @@
     text-align:center;position:relative;padding-bottom:40px}
   .hero .kicker{margin-top:1vh;font-size:clamp(17px,2.4vw,22px);font-weight:700;
     letter-spacing:-.3px;color:rgba(255,255,255,.85)}
-  .hero .kicker .accent{background:linear-gradient(100deg,#9B7DFF,#63E6BE);
-    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .kicker .accent{color:var(--accent2)}
+  .try-sub{margin-top:8px;font-size:12.5px;font-weight:700;letter-spacing:1.8px;
+    text-transform:uppercase;color:rgba(255,255,255,.35)}
   .langs-pick{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:14px}
   .langs-pick button{font-size:19px;background:rgba(255,255,255,.05);border:1px solid var(--line);
     border-radius:11px;padding:6px 9px;cursor:pointer;transition:all .15s;line-height:1}
@@ -80,12 +83,13 @@
   .pill:active{transform:scale(.95)}
   .pill.speaking{box-shadow:0 0 0 8px rgba(124,77,255,.12);border-color:rgba(124,77,255,.5)}
 
-  .meaning-slot{height:64px;margin-top:14px;display:flex;align-items:center;justify-content:center}
+  .meaning-slot{height:64px;margin-top:14px;display:grid;place-items:center}
+  .meaning-slot > *{grid-area:1/1}
   .reveal-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);
     border-radius:999px;padding:12px 26px;font-size:15px;color:rgba(255,255,255,.8);cursor:pointer;
     font-weight:700;display:inline-flex;align-items:center;gap:8px;
     animation:nudge 2.6s ease-in-out infinite}
-  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(124,77,255,0)}50%{box-shadow:0 0 0 10px rgba(124,77,255,.13)}}
+  @keyframes nudge{0%,100%{box-shadow:0 0 0 0 rgba(124,77,255,0)}50%{box-shadow:0 0 0 7px rgba(124,77,255,.09)}}
   .reveal-btn:hover{background:rgba(255,255,255,.12)}
   .meaning{font-size:clamp(22px,3.4vw,30px);color:#e7e7ec;font-weight:700}
 
@@ -103,14 +107,10 @@
   .grade[disabled]{opacity:0;pointer-events:none}
   .hidden{visibility:hidden}
 
-  .kbd-hint{margin-top:20px;font-size:12px;color:rgba(255,255,255,.3);height:16px}
-  .kbd-hint kbd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-    border-radius:5px;padding:1px 7px;font-family:inherit;font-size:11px}
-  @media (hover:none){.kbd-hint{visibility:hidden}}
 
   .scroll-cue{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
-    color:rgba(255,255,255,.3);font-size:12px;letter-spacing:2px;text-transform:uppercase;
-    animation:cue 2.2s ease-in-out infinite}
+    color:rgba(255,255,255,.22);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+    animation:cue 2.6s ease-in-out infinite}
   @keyframes cue{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
 
   /* ============ manifesto ============ */
@@ -118,8 +118,7 @@
   .manifesto .l1{font-size:clamp(20px,3vw,28px);color:rgba(255,255,255,.4);font-weight:700}
   .manifesto .l2{font-size:clamp(38px,7vw,72px);font-weight:900;letter-spacing:-2px;
     margin-top:14px;line-height:1.1}
-  .manifesto .l2 .hl{background:linear-gradient(100deg,#9B7DFF,#63E6BE);
-    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .manifesto .l2 .hl{color:var(--accent2)}
   .manifesto .w{display:inline-block;opacity:0;transform:translateY(22px);filter:blur(6px);
     transition:opacity .55s ease,transform .55s ease,filter .55s ease}
   .manifesto.in .w{opacity:1;transform:none;filter:none}
@@ -155,6 +154,8 @@
 
   /* ============ final CTA ============ */
   .fin{text-align:center;padding:100px 0 84px}
+  .fin-icon{width:88px;height:88px;border-radius:22px;margin-bottom:26px;
+    box-shadow:0 18px 50px rgba(124,77,255,.45),0 0 0 1px rgba(255,255,255,.1)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-1.5px;line-height:1.1}
   .fin .flags{margin-top:18px;font-size:25px;letter-spacing:10px}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
@@ -188,14 +189,15 @@
 <main>
 <div class="wrap">
   <nav>
-    <div class="brand"><span class="brand-mark">↑</span>Vocab Swiper</div>
+    <div class="brand"><img class="brand-img" src="icon.png" alt="">Vocab Swiper</div>
     <a class="cta-mini" href="#get">Get the app</a>
   </nav>
 
   <!-- ============ THE PAGE IS THE APP ============ -->
   <header class="hero">
     <div class="streak" id="streak">🔥 <span id="streak-n">0</span></div>
-    <div class="kicker">Swipe to learn <span class="accent">vocabulary</span> — try it:</div>
+    <div class="kicker">Swipe to learn <span class="accent">vocabulary</span>.</div>
+    <div class="try-sub">Live demo — pick a language</div>
     <div class="langs-pick" id="langs"></div>
 
     <div id="stage">
@@ -215,7 +217,6 @@
         <button class="grade forgot" id="g-forgot" disabled>↺ Forgot</button>
         <button class="grade got" id="g-got" disabled>✓ Got it</button>
       </div>
-      <div class="kbd-hint" id="kbd-hint"><kbd>space</kbd> reveal &nbsp;·&nbsp; <kbd>←</kbd> forgot &nbsp;·&nbsp; <kbd>→</kbd> got it</div>
     </div>
 
     <div class="scroll-cue">scroll ↓</div>
@@ -259,6 +260,7 @@
 <!-- ============ final ============ -->
 <section class="fin" id="get">
   <div class="wrap reveal-sec">
+    <img class="fin-icon" src="icon.png" alt="Vocab Swiper icon">
     <h2>Your next language,<br>ten swipes a day.</h2>
     <div class="flags">🇯🇵 🇪🇸 🇫🇷 🇰🇷 🇨🇳 🇷🇺 🇳🇱 🇬🇧</div>
     <a class="badge" href="#" aria-label="Coming soon to the App Store">
