@@ -4,95 +4,114 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vocab Swiper — Swipe to learn vocabulary</title>
-<meta name="description" content="A vocabulary app you swipe through. Recall each word before you reveal it, and spaced repetition (FSRS) brings it back right before you'd forget. Japanese, Spanish, Korean & 5 more.">
+<meta name="description" content="A vocabulary app you swipe through. Recall each word before you reveal it; spaced repetition brings it back right before you'd forget. Try it right here.">
 <meta property="og:title" content="Vocab Swiper">
-<meta property="og:description" content="Swipe to learn vocabulary. Recall first, spaced repetition does the rest.">
+<meta property="og:description" content="Swipe to learn vocabulary. Try the actual card, right on this page.">
 <meta property="og:type" content="website">
 <style>
   :root{
-    --bg:#1E1F25; --card:#24252B; --accent:#7C4DFF;
-    --accent2:#9B7DFF; --muted:rgba(255,255,255,.6); --line:rgba(255,255,255,.08);
+    --bg:#1E1F25; --card:#24252B; --accent:#7C4DFF; --accent2:#9B7DFF;
+    --green:#63E6BE; --orange:#FF8A3D;
+    --muted:rgba(255,255,255,.6); --line:rgba(255,255,255,.08);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:#fff;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;
-    line-height:1.55;-webkit-font-smoothing:antialiased}
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit}
-  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
 
   nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px}
   .brand-mark{width:26px;height:26px;border-radius:8px;background:var(--accent);
     display:grid;place-items:center;font-size:15px;box-shadow:0 4px 20px rgba(124,77,255,.5)}
-  .nav-links{display:flex;gap:22px;font-size:14px;color:var(--muted)}
-  .nav-links a:hover{color:#fff}
+  nav .cta-mini{font-size:13px;font-weight:700;background:rgba(124,77,255,.15);
+    border:1px solid rgba(124,77,255,.4);padding:8px 14px;border-radius:999px;color:var(--accent2);text-decoration:none}
 
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:56px 0 72px}
-  .hero h1{font-size:clamp(38px,6vw,60px);font-weight:800;line-height:1.08;letter-spacing:-1px}
+  /* hero */
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;padding:36px 0 60px}
+  .hero h1{font-size:clamp(40px,6vw,64px);font-weight:800;line-height:1.05;letter-spacing:-1.5px}
   .hero h1 .accent{color:var(--accent2)}
-  .hero p.lead{color:var(--muted);font-size:19px;margin:20px 0 30px;max-width:460px}
-  .cta{display:inline-flex;align-items:center;gap:9px;background:var(--accent);
-    color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:14px;
-    box-shadow:0 10px 40px rgba(124,77,255,.4)}
-  .cta.soon{opacity:.9;cursor:default}
-  .cta-sub{display:block;color:rgba(255,255,255,.35);font-size:13px;margin-top:12px}
+  .hero p.lead{color:var(--muted);font-size:18px;margin:18px 0 8px;max-width:400px}
+  .try-hint{display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    color:var(--green);font-size:14px;font-weight:700}
+  .try-hint .arrow{animation:bounce 1.6s infinite}
+  @keyframes bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+  .cta-sub{display:block;color:rgba(255,255,255,.35);font-size:13px;margin-top:22px}
 
+  /* interactive phone */
   .phone-col{display:flex;justify-content:center}
-  .phone{width:290px;height:600px;border-radius:44px;background:#0c0c0f;padding:11px;
-    box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 2px rgba(255,255,255,.04);position:relative}
-  .screen{width:100%;height:100%;border-radius:34px;overflow:hidden;
+  .phone{width:300px;height:620px;border-radius:46px;background:#0c0c0f;padding:11px;
+    box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 2px rgba(255,255,255,.04);position:relative;user-select:none}
+  .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;
     background:linear-gradient(180deg,#1E1F25,#252830);position:relative;display:flex;flex-direction:column}
   .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);
     width:96px;height:26px;background:#0c0c0f;border-radius:16px;z-index:5}
-  .hub{margin:30px auto 0;display:flex;align-items:center;gap:8px;
+  .hub{margin:32px auto 0;display:flex;align-items:center;gap:8px;
     background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:20px;padding:5px 6px}
-  .hub .seg{font-size:11px;font-weight:700;padding:5px 9px;border-radius:14px;color:rgba(255,255,255,.55)}
+  .hub .seg{font-size:11px;font-weight:700;padding:5px 10px;border-radius:14px;color:rgba(255,255,255,.55)}
   .hub .seg.on{background:var(--accent);color:#fff}
-  .word{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px}
-  .word .jp{font-size:46px;font-weight:800}
-  .word .pill{margin-top:14px;background:rgba(255,255,255,.06);border:1px solid var(--line);
-    border-radius:16px;padding:7px 14px;font-size:14px;color:rgba(255,255,255,.8)}
-  .word .reveal{margin-top:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
-    border-radius:18px;padding:9px 16px;font-size:13px;color:rgba(255,255,255,.7);
-    display:flex;align-items:center;gap:6px}
-  .example{margin:0 18px 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-  .example .t{font-size:15px;line-height:1.5}
-  .example .n{font-size:12.5px;color:rgba(255,255,255,.45);margin-top:8px}
-  .swipe{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-    font-size:11px;color:rgba(255,255,255,.4);text-align:center}
 
-  section{padding:64px 0;border-top:1px solid var(--line)}
-  .eyebrow{color:var(--accent2);font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
-  .sec-title{font-size:clamp(26px,4vw,36px);font-weight:800;margin:10px 0 8px;letter-spacing:-.5px}
-  .sec-sub{color:var(--muted);max-width:560px}
+  .demo-card{flex:1;display:flex;flex-direction:column;padding:0 18px 18px;
+    transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .35s;}
+  .demo-card.out{transform:translateY(-60px);opacity:0}
+  .word-zone{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .word-zone .jp{font-size:48px;font-weight:800;letter-spacing:1px}
+  .word-zone .pill{margin-top:14px;background:rgba(255,255,255,.06);border:1px solid var(--line);
+    border-radius:16px;padding:7px 16px;font-size:14px;color:rgba(255,255,255,.8);cursor:pointer;
+    display:flex;gap:8px;align-items:center}
+  .word-zone .pill:active{transform:scale(.96)}
+  .meaning-slot{height:46px;margin-top:18px;display:flex;align-items:center;justify-content:center}
+  .reveal-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+    border-radius:18px;padding:9px 18px;font-size:13.5px;color:rgba(255,255,255,.75);cursor:pointer;
+    font-weight:600;display:flex;align-items:center;gap:7px;font-family:inherit}
+  .reveal-btn:hover{background:rgba(255,255,255,.1)}
+  .meaning{font-size:18px;color:#d9d9de;font-weight:600}
+  .example{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-height:96px}
+  .example .t{font-size:14.5px;line-height:1.5}
+  .example .n{font-size:12px;color:rgba(255,255,255,.5);margin-top:8px;min-height:16px}
+  .grade-row{display:flex;gap:10px;margin-top:12px;height:44px}
+  .grade{flex:1;border-radius:13px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid;
+    display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;
+    font-family:inherit;transition:opacity .2s, transform .1s}
+  .grade:active{transform:scale(.97)}
+  .grade.forgot{color:var(--orange);border-color:rgba(255,138,61,.4);background:rgba(255,138,61,.1)}
+  .grade.got{color:var(--green);border-color:rgba(99,230,190,.4);background:rgba(99,230,190,.1)}
+  .grade[disabled]{opacity:0;pointer-events:none}
+  .hidden{visibility:hidden}
 
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
-  .step .num{width:30px;height:30px;border-radius:9px;background:rgba(124,77,255,.18);
-    color:var(--accent2);display:grid;place-items:center;font-weight:800;font-size:15px}
-  .step h3{margin:14px 0 6px;font-size:17px}
-  .step p{color:var(--muted);font-size:14px}
+  /* screenshots */
+  section{padding:56px 0}
+  .sec-head{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.5px;text-align:center}
+  .shots{display:flex;gap:20px;margin-top:36px;overflow-x:auto;padding:8px 4px 20px;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .shots::-webkit-scrollbar{height:6px}
+  .shots::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+  .shot{flex:0 0 232px;scroll-snap-align:center}
+  .shot img{width:232px;border-radius:26px;border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 20px 50px rgba(0,0,0,.45);display:block}
+  .shot p{text-align:center;color:var(--muted);font-size:13.5px;margin-top:12px;font-weight:600}
+  .shot p b{color:#fff}
 
-  .features{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:36px}
-  .feature{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
-  .feature h3{font-size:16px;margin-bottom:6px}
-  .feature p{color:var(--muted);font-size:14px}
+  /* proof bar */
+  .proof{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0}
+  .proof .row{display:flex;justify-content:center;gap:34px;flex-wrap:wrap;
+    color:var(--muted);font-size:14.5px;font-weight:600}
+  .proof .row span b{color:#fff}
+  .flags{text-align:center;margin-top:16px;font-size:22px;letter-spacing:8px}
 
-  .langs{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}
-  .lang{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600}
-
-  footer{border-top:1px solid var(--line);padding:40px 0;color:rgba(255,255,255,.4);font-size:13px}
+  footer{padding:40px 0;color:rgba(255,255,255,.4);font-size:13px}
   .foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   footer a{color:rgba(255,255,255,.6);text-decoration:none}
   footer a:hover{color:#fff}
 
-  @media(max-width:760px){
-    .hero{grid-template-columns:1fr;text-align:center;padding:32px 0 48px}
+  @media(max-width:820px){
+    .hero{grid-template-columns:1fr;text-align:center;padding:16px 0 40px}
     .hero p.lead{margin-inline:auto}
-    .phone-col{order:-1;margin-bottom:8px}
-    .steps,.features{grid-template-columns:1fr}
-    .nav-links{display:none}
+    .phone-col{order:2;margin-top:28px}
+    .try-hint{justify-content:center;width:100%}
+    .try-hint .arrow{transform:rotate(90deg)}
   }
 </style>
 </head>
@@ -100,88 +119,142 @@
 <div class="wrap">
   <nav>
     <div class="brand"><span class="brand-mark">↑</span>Vocab Swiper</div>
-    <div class="nav-links">
-      <a href="#how">How it works</a>
-      <a href="#features">Features</a>
-      <a href="privacy/">Privacy</a>
-    </div>
+    <a class="cta-mini" href="#">Coming soon · App Store</a>
   </nav>
 
   <header class="hero">
     <div>
       <h1>Swipe to learn<br><span class="accent">vocabulary.</span></h1>
-      <p class="lead">Recall each word before you reveal it, and spaced repetition brings it back right before you'd forget. The swipe you already know, wired into the way memory actually works.</p>
-      <a class="cta soon" href="#">Coming soon to the App&nbsp;Store</a>
-      <span class="cta-sub">Free to start · iPhone</span>
+      <p class="lead">Recall it before you reveal it. Spaced repetition does the rest.</p>
+      <div class="try-hint">Try the actual card <span class="arrow">→</span></div>
+      <span class="cta-sub">Free to start · iPhone · 8 languages</span>
     </div>
     <div class="phone-col">
       <div class="phone">
         <div class="notch"></div>
         <div class="screen">
-          <div class="hub">
-            <span class="seg on">Learn</span>
-            <span class="seg">Challenge</span>
+          <div class="hub"><span class="seg on">Learn</span><span class="seg">Challenge</span></div>
+          <div class="demo-card" id="card">
+            <div class="word-zone">
+              <div class="jp" id="w-surface">雪</div>
+              <div class="pill" id="w-pill" title="Hear it">
+                <span id="w-reading">yuki</span> <span>🔊</span>
+              </div>
+              <div class="meaning-slot">
+                <button class="reveal-btn" id="reveal">👁 Tap to reveal</button>
+                <div class="meaning hidden" id="w-meaning">snow</div>
+              </div>
+            </div>
+            <div class="example">
+              <div class="t" id="w-ex">雪が降ったので、山に行くことを決めた。</div>
+              <div class="n" id="w-exn"></div>
+            </div>
+            <div class="grade-row">
+              <button class="grade forgot" id="g-forgot" disabled>↺ Forgot</button>
+              <button class="grade got" id="g-got" disabled>✓ Got it</button>
+            </div>
           </div>
-          <div class="word">
-            <div class="jp">気候</div>
-            <div class="pill">kikō 🔊</div>
-            <div class="reveal">👁 Tap to reveal</div>
-          </div>
-          <div class="example">
-            <div class="t">気候の変化は地球に大きな影響を与える。</div>
-            <div class="n">Climate change has a major impact on the planet.</div>
-          </div>
-          <div class="swipe">↑ swipe for the next word</div>
         </div>
       </div>
     </div>
   </header>
 </div>
 
-<section id="how">
+<section>
   <div class="wrap">
-    <div class="eyebrow">How it works</div>
-    <div class="sec-title">See it. Recall it. Remember it.</div>
-    <p class="sec-sub">Passive flipping through cards feels productive but doesn't stick. Vocab Swiper makes every card a real recall — the single most reliable way to memorize anything.</p>
-    <div class="steps">
-      <div class="step"><div class="num">1</div><h3>See the word</h3><p>The word and its reading appear. The meaning stays hidden.</p></div>
-      <div class="step"><div class="num">2</div><h3>Recall, then reveal</h3><p>You try to remember the meaning, then tap to check — and grade yourself honestly.</p></div>
-      <div class="step"><div class="num">3</div><h3>It comes back on time</h3><p>FSRS, the scheduler used in modern Anki, brings each word back right before you'd forget it.</p></div>
+    <div class="sec-head">Five screens. Zero fluff.</div>
+    <div class="shots">
+      <div class="shot"><img src="shots/01_recall.png" alt="Recall card" loading="lazy">
+        <p><b>Recall first.</b> The meaning stays hidden.</p></div>
+      <div class="shot"><img src="shots/02_revealed.png" alt="Revealed card" loading="lazy">
+        <p><b>Reveal &amp; grade.</b> Honest answers train the algorithm.</p></div>
+      <div class="shot"><img src="shots/03_challenge.png" alt="Challenge mode" loading="lazy">
+        <p><b>Challenge mode.</b> Type it from memory.</p></div>
+      <div class="shot"><img src="shots/04_stats.png" alt="Stats" loading="lazy">
+        <p><b>Real stats.</b> Measured retention, not vibes.</p></div>
+      <div class="shot"><img src="shots/05_explore.png" alt="Decks" loading="lazy">
+        <p><b>Any topic.</b> AI decks, dictionary-checked.</p></div>
     </div>
   </div>
 </section>
 
-<section id="features">
+<div class="proof">
   <div class="wrap">
-    <div class="eyebrow">What's inside</div>
-    <div class="sec-title">Built to actually work</div>
-    <div class="features">
-      <div class="feature"><h3>Spaced repetition (FSRS)</h3><p>The modern memory-model scheduler, tuned to how well you personally recall — not a fixed timer.</p></div>
-      <div class="feature"><h3>Active recall by default</h3><p>The meaning is hidden until you tap. Every card is a retrieval rep, the strongest study method there is.</p></div>
-      <div class="feature"><h3>Natural AI voices</h3><p>Hear every word and sentence in a native-sounding voice, with the words highlighted as they're spoken.</p></div>
-      <div class="feature"><h3>Custom decks in seconds</h3><p>Type any topic and get a deck — every word checked against a real dictionary before it reaches you.</p></div>
-      <div class="feature"><h3>Streaks &amp; honest stats</h3><p>Daily goals, a streak worth protecting, and stats that show your real measured retention.</p></div>
-      <div class="feature"><h3>Made for the pocket</h3><p>No walls of text, no guilt. Two minutes on the bus turns into real progress.</p></div>
+    <div class="row">
+      <span><b>FSRS</b> spaced repetition</span>
+      <span><b>Native</b> AI voices</span>
+      <span><b>Active recall</b> by default</span>
     </div>
-    <div class="eyebrow" style="margin-top:48px">Languages</div>
-    <div class="langs">
-      <span class="lang">🇯🇵 Japanese</span>
-      <span class="lang">🇪🇸 Spanish</span>
-      <span class="lang">🇫🇷 French</span>
-      <span class="lang">🇰🇷 Korean</span>
-      <span class="lang">🇨🇳 Chinese</span>
-      <span class="lang">🇷🇺 Russian</span>
-      <span class="lang">🇳🇱 Dutch</span>
-      <span class="lang">🇬🇧 English</span>
-    </div>
+    <div class="flags">🇯🇵 🇪🇸 🇫🇷 🇰🇷 🇨🇳 🇷🇺 🇳🇱 🇬🇧</div>
   </div>
-</section>
+</div>
 
 <footer>
   <div class="wrap foot-row">
     <span>© 2026 Strate Labs</span>
-    <span><a href="privacy/">Privacy Policy</a> · <a href="mailto:leojinholder@gmail.com">Support</a></span>
+    <span><a href="privacy/">Privacy</a> · <a href="mailto:leojinholder@gmail.com">Support</a></span>
   </div>
 </footer>
+
+<script>
+const WORDS = [
+  {s:'雪', r:'yuki', m:'snow', ex:'雪が降ったので、山に行くことを決めた。', exn:'Since it snowed, I decided to go to the mountain.'},
+  {s:'借りる', r:'kariru', m:'to borrow', ex:'友達に本を借りるつもりです。', exn:"I'm going to borrow a book from my friend."},
+  {s:'約束', r:'yakusoku', m:'promise', ex:'彼との約束を忘れないでね。', exn:"Don't forget your promise to him."},
+  {s:'旅行', r:'ryokou', m:'travel', ex:'来月、家族と旅行に行きます。', exn:"I'm traveling with my family next month."},
+  {s:'夢', r:'yume', m:'dream', ex:'昨日、不思議な夢を見た。', exn:'I had a strange dream yesterday.'},
+];
+let i = 0, revealed = false;
+const $ = id => document.getElementById(id);
+
+function render(){
+  const w = WORDS[i % WORDS.length];
+  $('w-surface').textContent = w.s;
+  $('w-reading').textContent = w.r;
+  $('w-meaning').textContent = w.m;
+  $('w-ex').textContent = w.ex;
+  $('w-exn').textContent = '';
+  $('w-meaning').classList.add('hidden');
+  $('reveal').style.display = '';
+  $('g-forgot').disabled = true;
+  $('g-got').disabled = true;
+  revealed = false;
+}
+function reveal(){
+  if (revealed) return;
+  revealed = true;
+  const w = WORDS[i % WORDS.length];
+  $('reveal').style.display = 'none';
+  $('w-meaning').classList.remove('hidden');
+  $('w-exn').textContent = w.exn;
+  $('g-forgot').disabled = false;
+  $('g-got').disabled = false;
+}
+function next(){
+  const card = $('card');
+  card.classList.add('out');
+  setTimeout(() => { i++; render(); card.classList.remove('out'); }, 320);
+}
+function speak(){
+  try {
+    const w = WORDS[i % WORDS.length];
+    const u = new SpeechSynthesisUtterance(w.s);
+    u.lang = 'ja-JP'; u.rate = .9;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  } catch(e) {}
+}
+$('reveal').addEventListener('click', reveal);
+$('g-forgot').addEventListener('click', next);
+$('g-got').addEventListener('click', next);
+$('w-pill').addEventListener('click', speak);
+// swipe up on the card advances (touch)
+let ty = null;
+$('card').addEventListener('touchstart', e => ty = e.touches[0].clientY, {passive:true});
+$('card').addEventListener('touchend', e => {
+  if (ty !== null && ty - e.changedTouches[0].clientY > 60 && revealed) next();
+  ty = null;
+}, {passive:true});
+render();
+</script>
 </body>
 </html>
