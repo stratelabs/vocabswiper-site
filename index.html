@@ -540,14 +540,26 @@ document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 const marq = $('marq');
 if (!reduce) marq.innerHTML += marq.innerHTML;
 
-/* lazy-load the 8MB demo video only when it approaches the viewport */
+/* lazy-load the demo video when it approaches the viewport. Autoplay of a
+   dynamically-sourced video is only reliable when muted is set as a JS
+   PROPERTY (the attribute alone gets ignored by some engines), so set it
+   explicitly, retry once media is ready, and fall back to tap-to-play. */
 const dv = $('demovid');
+function startDemoVid(){
+  if (!dv.getAttribute('src')) dv.src = dv.dataset.src;
+  dv.muted = true;
+  dv.playsInline = true;
+  const p = dv.play();
+  if (p) p.catch(() => {
+    dv.addEventListener('canplay', () => dv.play().catch(() => {}), {once:true});
+  });
+}
 new IntersectionObserver((es, obs) => es.forEach(e => {
   if (!e.isIntersecting) return;
-  dv.src = dv.dataset.src;
-  dv.play().catch(() => {});
+  startDemoVid();
   obs.disconnect();
 }), {rootMargin: '600px'}).observe(dv);
+dv.addEventListener('click', startDemoVid);
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
