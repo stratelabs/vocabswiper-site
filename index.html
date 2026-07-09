@@ -148,11 +148,11 @@
   .shots-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
     text-align:center;margin:10px 0 34px}
   .marq-mask{mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-  .marq{display:flex;gap:26px;width:max-content;animation:scrollx 48s linear infinite;padding:16px 0 8px}
-  .marq:hover{animation-play-state:paused}
-  @keyframes scrollx{to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion: reduce){.marq{animation:none;width:auto;overflow-x:auto}}
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+    overflow-x:auto;scrollbar-width:none;cursor:grab}
+  .marq-mask::-webkit-scrollbar{display:none}
+  .marq-mask.dragging{cursor:grabbing}
+  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px}
   .shot{width:246px;perspective:900px}
   .shot img{width:246px;border-radius:30px;border:1px solid rgba(255,255,255,.09);
     box-shadow:0 22px 55px rgba(0,0,0,.5);display:block;
@@ -536,9 +536,42 @@ const mio = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold: .4});
 document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 
-/* marquee: duplicate content for seamless loop */
+/* marquee: real scroll container — drag, flick or wheel it freely; a gentle
+   auto-drift runs whenever the visitor isn't interacting. Content is
+   duplicated once so the loop wraps seamlessly. */
 const marq = $('marq');
-if (!reduce) marq.innerHTML += marq.innerHTML;
+const mask = marq.parentElement;
+marq.innerHTML += marq.innerHTML;
+let marqAuto = !reduce, marqIdle;
+function marqPause(){
+  marqAuto = false;
+  clearTimeout(marqIdle);
+  marqIdle = setTimeout(() => { marqAuto = true; }, 2500);
+}
+(function drift(){
+  if (marqAuto) {
+    mask.scrollLeft += .7;
+    const half = marq.scrollWidth / 2;
+    if (mask.scrollLeft >= half) mask.scrollLeft -= half;
+  }
+  requestAnimationFrame(drift);
+})();
+['wheel','touchstart','pointerdown'].forEach(ev =>
+  mask.addEventListener(ev, marqPause, {passive:true}));
+/* mouse drag-to-scroll */
+let mx = null, msl = 0;
+mask.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse') return;
+  mx = e.clientX; msl = mask.scrollLeft;
+  mask.classList.add('dragging');
+});
+window.addEventListener('pointermove', e => {
+  if (mx === null) return;
+  mask.scrollLeft = msl - (e.clientX - mx);
+});
+window.addEventListener('pointerup', () => {
+  mx = null; mask.classList.remove('dragging');
+});
 
 /* lazy-load the demo video when it approaches the viewport. Autoplay of a
    dynamically-sourced video is only reliable when muted is set as a JS
