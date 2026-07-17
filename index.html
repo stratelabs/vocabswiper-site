@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vocab Swiper — Swipe to learn vocabulary</title>
-<meta name="description" content="A vocabulary app you swipe through. Recall each word before you reveal it; spaced repetition brings it back right before you'd forget. The page you're on is the demo.">
-<meta property="og:title" content="Vocab Swiper">
-<meta property="og:description" content="Swipe to learn vocabulary. This page is the demo.">
+<title>Vocab Swiper — Your next language, one swipe away</title>
+<meta name="description" content="Learn Japanese, Spanish, Korean, German and more, ten swipes a day. Recall each word before you reveal it; spaced repetition brings it back right before you'd forget. The page you're on is the demo.">
+<meta property="og:title" content="Vocab Swiper — Your next language, one swipe away">
+<meta property="og:description" content="Ten languages, real graded decks, honest recall. This page is the demo.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://vocabswiper.com/shots/02_revealed.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"Vocab Swiper",
+ "operatingSystem":"iOS","applicationCategory":"EducationalApplication",
+ "description":"Swipe-based vocabulary learning with honest recall and FSRS spaced repetition across ten languages.",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,6 +104,18 @@
   .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(255,255,255,.88)}
   .example-slot .n{font-size:13.5px;color:rgba(255,255,255,.42);margin-top:5px;min-height:20px}
 
+  /* the recall beat: each new word arrives with its answer veiled — exactly
+     the app's mechanic. Tap reveals; passive viewers get an auto-reveal. */
+  .meaning-slot > *{grid-area:1/1}
+  #stage .meaning,#stage .example-slot{transition:filter .35s ease,opacity .35s ease}
+  #stage.veiled .meaning,#stage.veiled .example-slot{filter:blur(10px);opacity:.35;
+    user-select:none;pointer-events:none}
+  .reveal-hint{font-size:13px;font-weight:700;letter-spacing:.4px;color:rgba(255,255,255,.55);
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+    padding:6px 14px;border-radius:999px;opacity:0;transform:translateY(4px);
+    transition:opacity .3s ease,transform .3s ease;pointer-events:none;z-index:2}
+  #stage.veiled .reveal-hint{opacity:1;transform:none}
+
   .big-word{touch-action:none}
 
   /* ============ manifesto ============ */
@@ -125,6 +143,23 @@
   .vid-frame{display:inline-block;border-radius:44px;padding:10px;background:#0b0b0e;
     box-shadow:0 44px 110px rgba(0,0,0,.6),0 0 90px rgba(124,77,255,.12),0 0 0 1px rgba(255,255,255,.06)}
   .vid-frame video{display:block;width:min(300px,74vw);border-radius:36px}
+
+  /* ============ FAQ ============ */
+  .faq-sec{padding:10px 24px 90px;max-width:660px;margin:0 auto}
+  .faq-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
+    text-align:center;margin:10px 0 28px}
+  .faq-sec details{border:1px solid rgba(255,255,255,.08);border-radius:14px;
+    background:rgba(255,255,255,.03);margin-bottom:10px;overflow:hidden}
+  .faq-sec summary{cursor:pointer;list-style:none;display:flex;align-items:center;
+    justify-content:space-between;gap:14px;padding:15px 18px;font-weight:700;
+    font-size:15.5px;color:rgba(255,255,255,.92)}
+  .faq-sec summary::-webkit-details-marker{display:none}
+  .faq-sec summary::after{content:'+';font-size:19px;font-weight:600;
+    color:rgba(255,255,255,.4);transition:transform .2s ease}
+  .faq-sec details[open] summary::after{transform:rotate(45deg)}
+  .faq-sec .a{padding:0 18px 16px;font-size:14.5px;line-height:1.65;
+    color:rgba(255,255,255,.55)}
+  .faq-sec .a b{color:rgba(255,255,255,.8)}
 
   /* ============ screenshots marquee ============ */
   .shots-sec{padding:10px 0 80px;overflow:hidden}
@@ -220,6 +255,7 @@
       <div class="pill" id="w-pill" style="display:none"><span id="w-reading"></span></div>
       <div class="meaning-slot">
         <div class="meaning" id="w-meaning"></div>
+        <div class="reveal-hint">tap to show answer</div>
       </div>
       <div class="example-slot">
         <div class="t" id="w-ex"></div>
@@ -285,6 +321,38 @@
 </div>
 
 <!-- ============ final ============ -->
+<!-- ============ FAQ ============ -->
+<section class="faq-sec reveal-sec" id="faq">
+  <h2>Questions, answered.</h2>
+  <details>
+    <summary>Which languages can I learn?</summary>
+    <div class="a">Japanese, Spanish, French, German, Italian, Portuguese, Korean,
+      Chinese, Russian and Dutch — each with a <b>real graded deck</b> of thousands
+      of words aligned to JLPT / CEFR / HSK / TOPIK levels, not a demo list.
+      More languages are on the way.</div>
+  </details>
+  <details>
+    <summary>What's free, and what's Pro?</summary>
+    <div class="a"><b>Free:</b> every deck, spaced repetition, streaks, quizzes, and an
+      example sentence for each word. <b>Pro:</b> natural human-sounding voices,
+      unlimited AI example sentences and in-context reading, custom topic decks,
+      and a streak shield for the day life gets in the way.</div>
+  </details>
+  <details>
+    <summary>Does it work offline?</summary>
+    <div class="a">Yes — the decks and your reviews live on your phone, so learning works
+      on a plane. AI-generated example sentences and premium voices need a
+      connection; everything else doesn't.</div>
+  </details>
+  <details>
+    <summary>How is this different from other flashcard apps?</summary>
+    <div class="a"><b>Honest recall.</b> The meaning stays hidden until you've tried to
+      remember — and revealing counts as a miss, so your stats can't lie to you.
+      Under the hood, FSRS spaced repetition schedules each word for right
+      before you'd forget it. No leagues, no mascot guilt.</div>
+  </details>
+</section>
+
 <section class="fin" id="get">
   <div class="wrap reveal-sec">
     <img class="fin-icon" src="icon.png" alt="Vocab Swiper icon">
@@ -346,6 +414,21 @@ const DECKS = {
     {s:'lenen', r:'', m:'to borrow', ex:'Mag ik je boek lenen?', exn:'May I borrow your book?'},
     {s:'reis', r:'', m:'trip', ex:'Volgende maand ga ik op reis met mijn familie.', exn:"Next month I'm going on a trip with my family."},
   ]},
+  pt: {flag:'🇵🇹', voice:'pt-BR', words:[
+    {s:'sonho', r:'', m:'dream', ex:'Tive um sonho estranho ontem à noite.', exn:'I had a strange dream last night.'},
+    {s:'emprestar', r:'', m:'to lend', ex:'Você pode me emprestar seu livro?', exn:'Can you lend me your book?'},
+    {s:'viagem', r:'', m:'trip', ex:'No próximo mês farei uma viagem com minha família.', exn:"Next month I'll take a trip with my family."},
+  ]},
+  it: {flag:'🇮🇹', voice:'it-IT', words:[
+    {s:'sogno', r:'', m:'dream', ex:'Stanotte ho fatto un sogno strano.', exn:'Last night I had a strange dream.'},
+    {s:'prestare', r:'', m:'to lend', ex:'Mi puoi prestare il tuo libro?', exn:'Can you lend me your book?'},
+    {s:'viaggio', r:'', m:'trip', ex:'Il mese prossimo farò un viaggio con la mia famiglia.', exn:"Next month I'll take a trip with my family."},
+  ]},
+  de: {flag:'🇩🇪', voice:'de-DE', words:[
+    {s:'Traum', r:'', m:'dream', ex:'Ich hatte gestern einen seltsamen Traum.', exn:'I had a strange dream yesterday.'},
+    {s:'leihen', r:'', m:'to lend', ex:'Kannst du mir dein Buch leihen?', exn:'Can you lend me your book?'},
+    {s:'Reise', r:'', m:'trip', ex:'Nächsten Monat mache ich eine Reise mit meiner Familie.', exn:"Next month I'm taking a trip with my family."},
+  ]},
 };
 
 /* ---------- custom flag icons (emoji flags don't render on Windows) ---------- */
@@ -366,6 +449,9 @@ const FLAGS = {
   zh:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#de2910"/><g fill="#ffde00"><polygon points="${starPts(6,6,3.2)}"/><polygon points="${starPts(11.5,2.6,1.05)}"/><polygon points="${starPts(13.4,5.6,1.05)}"/><polygon points="${starPts(13.2,9,1.05)}"/><polygon points="${starPts(10.8,11.4,1.05)}"/></g></svg>`,
   ru:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039a6"/><rect y="13.33" width="30" height="6.67" fill="#d52b1e"/></svg>`,
   nl:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ae1c28"/><rect y="13.33" width="30" height="6.67" fill="#21468b"/></svg>`,
+  pt:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#d52b1e"/><rect width="12" height="20" fill="#046a38"/><circle cx="12" cy="10" r="4" fill="#ffe900"/><circle cx="12" cy="10" r="2.4" fill="#d52b1e"/></svg>`,
+  it:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#008c45"/><rect x="20" width="10" height="20" fill="#cd212a"/></svg>`,
+  de:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ffce00"/><rect width="30" height="13.33" fill="#d00"/><rect width="30" height="6.67" fill="#000"/></svg>`,
   gb:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#c8102e" stroke-width="2"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#c8102e" stroke-width="3.5"/></svg>`,
 };
 
@@ -401,6 +487,23 @@ if (finFlags) {
 
 function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
 
+/* the recall beat: every card lands veiled (the app's own mechanic — recall
+   before reveal). A tap shows the answer; passive viewers get an auto-reveal
+   after 2.2s so the endless loop still reads on its own. */
+let revealT;
+const noVeil = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function veil(){
+  if (noVeil) return;              // reduced-motion: answers show immediately
+  stage.classList.add('veiled');
+  clearTimeout(revealT);
+  revealT = setTimeout(reveal, 2200);
+}
+function reveal(){
+  clearTimeout(revealT);
+  stage.classList.remove('veiled');
+}
+function isVeiled(){ return stage.classList.contains('veiled'); }
+
 function render(){
   const w = cur();
   $('w-surface').textContent = w.s;
@@ -410,6 +513,7 @@ function render(){
   $('w-meaning').textContent = w.m;
   $('w-ex').textContent = w.ex;
   $('w-exn').textContent = w.exn;
+  veil();
 }
 function transition(afterFly){
   busy = true;
@@ -459,7 +563,11 @@ window.addEventListener('pointerup', e => {
   dragY = null;
   stage.style.transition = '';
   if (dy < -80) { manualNext(); }
-  else { stage.style.transform = ''; stage.style.opacity = ''; }
+  else {
+    stage.style.transform = ''; stage.style.opacity = '';
+    // A click (not a throw) while the answer is veiled = show answer.
+    if (Math.abs(dy) < 8 && isVeiled()) reveal();
+  }
 });
 
 /* touch swipe on the big word itself (rest of the hero still scrolls) */
@@ -478,7 +586,10 @@ bigWord.addEventListener('touchend', e => {
   ty = null;
   stage.style.transition = '';
   if (dy < -60) { manualNext(); }
-  else { stage.style.transform = ''; }
+  else {
+    stage.style.transform = '';
+    if (Math.abs(dy) < 10 && isVeiled()) reveal();  // tap = show answer
+  }
 }, {passive:true});
 
 /* keyboard (silent): space / arrow-up = next */
