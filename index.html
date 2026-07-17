@@ -69,18 +69,15 @@
   .hero .kicker .accent{color:var(--accent2)}
   .try-sub{margin-top:9px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
     text-transform:uppercase;color:rgba(255,255,255,.32)}
-  .langs-pick{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:14px}
-  .langs-pick button{font-size:18px;background:rgba(255,255,255,.04);border:1px solid var(--line);
-    border-radius:10px;padding:7px 10px;cursor:pointer;transition:all .15s;line-height:1}
-  .langs-pick button:hover{transform:translateY(-2px);background:rgba(255,255,255,.09)}
-  .langs-pick button.on{border-color:rgba(155,125,255,.7);background:rgba(124,77,255,.22);
-    box-shadow:0 4px 16px rgba(124,77,255,.35)}
-
-  .streak{position:absolute;top:12px;right:0;display:flex;align-items:center;gap:5px;
-    font-size:15px;font-weight:800;color:var(--orange);visibility:hidden;
-    background:rgba(255,138,61,.08);border:1px solid rgba(255,138,61,.25);
-    border-radius:999px;padding:5px 13px;transition:transform .16s}
-  .streak.pop{transform:scale(1.3)}
+  .langs-pick{display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .langs-pick button{background:none;border:none;padding:0;cursor:pointer;line-height:0;
+    opacity:.68;transition:transform .15s,opacity .15s}
+  .langs-pick button svg{width:40px;height:27px;display:block;border-radius:5px;
+    box-shadow:0 2px 8px rgba(0,0,0,.45)}
+  .langs-pick button:hover{transform:translateY(-2px);opacity:1}
+  .langs-pick button.on{opacity:1}
+  .langs-pick button.on svg{box-shadow:0 0 0 2px rgba(155,125,255,.9),
+    0 6px 22px rgba(124,77,255,.65)}
 
   #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
     width:100%;max-width:680px;cursor:grab;touch-action:pan-y;
@@ -91,13 +88,8 @@
 
   .big-word{font-size:clamp(72px,16vw,150px);font-weight:900;line-height:1.08;
     letter-spacing:-3px;text-shadow:0 0 90px rgba(124,77,255,.3)}
-  .pill{margin-top:16px;background:rgba(255,255,255,.05);border:1px solid var(--line);
-    border-radius:999px;padding:10px 22px;font-size:16px;color:rgba(255,255,255,.85);
-    cursor:pointer;display:inline-flex;gap:10px;align-items:center;
-    transition:transform .12s,box-shadow .3s,border-color .3s}
-  .pill:hover{border-color:rgba(255,255,255,.2)}
-  .pill:active{transform:scale(.95)}
-  .pill.speaking{box-shadow:0 0 0 8px rgba(124,77,255,.1);border-color:rgba(124,77,255,.5)}
+  .pill{margin-top:13px;font-size:clamp(15px,2vw,17px);color:rgba(255,255,255,.5);
+    letter-spacing:.5px;font-weight:500}
 
   .meaning-slot{height:52px;margin-top:10px;display:grid;place-items:center}
   .meaning{font-size:clamp(21px,3.2vw,28px);color:#e9e9ee;font-weight:700;letter-spacing:-.4px}
@@ -106,22 +98,7 @@
   .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(255,255,255,.88)}
   .example-slot .n{font-size:13.5px;color:rgba(255,255,255,.42);margin-top:5px;min-height:20px}
 
-  .swipe-cue{margin-top:30px;background:none;border:none;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:2px;
-    color:rgba(255,255,255,.45);transition:color .2s}
-  .swipe-cue:hover{color:rgba(255,255,255,.8)}
-  .swipe-cue .chev{display:block;transform:rotate(90deg);font-size:30px;line-height:.9;
-    font-weight:700;animation:rise 1.8s ease-in-out infinite}
-  .swipe-cue .lbl{font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase}
-  @keyframes rise{0%,100%{transform:rotate(90deg) translateX(0);opacity:.9}
-    50%{transform:rotate(90deg) translateX(-9px);opacity:.35}}
-  @media (prefers-reduced-motion: reduce){.swipe-cue .chev{animation:none}}
   .big-word{touch-action:none}
-
-  .scroll-cue{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
-    color:rgba(255,255,255,.2);font-size:10.5px;letter-spacing:3px;text-transform:uppercase;
-    animation:cue 2.8s ease-in-out infinite}
-  @keyframes cue{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
 
   /* ============ manifesto ============ */
   .manifesto{padding:16vh 24px;text-align:center}
@@ -130,6 +107,12 @@
   .manifesto .l2{font-size:clamp(36px,6.5vw,68px);font-weight:900;letter-spacing:-2.5px;
     margin-top:12px;line-height:1.08}
   .manifesto .l2 .hl{color:var(--accent2)}
+  .manifesto .l3{max-width:640px;margin:30px auto 0;font-size:clamp(15px,2vw,18px);
+    line-height:1.65;color:rgba(255,255,255,.5);font-weight:500;
+    opacity:0;transform:translateY(16px);
+    transition:opacity .6s ease .45s,transform .6s ease .45s}
+  .manifesto .l3 b{color:rgba(255,255,255,.82);font-weight:700}
+  .manifesto.in .l3{opacity:1;transform:none}
   .manifesto .w{display:inline-block;opacity:0;transform:translateY(22px);filter:blur(6px);
     transition:opacity .55s ease,transform .55s ease,filter .55s ease}
   .manifesto.in .w{opacity:1;transform:none;filter:none}
@@ -183,7 +166,10 @@
   .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
     box-shadow:0 20px 55px rgba(124,77,255,.4),0 0 0 1px rgba(255,255,255,.1)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.08;position:relative}
-  .fin .flags{margin-top:18px;font-size:24px;letter-spacing:10px;position:relative}
+  .fin .flags{margin-top:20px;display:flex;gap:9px;justify-content:center;
+    flex-wrap:wrap;position:relative}
+  .fin .flags svg{width:34px;height:23px;border-radius:4px;
+    box-shadow:0 3px 10px rgba(0,0,0,.4);display:block}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
     border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
     transition:transform .15s, box-shadow .25s;position:relative}
@@ -208,7 +194,6 @@
   @media(max-width:760px){
     .proof .grid{grid-template-columns:1fr}
     .grade{width:44%}
-    .streak{top:6px}
   }
 </style>
 </head>
@@ -227,16 +212,12 @@
 <div class="wrap">
   <!-- ============ THE PAGE IS THE APP ============ -->
   <header class="hero">
-    <div class="streak" id="streak">🔥 <span id="streak-n">0</span></div>
-    <div class="kicker">Swipe to learn <span class="accent">vocabulary</span>.</div>
-    <div class="try-sub">Live demo — pick a language</div>
+    <div class="kicker">Your next language, <span class="accent">one swipe away</span>.</div>
     <div class="langs-pick" id="langs"></div>
 
     <div id="stage">
       <div class="big-word" id="w-surface"></div>
-      <button class="pill" id="w-pill" title="Hear it">
-        <span id="w-reading"></span> <span>🔊</span>
-      </button>
+      <div class="pill" id="w-pill" style="display:none"><span id="w-reading"></span></div>
       <div class="meaning-slot">
         <div class="meaning" id="w-meaning"></div>
       </div>
@@ -244,20 +225,16 @@
         <div class="t" id="w-ex"></div>
         <div class="n" id="w-exn"></div>
       </div>
-      <button class="swipe-cue" id="next-btn" aria-label="Next word">
-        <span class="chev">‹</span>
-        <span class="lbl">swipe up — next word</span>
-      </button>
     </div>
-
-    <div class="scroll-cue">scroll</div>
   </header>
 </div>
 
 <!-- ============ manifesto ============ -->
 <section class="manifesto" id="manifesto">
-  <div class="l1" data-split>Rereading feels like learning.</div>
   <div class="l2" data-split>Recalling <span class="hl">is</span> learning.</div>
+  <p class="l3"><b>Recall</b> means pulling a word out of your own head <b>before</b> you see
+    the answer, and that effort is what burns it into memory. Vocab Swiper hides the meaning
+    until you've tried, so every card is real practice.</p>
 </section>
 
 <!-- ============ video ============ -->
@@ -312,7 +289,7 @@
   <div class="wrap reveal-sec">
     <img class="fin-icon" src="icon.png" alt="Vocab Swiper icon">
     <h2>Your next language,<br>ten swipes a day.</h2>
-    <div class="flags">🇯🇵 🇪🇸 🇫🇷 🇰🇷 🇨🇳 🇷🇺 🇳🇱 🇬🇧</div>
+    <div class="flags" id="fin-flags"></div>
     <a class="badge" href="#" aria-label="Coming soon to the App Store">
       <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
       <span class="txt"><small>COMING SOON TO THE</small><span>App Store</span></span>
@@ -324,7 +301,7 @@
 <footer>
   <div class="wrap foot-row">
     <span class="foot-brand"><img src="icon.png" alt="">Vocab Swiper · © 2026 Strate Labs</span>
-    <span><a href="privacy/">Privacy</a> &nbsp;·&nbsp; <a href="mailto:leojinholder@gmail.com">Support</a></span>
+    <span><a href="privacy/">Privacy</a> &nbsp;·&nbsp; <a href="support/">Support</a></span>
   </div>
 </footer>
 </main>
@@ -371,32 +348,65 @@ const DECKS = {
   ]},
 };
 
-let lang='ja', i=0, streak=0, busy=false, interacted=false;
+/* ---------- custom flag icons (emoji flags don't render on Windows) ---------- */
+function starPts(cx, cy, R){
+  const p = [];
+  for (let k = 0; k < 10; k++){
+    const r = k % 2 ? R * 0.382 : R;
+    const a = (k * 36 - 90) * Math.PI / 180;
+    p.push((cx + r * Math.cos(a)).toFixed(2) + ',' + (cy + r * Math.sin(a)).toFixed(2));
+  }
+  return p.join(' ');
+}
+const FLAGS = {
+  ja:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5.4" fill="#bc002d"/></svg>`,
+  es:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#c60b1e"/><rect y="5" width="30" height="10" fill="#ffc400"/></svg>`,
+  fr:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#0055a4"/><rect x="20" width="10" height="20" fill="#ef4135"/></svg>`,
+  ko:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><g transform="translate(15,10)"><circle r="5" fill="#0047a0"/><path d="M0 -5 a2.5 2.5 0 0 1 0 5 a2.5 2.5 0 0 0 0 5 a5 5 0 0 0 0 -10z" fill="#cd2e3a"/></g></svg>`,
+  zh:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#de2910"/><g fill="#ffde00"><polygon points="${starPts(6,6,3.2)}"/><polygon points="${starPts(11.5,2.6,1.05)}"/><polygon points="${starPts(13.4,5.6,1.05)}"/><polygon points="${starPts(13.2,9,1.05)}"/><polygon points="${starPts(10.8,11.4,1.05)}"/></g></svg>`,
+  ru:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0039a6"/><rect y="13.33" width="30" height="6.67" fill="#d52b1e"/></svg>`,
+  nl:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ae1c28"/><rect y="13.33" width="30" height="6.67" fill="#21468b"/></svg>`,
+  gb:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#c8102e" stroke-width="2"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#c8102e" stroke-width="3.5"/></svg>`,
+};
+
+let lang='ja', i=0, busy=false;
 const $ = id => document.getElementById(id);
 const stage = $('stage');
 
 const langsEl = $('langs');
-Object.entries(DECKS).forEach(([code,d]) => {
+Object.keys(DECKS).forEach(code => {
   const b = document.createElement('button');
-  b.textContent = d.flag; b.title = code;
+  b.innerHTML = FLAGS[code]; b.title = code; b.setAttribute('aria-label', code);
   if (code === lang) b.classList.add('on');
   b.addEventListener('click', () => {
     if (busy || code === lang) return;
-    interacted = true;
     lang = code; i = 0;
     [...langsEl.children].forEach(x => x.classList.remove('on'));
     b.classList.add('on');
     transition();
+    scheduleAuto();
   });
   langsEl.appendChild(b);
 });
+
+/* final-CTA flag row: the demo languages + English */
+const finFlags = $('fin-flags');
+if (finFlags) {
+  [...Object.keys(DECKS), 'gb'].forEach(code => {
+    const span = document.createElement('span');
+    span.innerHTML = FLAGS[code];
+    finFlags.appendChild(span);
+  });
+}
 
 function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
 
 function render(){
   const w = cur();
   $('w-surface').textContent = w.s;
-  $('w-reading').textContent = w.r || w.s;
+  const pill = $('w-pill');
+  if (w.r){ $('w-reading').textContent = w.r; pill.style.display = 'inline-block'; }
+  else { pill.style.display = 'none'; }
   $('w-meaning').textContent = w.m;
   $('w-ex').textContent = w.ex;
   $('w-exn').textContent = w.exn;
@@ -418,38 +428,22 @@ function transition(afterFly){
 }
 function next(){
   if (busy) return;
-  streak++;
-  const s = $('streak');
-  s.style.visibility = 'visible';
-  $('streak-n').textContent = streak;
-  s.classList.add('pop');
-  setTimeout(() => s.classList.remove('pop'), 180);
   transition(() => { i++; });
 }
-function speak(){
-  try {
-    const u = new SpeechSynthesisUtterance(cur().s);
-    u.lang = DECKS[lang].voice; u.rate = .9;
-    const pill = $('w-pill');
-    pill.classList.add('speaking');
-    u.onend = () => pill.classList.remove('speaking');
-    speechSynthesis.cancel(); speechSynthesis.speak(u);
-    setTimeout(() => pill.classList.remove('speaking'), 3000);
-  } catch(e) {}
-}
-$('next-btn').addEventListener('click', () => { interacted = true; next(); });
-$('w-pill').addEventListener('click', () => { interacted = true; speak(); });
 
-/* auto-demo: one gentle swipe shortly after load so visitors SEE the feed
-   motion before touching anything; stops the moment they interact */
-setTimeout(() => { if (!interacted && !busy) next(); }, 2600);
+/* auto-advance: an endless 5s loop — the words cycle forever and never stop.
+   A manual swipe/keypress just resets the 5s timer so it keeps going. */
+let autoTimer;
+function scheduleAuto(){
+  clearInterval(autoTimer);
+  autoTimer = setInterval(() => { if (!busy) next(); }, 5000);
+}
+function manualNext(){ next(); scheduleAuto(); }
 
 /* mouse drag: physically throw the card up (desktop) */
 let dragY = null;
 stage.addEventListener('pointerdown', e => {
   if (e.pointerType !== 'mouse' || busy) return;
-  if (e.target.closest('button')) return;
-  interacted = true;
   dragY = e.clientY;
   stage.style.transition = 'none';
 });
@@ -464,7 +458,7 @@ window.addEventListener('pointerup', e => {
   const dy = e.clientY - dragY;
   dragY = null;
   stage.style.transition = '';
-  if (dy < -80) { next(); }
+  if (dy < -80) { manualNext(); }
   else { stage.style.transform = ''; stage.style.opacity = ''; }
 });
 
@@ -483,8 +477,7 @@ bigWord.addEventListener('touchend', e => {
   const dy = e.changedTouches[0].clientY - ty;
   ty = null;
   stage.style.transition = '';
-  interacted = true;
-  if (dy < -60) { next(); }
+  if (dy < -60) { manualNext(); }
   else { stage.style.transform = ''; }
 }, {passive:true});
 
@@ -494,7 +487,7 @@ window.addEventListener('keydown', e => {
   if (!heroVisible || busy) return;
   if ((e.code === 'Space' || e.code === 'ArrowUp') &&
       document.activeElement.tagName !== 'A') {
-    e.preventDefault(); interacted = true; next();
+    e.preventDefault(); manualNext();
   }
 });
 
@@ -601,6 +594,7 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 document.querySelectorAll('.reveal-sec').forEach(el => io.observe(el));
 
 render();
+scheduleAuto();
 </script>
 </body>
 </html>
