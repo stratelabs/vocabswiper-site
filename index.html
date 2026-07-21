@@ -181,9 +181,13 @@
   .shot p b{color:#fff;font-weight:700}
   .shot:nth-child(odd){transform:translateY(12px)}
 
-  /* ============ proof ============ */
+  /* ============ proof / method ============ */
   .proof{padding:40px 0 30px}
-  .proof .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:26px auto 0}
+  .proof .eyebrow{margin-bottom:0}
+  .proof-h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
+    text-align:center;margin:10px 0 2px}
+  .proof-lede{text-align:center;color:var(--muted);font-size:15px;max-width:46ch;margin:12px auto 0}
+  .proof .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:30px auto 0}
   .chip{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:20px;
     padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s}
   .chip:hover{border-color:rgba(124,77,255,.4);transform:translateY(-4px);
@@ -302,20 +306,31 @@
   </div>
 </section>
 
-<!-- ============ proof ============ -->
+<!-- ============ method / why it works ============ -->
 <div class="proof reveal-sec">
-  <div class="eyebrow">Under the hood</div>
   <div class="wrap">
+    <div class="eyebrow">The method</div>
+    <h2 class="proof-h2">More than flashcards.</h2>
+    <p class="proof-lede">Every word travels the same road — recognise it, recall it, then produce it — across all four skills.</p>
     <div class="grid">
       <div class="chip">
+        <svg viewBox="0 0 24 24"><path d="M2 12s3.4-6.4 10-6.4S22 12 22 12s-3.4 6.4-10 6.4S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/><path d="M3 3l18 18"/></svg>
+        <h3>Honest recall</h3><p>Pull each word from memory before you reveal it — and revealing counts as a miss, so your progress can never lie to you.</p></div>
+      <div class="chip">
         <svg viewBox="0 0 24 24"><path d="M3 17c3-1 4-7 7-7s4 5 7 5c2 0 3-1 4-3"/><path d="M3 21h18"/></svg>
-        <h3>FSRS scheduling</h3><p>The memory model behind modern Anki decides when each word comes back.</p></div>
+        <h3>Spaced repetition</h3><p>FSRS — the memory model behind modern Anki — brings each word back right before you'd forget it.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg>
+        <h3>Real graded decks</h3><p>26 languages, thousands of words each, aligned to JLPT / CEFR / HSK and checked against a real dictionary — never a demo list.</p></div>
       <div class="chip">
         <svg viewBox="0 0 24 24"><path d="M4 10v4"/><path d="M8 7v10"/><path d="M12 4v16"/><path d="M16 7v10"/><path d="M20 10v4"/></svg>
-        <h3>Native voices</h3><p>Every word and sentence spoken by a native voice, highlighted as it reads.</p></div>
+        <h3>Native voices</h3><p>Every word and sentence spoken by a native voice, highlighted word-by-word as it reads.</p></div>
       <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <h3>Dictionary-checked</h3><p>Every generated word verified against a real dictionary before it reaches you.</p></div>
+        <svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
+        <h3>Say it, type it, spell it</h3><p>As a word sticks, the app asks for more — assemble it from tiles, type it from memory, then say it aloud for pronunciation feedback.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24"><path d="M2 4.5h7a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.5H2z"/><path d="M22 4.5h-7a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.5H22z"/></svg>
+        <h3>Read it in context</h3><p>Short, level-matched stories and example sentences, so new words land where they're actually used — not stranded in isolation.</p></div>
     </div>
   </div>
 </div>
@@ -349,10 +364,12 @@
   </details>
   <details>
     <summary>How is this different from other flashcard apps?</summary>
-    <div class="a"><b>Honest recall.</b> The meaning stays hidden until you've tried to
-      remember — and revealing counts as a miss, so your stats can't lie to you.
-      Under the hood, FSRS spaced repetition schedules each word for right
-      before you'd forget it. No leagues, no mascot guilt.</div>
+    <div class="a"><b>Honest recall — and it doesn't stop at cards.</b> The meaning stays
+      hidden until you've tried; revealing counts as a miss, so your stats can't
+      lie to you. As a word sticks, the app makes you <b>produce</b> it — spell it
+      from tiles, type it from memory, say it aloud — and drops you into short
+      readings so it lands in context. Underneath, FSRS spaced repetition brings
+      each word back right before you'd forget. No leagues, no mascot guilt.</div>
   </details>
 </section>
 
