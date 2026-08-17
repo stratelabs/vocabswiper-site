@@ -75,9 +75,11 @@
   .hero .kicker .accent{color:var(--accent2)}
   .try-sub{margin-top:9px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
     text-transform:uppercase;color:rgba(255,255,255,.32)}
-  .langs-pick{display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+  .langs-pick{display:flex;gap:13px;flex-wrap:nowrap;justify-content:flex-start;
+    margin-top:16px;max-width:100%;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+  .langs-pick::-webkit-scrollbar{display:none}
   .langs-pick button{background:none;border:none;padding:0;cursor:pointer;line-height:0;
-    opacity:.68;transition:transform .15s,opacity .15s}
+    flex:none;opacity:.68;transition:transform .15s,opacity .15s}
   .langs-pick button svg{width:40px;height:27px;display:block;border-radius:5px;
     box-shadow:0 2px 8px rgba(0,0,0,.45)}
   .langs-pick button:hover{transform:translateY(-2px);opacity:1}
@@ -205,10 +207,16 @@
   .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
     box-shadow:0 20px 55px rgba(124,77,255,.4),0 0 0 1px rgba(255,255,255,.1)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.08;position:relative}
-  .fin .flags{margin-top:20px;display:flex;gap:9px;justify-content:center;
-    flex-wrap:wrap;position:relative}
-  .fin .flags svg{width:34px;height:23px;border-radius:4px;
+  .fin .flags{margin-top:20px;position:relative;overflow:hidden;max-width:600px;
+    margin-left:auto;margin-right:auto;
+    mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+  .fin .flags .track{display:flex;gap:11px;width:max-content;
+    animation:flagSlide 40s linear infinite}
+  .fin .flags svg{width:34px;height:23px;border-radius:4px;flex:none;
     box-shadow:0 3px 10px rgba(0,0,0,.4);display:block}
+  @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.fin .flags .track{animation:none}}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
     border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
     transition:transform .15s, box-shadow .25s;position:relative}
@@ -243,7 +251,7 @@
   <div class="wrap">
     <nav>
       <div class="brand"><img class="brand-img" src="icon.png" alt="">Vocab Swiper</div>
-      <a class="cta-mini" href="https://vocabswiper.app">Get the app</a>
+      <a class="cta-mini" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener">Get the app</a>
     </nav>
   </div>
 </div>
@@ -376,9 +384,9 @@
 <section class="fin" id="get">
   <div class="wrap reveal-sec">
     <img class="fin-icon" src="icon.png" alt="Vocab Swiper icon">
-    <h2>Your next language,<br>ten swipes a day.</h2>
+    <h2>Your next language,<br>one swipe away.</h2>
     <div class="flags" id="fin-flags"></div>
-    <a class="badge" href="https://vocabswiper.app" aria-label="Download on the App Store">
+    <a class="badge" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener" aria-label="Download on the App Store">
       <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
       <span class="txt"><small>DOWNLOAD ON THE</small><span>App Store</span></span>
     </a>
@@ -473,7 +481,24 @@ const FLAGS = {
   it:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#008c45"/><rect x="20" width="10" height="20" fill="#cd212a"/></svg>`,
   de:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ffce00"/><rect width="30" height="13.33" fill="#d00"/><rect width="30" height="6.67" fill="#000"/></svg>`,
   gb:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#c8102e" stroke-width="2"/><path d="M15,0 V20 M0,10 H30" stroke="#fff" stroke-width="6"/><path d="M15,0 V20 M0,10 H30" stroke="#c8102e" stroke-width="3.5"/></svg>`,
+  tr:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e30a17"/><circle cx="12" cy="10" r="5" fill="#fff"/><circle cx="13.4" cy="10" r="4" fill="#e30a17"/><polygon points="${starPts(17.6,10,1.7)}" fill="#fff"/></svg>`,
+  pl:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#dc143c"/></svg>`,
+  se:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#006aa7"/><rect x="10" width="4" height="20" fill="#fecc00"/><rect y="8" width="30" height="4" fill="#fecc00"/></svg>`,
+  dk:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#c60c30"/><rect x="10" width="4" height="20" fill="#fff"/><rect y="8" width="30" height="4" fill="#fff"/></svg>`,
+  fi:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect x="10" width="4" height="20" fill="#002f6c"/><rect y="8" width="30" height="4" fill="#002f6c"/></svg>`,
+  gr:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#0d5eaf"/><g fill="#fff"><rect y="2.2" width="30" height="2.2"/><rect y="6.6" width="30" height="2.2"/><rect y="11" width="30" height="2.2"/><rect y="15.4" width="30" height="2.2"/></g><rect width="11" height="11" fill="#0d5eaf"/><g fill="#fff"><rect x="4.4" width="2.2" height="11"/><rect y="4.4" width="11" height="2.2"/></g></svg>`,
+  cz:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#d7141a"/><polygon points="0,0 0,20 13,10" fill="#11457e"/></svg>`,
+  id:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="10" fill="#ce1126"/></svg>`,
+  ro:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#002b7f"/><rect x="10" width="10" height="20" fill="#fcd116"/><rect x="20" width="10" height="20" fill="#ce1126"/></svg>`,
+  ua:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#005bbb"/><rect y="10" width="30" height="10" fill="#ffd500"/></svg>`,
+  sk:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#0b4ea2"/><rect y="13.33" width="30" height="6.67" fill="#ee1c25"/><g transform="translate(7,10)"><rect x="-3.2" y="-5" width="6.4" height="10" rx="1" fill="#ee1c25" stroke="#fff" stroke-width=".6"/><rect x="-1" y="-3.6" width="2" height="7.2" fill="#fff"/><rect x="-2.4" y="-1.5" width="4.8" height="1.6" fill="#fff"/></g></svg>`,
+  bg:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#00966e"/><rect y="13.33" width="30" height="6.67" fill="#d62612"/></svg>`,
+  hr:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#171796"/><rect width="30" height="13.33" fill="#fff"/><rect width="30" height="6.67" fill="#ff0000"/><g fill="#ff0000"><rect x="12.6" y="7" width="1.6" height="1.6"/><rect x="15.8" y="7" width="1.6" height="1.6"/><rect x="14.2" y="8.6" width="1.6" height="1.6"/><rect x="17.4" y="8.6" width="1.6" height="1.6"/><rect x="12.6" y="10.2" width="1.6" height="1.6"/><rect x="15.8" y="10.2" width="1.6" height="1.6"/></g></svg>`,
+  my:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><g fill="#cc0001"><rect y="0" width="30" height="1.43"/><rect y="2.86" width="30" height="1.43"/><rect y="5.71" width="30" height="1.43"/><rect y="8.57" width="30" height="1.43"/><rect y="11.43" width="30" height="1.43"/><rect y="14.29" width="30" height="1.43"/><rect y="17.14" width="30" height="1.43"/></g><rect width="15" height="11.43" fill="#010066"/><circle cx="6" cy="5.7" r="3" fill="#fc0"/><circle cx="7" cy="5.7" r="2.4" fill="#010066"/><polygon points="${starPts(11,5.7,1.6)}" fill="#fc0"/></svg>`,
+  ph:`<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#0038a8"/><rect y="10" width="30" height="10" fill="#ce1126"/><polygon points="0,0 13,10 0,20" fill="#fff"/><circle cx="4.5" cy="10" r="2.2" fill="#fcd116"/><polygon points="${starPts(2.5,3,1)}" fill="#fcd116"/><polygon points="${starPts(2.5,17,1)}" fill="#fcd116"/><polygon points="${starPts(9,10,1)}" fill="#fcd116"/></svg>`,
 };
+/* all 26 languages the site teaches (FAQ order): 25 target languages + English */
+const ALL_FLAGS = ['gb','ja','ko','zh','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph'];
 
 let lang='ja', i=0, busy=false;
 const $ = id => document.getElementById(id);
@@ -495,14 +520,18 @@ Object.keys(DECKS).forEach(code => {
   langsEl.appendChild(b);
 });
 
-/* final-CTA flag row: the demo languages + English */
+/* final-CTA flag row: all 26 supported languages, continuously sliding in one
+   row. The list is duplicated once so translateX(-50%) loops seamlessly. */
 const finFlags = $('fin-flags');
 if (finFlags) {
-  [...Object.keys(DECKS), 'gb'].forEach(code => {
+  const track = document.createElement('div');
+  track.className = 'track';
+  ALL_FLAGS.concat(ALL_FLAGS).forEach(code => {
     const span = document.createElement('span');
     span.innerHTML = FLAGS[code];
-    finFlags.appendChild(span);
+    track.appendChild(span);
   });
+  finFlags.appendChild(track);
 }
 
 function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
