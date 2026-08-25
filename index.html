@@ -107,14 +107,15 @@
   .example-slot .n{font-size:13.5px;color:rgba(255,255,255,.42);margin-top:5px;min-height:20px}
 
   /* the recall beat: each new word arrives with its answer veiled — exactly
-     the app's mechanic. Tap reveals; passive viewers get an auto-reveal. */
+     the app's mechanic. Nothing reveals it but a tap — same as the real
+     card's "Show answer" gate, which never fires on its own either. */
   .meaning-slot > *{grid-area:1/1}
   #stage .meaning,#stage .example-slot{transition:filter .35s ease,opacity .35s ease}
   #stage.veiled .meaning,#stage.veiled .example-slot{filter:blur(10px);opacity:.35;
     user-select:none;pointer-events:none}
-  .reveal-hint{font-size:13px;font-weight:700;letter-spacing:.4px;color:rgba(255,255,255,.55);
-    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
-    padding:6px 14px;border-radius:999px;opacity:0;transform:translateY(4px);
+  /* matches the app's own GradeButton: quiet bold text, no pill/fill */
+  .reveal-hint{font-size:14.5px;font-weight:700;color:#fff;
+    opacity:0;transform:translateY(4px);
     transition:opacity .3s ease,transform .3s ease;pointer-events:none;z-index:2}
   #stage.veiled .reveal-hint{opacity:1;transform:none}
 
@@ -267,7 +268,7 @@
       <div class="pill" id="w-pill" style="display:none"><span id="w-reading"></span></div>
       <div class="meaning-slot">
         <div class="meaning" id="w-meaning"></div>
-        <div class="reveal-hint">tap to show answer</div>
+        <div class="reveal-hint">Show answer</div>
       </div>
       <div class="example-slot">
         <div class="t" id="w-ex"></div>
@@ -535,18 +536,15 @@ if (finFlags) {
 function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
 
 /* the recall beat: every card lands veiled (the app's own mechanic — recall
-   before reveal). A tap shows the answer; passive viewers get an auto-reveal
-   after 2.2s so the endless loop still reads on its own. */
-let revealT;
+   before reveal). Only a tap shows the answer — no auto-reveal, so a
+   passive scroller sees the veiled card cycle by same as anyone skipping
+   the real app's "Show answer" gate. */
 const noVeil = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function veil(){
   if (noVeil) return;              // reduced-motion: answers show immediately
   stage.classList.add('veiled');
-  clearTimeout(revealT);
-  revealT = setTimeout(reveal, 2200);
 }
 function reveal(){
-  clearTimeout(revealT);
   stage.classList.remove('veiled');
 }
 function isVeiled(){ return stage.classList.contains('veiled'); }
