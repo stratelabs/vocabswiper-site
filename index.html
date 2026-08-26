@@ -162,11 +162,12 @@
     text-align:center;margin:10px 0 34px}
   .marq-mask{mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-    overflow-x:auto;scrollbar-width:none;cursor:grab}
-  .marq-mask::-webkit-scrollbar{display:none}
-  .marq-mask.dragging{cursor:grabbing}
-  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px}
-  .shot{width:246px;perspective:900px}
+    overflow:hidden}
+  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px;
+    animation:shotSlide 36s linear infinite}
+  @keyframes shotSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.marq{animation:none}}
+  .shot{width:246px;perspective:900px;flex:none}
   .shot img{width:246px;border-radius:30px;border:1px solid rgba(255,255,255,.09);
     box-shadow:0 22px 55px rgba(0,0,0,.5);display:block;
     transition:transform .35s ease,box-shadow .35s ease}
@@ -284,14 +285,14 @@
   <h2 class="reveal-sec">The whole app, four frames.</h2>
   <div class="marq-mask">
     <div class="marq" id="marq">
-      <div class="shot"><img src="shots/01_learn.png" alt="Learn screen with a new word, reading, meaning and example" loading="lazy">
-        <p><b>Learn.</b> Word, reading, meaning and a real example — together.</p></div>
       <div class="shot"><img src="shots/02_grade.png" alt="Grading a word Knew it or Show answer" loading="lazy">
         <p><b>Grade yourself.</b> Knew it, or Show answer — either way it's honest.</p></div>
       <div class="shot"><img src="shots/03_challenge.png" alt="Challenge mode multiple choice with Speed Round" loading="lazy">
         <p><b>Challenge mode.</b> Multiple choice, Speed Round doubles the XP.</p></div>
-      <div class="shot"><img src="shots/04_stats.png" alt="Profile screen with level, XP and streak" loading="lazy">
-        <p><b>Real stats.</b> Level, streak, XP — measured, not vibes.</p></div>
+      <div class="shot"><img src="shots/05_levelup.png" alt="Level up moment reaching Level 9 Fluent" loading="lazy">
+        <p><b>Level up.</b> XP and streaks turn into a real milestone.</p></div>
+      <div class="shot"><img src="shots/06_recall.png" alt="New word screen with Show answer or Knew it" loading="lazy">
+        <p><b>Recall first.</b> Every new word starts the same way — try before you peek.</p></div>
     </div>
   </div>
 </section>
@@ -668,42 +669,11 @@ const mio = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold: .4});
 document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 
-/* marquee: real scroll container — drag, flick or wheel it freely; a gentle
-   auto-drift runs whenever the visitor isn't interacting. Content is
-   duplicated once so the loop wraps seamlessly. */
+/* marquee: pure CSS animation (translateX loop, see @keyframes shotSlide) —
+   no drag/scroll, just a continuous slide. Content is duplicated once so
+   the loop wraps seamlessly. */
 const marq = $('marq');
-const mask = marq.parentElement;
 marq.innerHTML += marq.innerHTML;
-let marqAuto = !reduce, marqIdle;
-function marqPause(){
-  marqAuto = false;
-  clearTimeout(marqIdle);
-  marqIdle = setTimeout(() => { marqAuto = true; }, 2500);
-}
-(function drift(){
-  if (marqAuto) {
-    mask.scrollLeft += .7;
-    const half = marq.scrollWidth / 2;
-    if (mask.scrollLeft >= half) mask.scrollLeft -= half;
-  }
-  requestAnimationFrame(drift);
-})();
-['wheel','touchstart','pointerdown'].forEach(ev =>
-  mask.addEventListener(ev, marqPause, {passive:true}));
-/* mouse drag-to-scroll */
-let mx = null, msl = 0;
-mask.addEventListener('pointerdown', e => {
-  if (e.pointerType !== 'mouse') return;
-  mx = e.clientX; msl = mask.scrollLeft;
-  mask.classList.add('dragging');
-});
-window.addEventListener('pointermove', e => {
-  if (mx === null) return;
-  mask.scrollLeft = msl - (e.clientX - mx);
-});
-window.addEventListener('pointerup', () => {
-  mx = null; mask.classList.remove('dragging');
-});
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
