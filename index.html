@@ -79,7 +79,9 @@
   .try-sub{margin-top:9px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
     text-transform:uppercase;color:rgba(20,21,26,.35)}
   .langs-pick{display:flex;gap:13px;flex-wrap:nowrap;justify-content:flex-start;
-    margin-top:16px;max-width:100%;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+    margin-top:16px;max-width:100%;overflow-x:auto;scrollbar-width:none;padding:0 4px;
+    cursor:grab}
+  .langs-pick.dragging{cursor:grabbing}
   .langs-pick::-webkit-scrollbar{display:none}
   .langs-pick button{background:none;border:none;padding:0;cursor:pointer;line-height:0;
     flex:none;opacity:.85;transition:transform .15s,opacity .15s}
@@ -487,24 +489,79 @@ const FLAGS = {
 /* all 26 languages the site teaches (FAQ order): 25 target languages + English */
 const ALL_FLAGS = ['gb','ja','ko','zh','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph'];
 
-let lang='ja', i=0, busy=false;
+/* land on a random language + word each visit, instead of always ja/雪 */
+const langCodes = Object.keys(DECKS);
+let lang = langCodes[Math.floor(Math.random() * langCodes.length)];
+let i = Math.floor(Math.random() * DECKS[lang].words.length);
+let busy=false;
 const $ = id => document.getElementById(id);
 const stage = $('stage');
 
+/* language picker: an infinite auto-sliding loop (like the flag rows
+   below) that's still fully interactive — drag it, or tap a flag to
+   switch languages. Content is duplicated once; each button carries
+   data-code so BOTH copies of a flag light up together, and native
+   scrollLeft (not a CSS transform) does the looping, so wraparound is
+   exact by construction — no seam math needed. */
 const langsEl = $('langs');
-Object.keys(DECKS).forEach(code => {
+function buildLangButton(code){
   const b = document.createElement('button');
   b.innerHTML = FLAGS[code]; b.title = code; b.setAttribute('aria-label', code);
+  b.dataset.code = code;
   if (code === lang) b.classList.add('on');
   b.addEventListener('click', () => {
+    if (langsJustDragged) return;
     if (busy || code === lang) return;
     lang = code; i = 0;
-    [...langsEl.children].forEach(x => x.classList.remove('on'));
-    b.classList.add('on');
+    langsEl.querySelectorAll('button').forEach(x =>
+      x.classList.toggle('on', x.dataset.code === code));
     transition();
     scheduleAuto();
   });
-  langsEl.appendChild(b);
+  return b;
+}
+langCodes.concat(langCodes).forEach(code => langsEl.appendChild(buildLangButton(code)));
+// scroll so the randomly-chosen starting language is visible on load
+const startBtn = langsEl.querySelector('button.on');
+if (startBtn) langsEl.scrollLeft = Math.max(0,
+  startBtn.offsetLeft - (langsEl.clientWidth - startBtn.offsetWidth) / 2);
+
+let langsAuto = !matchMedia('(prefers-reduced-motion: reduce)').matches, langsIdle;
+function langsPause(){
+  langsAuto = false;
+  clearTimeout(langsIdle);
+  langsIdle = setTimeout(() => { langsAuto = true; }, 2500);
+}
+(function langsDrift(){
+  if (langsAuto) {
+    langsEl.scrollLeft += .5;
+    const half = langsEl.scrollWidth / 2;
+    if (langsEl.scrollLeft >= half) langsEl.scrollLeft -= half;
+  }
+  requestAnimationFrame(langsDrift);
+})();
+['wheel','touchstart','pointerdown'].forEach(ev =>
+  langsEl.addEventListener(ev, langsPause, {passive:true}));
+/* mouse drag-to-scroll — touch already scrolls natively */
+let langsMX = null, langsMSL = 0, langsJustDragged = false;
+langsEl.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse') return;
+  langsMX = e.clientX; langsMSL = langsEl.scrollLeft;
+  langsJustDragged = false;
+  langsEl.classList.add('dragging');
+});
+window.addEventListener('pointermove', e => {
+  if (langsMX === null) return;
+  const dx = e.clientX - langsMX;
+  if (Math.abs(dx) > 4) langsJustDragged = true;
+  langsEl.scrollLeft = langsMSL - dx;
+});
+window.addEventListener('pointerup', () => {
+  if (langsMX === null) return;
+  langsMX = null;
+  langsEl.classList.remove('dragging');
+  // let the click handler see langsJustDragged this tick, then clear it
+  setTimeout(() => { langsJustDragged = false; }, 0);
 });
 
 /* seamless auto-slide loop: duplicate a flex row's content once, then move
