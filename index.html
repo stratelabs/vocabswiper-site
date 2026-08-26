@@ -165,7 +165,7 @@
     overflow:hidden}
   .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px;
     animation:shotSlide 36s linear infinite}
-  @keyframes shotSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes shotSlide{from{transform:translateX(0)}to{transform:translateX(var(--loopx,-50%))}}
   @media (prefers-reduced-motion: reduce){.marq{animation:none}}
   .shot{width:246px;perspective:900px;flex:none}
   .shot img{width:246px;border-radius:30px;border:1px solid rgba(255,255,255,.09);
@@ -209,7 +209,7 @@
     animation:flagSlide 40s linear infinite}
   .fin .flags svg{width:34px;height:23px;border-radius:4px;flex:none;
     box-shadow:0 3px 10px rgba(0,0,0,.4);display:block}
-  @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(var(--loopx,-50%))}}
   @media (prefers-reduced-motion: reduce){.fin .flags .track{animation:none}}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
     border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
@@ -281,8 +281,7 @@
 
 <!-- ============ screenshots ============ -->
 <section class="shots-sec">
-  <div class="eyebrow reveal-sec">Every screen</div>
-  <h2 class="reveal-sec">The whole app, four frames.</h2>
+  <h2 class="reveal-sec">Straight from the app.</h2>
   <div class="marq-mask">
     <div class="marq" id="marq">
       <div class="shot"><img src="shots/02_grade.png" alt="Grading a word Knew it or Show answer" loading="lazy">
@@ -503,18 +502,32 @@ Object.keys(DECKS).forEach(code => {
   langsEl.appendChild(b);
 });
 
-/* final-CTA flag row: all 26 supported languages, continuously sliding in one
-   row. The list is duplicated once so translateX(-50%) loops seamlessly. */
+/* seamless auto-slide loop: duplicate a flex row's content once, then move
+   it by the EXACT pixel width of one set (item widths + gaps + the one
+   extra seam gap before the duplicate starts). A flat -50% looks right but
+   only lands there when total-width happens to split evenly, which it
+   usually doesn't once gaps are in the mix — the mismatch is what shows up
+   as a jump/cut when the animation restarts. */
+function loopSlide(el){
+  const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+  const setWidth = el.scrollWidth + gap;
+  el.innerHTML += el.innerHTML;
+  el.style.setProperty('--loopx', `-${setWidth}px`);
+}
+
+/* final-CTA flag row: all 26 supported languages, continuously sliding in
+   one row. */
 const finFlags = $('fin-flags');
 if (finFlags) {
   const track = document.createElement('div');
   track.className = 'track';
-  ALL_FLAGS.concat(ALL_FLAGS).forEach(code => {
+  ALL_FLAGS.forEach(code => {
     const span = document.createElement('span');
     span.innerHTML = FLAGS[code];
     track.appendChild(span);
   });
   finFlags.appendChild(track);
+  loopSlide(track);
 }
 
 function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
@@ -670,10 +683,9 @@ const mio = new IntersectionObserver(es => es.forEach(e => {
 document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 
 /* marquee: pure CSS animation (translateX loop, see @keyframes shotSlide) —
-   no drag/scroll, just a continuous slide. Content is duplicated once so
-   the loop wraps seamlessly. */
-const marq = $('marq');
-marq.innerHTML += marq.innerHTML;
+   no drag/scroll, just a continuous slide. loopSlide (defined above, by the
+   flag row) duplicates the content and sets the exact seamless distance. */
+loopSlide($('marq'));
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
