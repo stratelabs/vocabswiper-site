@@ -22,46 +22,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#141519; --card:#212228; --accent:#7C4DFF; --accent2:#9B7DFF;
-    --green:#63E6BE; --orange:#FF8A3D;
-    --muted:rgba(255,255,255,.55); --line:rgba(255,255,255,.07);
+    --bg:#FBFBFC; --bg2:#F1F1F6; --accent:#7C4DFF; --accent2:#6D28D9;
+    --text:#14151A; --muted:rgba(20,21,26,.58); --line:rgba(20,21,26,.09);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:#fff;
+  body{background:
+      radial-gradient(1100px 650px at 50% -10%, var(--bg2), transparent 60%),
+      radial-gradient(900px 550px at 105% 25%, #F4F1FB, transparent 55%),
+      var(--bg);
+    color:var(--text);
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  ::selection{background:rgba(124,77,255,.4)}
+  ::selection{background:rgba(124,77,255,.22)}
   a{color:inherit}
   button{font-family:inherit}
   :focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:6px}
   .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 
   /* film grain */
-  body::after{content:'';position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.03;
+  body::after{content:'';position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.025;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  /* mouse-reactive glow */
+  /* mouse-reactive glow: extremely subtle now that it's tinting white, not black */
   .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;
     transition:transform 1.4s cubic-bezier(.2,.8,.3,1)}
-  .glow.a{width:640px;height:640px;background:rgba(124,77,255,.14);top:-180px;right:-180px}
-  .glow.b{width:520px;height:520px;background:rgba(99,230,190,.06);bottom:-200px;left:-200px}
+  .glow.a{width:640px;height:640px;background:rgba(124,77,255,.09);top:-180px;right:-180px}
+  .glow.b{width:520px;height:520px;background:rgba(99,230,190,.05);bottom:-200px;left:-200px}
 
   main{position:relative;z-index:1}
 
   /* sticky nav */
   .navbar{position:sticky;top:0;z-index:50;transition:background .3s,border-color .3s;
     border-bottom:1px solid transparent}
-  .navbar.scrolled{background:rgba(20,21,25,.75);backdrop-filter:blur(14px);
+  .navbar.scrolled{background:rgba(251,251,252,.78);backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);border-color:var(--line)}
   nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
   .brand-img{width:30px;height:30px;border-radius:9px;display:block;
-    box-shadow:0 4px 18px rgba(124,77,255,.4)}
+    box-shadow:0 4px 18px rgba(124,77,255,.35)}
   nav .cta-mini{font-size:13px;font-weight:700;background:var(--accent);
     padding:9px 18px;border-radius:999px;color:#fff;text-decoration:none;
-    transition:all .2s;box-shadow:0 4px 18px rgba(124,77,255,.35)}
-  nav .cta-mini:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(124,77,255,.5)}
+    transition:all .2s;box-shadow:0 4px 18px rgba(124,77,255,.3)}
+  nav .cta-mini:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(124,77,255,.45)}
 
   /* eyebrow */
   .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;
@@ -71,21 +74,21 @@
   .hero{min-height:calc(100svh - 64px);display:flex;flex-direction:column;align-items:center;
     text-align:center;position:relative;padding-bottom:44px}
   .hero .kicker{margin-top:2vh;font-size:clamp(18px,2.4vw,23px);font-weight:800;
-    letter-spacing:-.4px;color:rgba(255,255,255,.9)}
+    letter-spacing:-.4px;color:rgba(20,21,26,.88)}
   .hero .kicker .accent{color:var(--accent2)}
   .try-sub{margin-top:9px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
-    text-transform:uppercase;color:rgba(255,255,255,.32)}
+    text-transform:uppercase;color:rgba(20,21,26,.35)}
   .langs-pick{display:flex;gap:13px;flex-wrap:nowrap;justify-content:flex-start;
     margin-top:16px;max-width:100%;overflow-x:auto;scrollbar-width:none;padding:0 4px}
   .langs-pick::-webkit-scrollbar{display:none}
   .langs-pick button{background:none;border:none;padding:0;cursor:pointer;line-height:0;
-    flex:none;opacity:.68;transition:transform .15s,opacity .15s}
+    flex:none;opacity:.85;transition:transform .15s,opacity .15s}
   .langs-pick button svg{width:40px;height:27px;display:block;border-radius:5px;
-    box-shadow:0 2px 8px rgba(0,0,0,.45)}
+    border:1px solid rgba(20,21,26,.12);box-shadow:0 2px 8px rgba(20,21,26,.14)}
   .langs-pick button:hover{transform:translateY(-2px);opacity:1}
   .langs-pick button.on{opacity:1}
-  .langs-pick button.on svg{box-shadow:0 0 0 2px rgba(155,125,255,.9),
-    0 6px 22px rgba(124,77,255,.65)}
+  .langs-pick button.on svg{box-shadow:0 0 0 2px rgba(124,77,255,.85),
+    0 6px 20px rgba(124,77,255,.4)}
 
   #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
     width:100%;max-width:680px;cursor:grab;touch-action:pan-y;
@@ -95,16 +98,16 @@
   #stage.enter{transition:none;transform:translateY(46px);opacity:0;filter:blur(10px)}
 
   .big-word{font-size:clamp(72px,16vw,150px);font-weight:900;line-height:1.08;
-    letter-spacing:-3px;text-shadow:0 0 90px rgba(124,77,255,.3)}
-  .pill{margin-top:13px;font-size:clamp(15px,2vw,17px);color:rgba(255,255,255,.5);
+    letter-spacing:-3px;text-shadow:0 0 90px rgba(124,77,255,.16)}
+  .pill{margin-top:13px;font-size:clamp(15px,2vw,17px);color:rgba(20,21,26,.5);
     letter-spacing:.5px;font-weight:500}
 
   .meaning-slot{height:52px;margin-top:10px;display:grid;place-items:center}
-  .meaning{font-size:clamp(21px,3.2vw,28px);color:#e9e9ee;font-weight:700;letter-spacing:-.4px}
+  .meaning{font-size:clamp(21px,3.2vw,28px);color:#1c1d24;font-weight:700;letter-spacing:-.4px}
 
   .example-slot{min-height:62px;margin-top:4px;max-width:560px;padding:0 16px}
-  .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(255,255,255,.88)}
-  .example-slot .n{font-size:13.5px;color:rgba(255,255,255,.42);margin-top:5px;min-height:20px}
+  .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(20,21,26,.85)}
+  .example-slot .n{font-size:13.5px;color:rgba(20,21,26,.45);margin-top:5px;min-height:20px}
 
   /* the recall beat: each new word arrives with its answer veiled — exactly
      the app's mechanic. Nothing reveals it but a tap — same as the real
@@ -114,7 +117,7 @@
   #stage.veiled .meaning,#stage.veiled .example-slot{filter:blur(10px);opacity:.35;
     user-select:none;pointer-events:none}
   /* matches the app's own GradeButton: quiet bold text, no pill/fill */
-  .reveal-hint{font-size:14.5px;font-weight:700;color:#fff;
+  .reveal-hint{font-size:14.5px;font-weight:700;color:var(--text);
     opacity:0;transform:translateY(4px);
     transition:opacity .3s ease,transform .3s ease;pointer-events:none;z-index:2}
   #stage.veiled .reveal-hint{opacity:1;transform:none}
@@ -123,16 +126,16 @@
 
   /* ============ manifesto ============ */
   .manifesto{padding:16vh 24px;text-align:center}
-  .manifesto .l1{font-size:clamp(19px,2.8vw,26px);color:rgba(255,255,255,.38);font-weight:700;
+  .manifesto .l1{font-size:clamp(19px,2.8vw,26px);color:rgba(20,21,26,.4);font-weight:700;
     letter-spacing:-.3px}
   .manifesto .l2{font-size:clamp(36px,6.5vw,68px);font-weight:900;letter-spacing:-2.5px;
     margin-top:12px;line-height:1.08}
   .manifesto .l2 .hl{color:var(--accent2)}
   .manifesto .l3{max-width:640px;margin:30px auto 0;font-size:clamp(15px,2vw,18px);
-    line-height:1.65;color:rgba(255,255,255,.5);font-weight:500;
+    line-height:1.65;color:rgba(20,21,26,.55);font-weight:500;
     opacity:0;transform:translateY(16px);
     transition:opacity .6s ease .45s,transform .6s ease .45s}
-  .manifesto .l3 b{color:rgba(255,255,255,.82);font-weight:700}
+  .manifesto .l3 b{color:rgba(20,21,26,.85);font-weight:700}
   .manifesto.in .l3{opacity:1;transform:none}
   .manifesto .w{display:inline-block;opacity:0;transform:translateY(22px);filter:blur(6px);
     transition:opacity .55s ease,transform .55s ease,filter .55s ease}
@@ -143,18 +146,19 @@
   .faq-sec{padding:10px 24px 90px;max-width:660px;margin:0 auto}
   .faq-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
     text-align:center;margin:10px 0 28px}
-  .faq-sec details{border:1px solid rgba(255,255,255,.08);border-radius:14px;
-    background:rgba(255,255,255,.03);margin-bottom:10px;overflow:hidden}
+  .faq-sec details{border:1px solid var(--line);border-radius:14px;
+    background:#fff;margin-bottom:10px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(20,21,26,.03)}
   .faq-sec summary{cursor:pointer;list-style:none;display:flex;align-items:center;
     justify-content:space-between;gap:14px;padding:15px 18px;font-weight:700;
-    font-size:15.5px;color:rgba(255,255,255,.92)}
+    font-size:15.5px;color:rgba(20,21,26,.92)}
   .faq-sec summary::-webkit-details-marker{display:none}
   .faq-sec summary::after{content:'+';font-size:19px;font-weight:600;
-    color:rgba(255,255,255,.4);transition:transform .2s ease}
+    color:rgba(20,21,26,.4);transition:transform .2s ease}
   .faq-sec details[open] summary::after{transform:rotate(45deg)}
   .faq-sec .a{padding:0 18px 16px;font-size:14.5px;line-height:1.65;
-    color:rgba(255,255,255,.55)}
-  .faq-sec .a b{color:rgba(255,255,255,.8)}
+    color:rgba(20,21,26,.6)}
+  .faq-sec .a b{color:rgba(20,21,26,.85)}
 
   /* ============ screenshots marquee ============ */
   .shots-sec{padding:10px 0 80px;overflow:hidden}
@@ -168,13 +172,13 @@
   @keyframes shotSlide{from{transform:translateX(0)}to{transform:translateX(var(--loopx,-50%))}}
   @media (prefers-reduced-motion: reduce){.marq{animation:none}}
   .shot{width:246px;perspective:900px;flex:none}
-  .shot img{width:246px;border-radius:30px;border:1px solid rgba(255,255,255,.09);
-    box-shadow:0 22px 55px rgba(0,0,0,.5);display:block;
+  .shot img{width:246px;border-radius:30px;border:1px solid rgba(20,21,26,.08);
+    box-shadow:0 20px 45px rgba(20,21,26,.14);display:block;
     transition:transform .35s ease,box-shadow .35s ease}
   .shot:hover img{transform:rotateY(-7deg) rotateX(3deg) translateY(-10px) scale(1.02);
-    box-shadow:0 36px 80px rgba(0,0,0,.6),0 0 50px rgba(124,77,255,.18)}
+    box-shadow:0 30px 60px rgba(20,21,26,.18),0 0 40px rgba(124,77,255,.16)}
   .shot p{text-align:center;color:var(--muted);font-size:13px;margin-top:13px;font-weight:600}
-  .shot p b{color:#fff;font-weight:700}
+  .shot p b{color:var(--text);font-weight:700}
   .shot:nth-child(odd){transform:translateY(12px)}
 
   /* ============ proof / method ============ */
@@ -184,10 +188,11 @@
     text-align:center;margin:10px 0 2px}
   .proof-lede{text-align:center;color:var(--muted);font-size:15px;max-width:46ch;margin:12px auto 0}
   .proof .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:30px auto 0}
-  .chip{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:20px;
-    padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s}
-  .chip:hover{border-color:rgba(124,77,255,.4);transform:translateY(-4px);
-    box-shadow:0 18px 44px rgba(0,0,0,.35)}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s;
+    box-shadow:0 1px 2px rgba(20,21,26,.03)}
+  .chip:hover{border-color:rgba(124,77,255,.35);transform:translateY(-4px);
+    box-shadow:0 16px 34px rgba(20,21,26,.1)}
   .chip svg{width:26px;height:26px;stroke:var(--accent2);stroke-width:1.8;fill:none;
     stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
   .chip h3{font-size:15px;margin-bottom:5px;font-weight:800;letter-spacing:-.2px}
@@ -196,10 +201,10 @@
   /* ============ final CTA ============ */
   .fin{text-align:center;padding:110px 0 90px;position:relative}
   .fin::before{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);
-    width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(124,77,255,.14),transparent 65%);
+    width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(124,77,255,.1),transparent 65%);
     pointer-events:none}
   .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
-    box-shadow:0 20px 55px rgba(124,77,255,.4),0 0 0 1px rgba(255,255,255,.1)}
+    box-shadow:0 20px 45px rgba(124,77,255,.3),0 0 0 1px rgba(20,21,26,.06)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.08;position:relative}
   .fin .flags{margin-top:20px;position:relative;overflow:hidden;max-width:600px;
     margin-left:auto;margin-right:auto;
@@ -208,25 +213,25 @@
   .fin .flags .track{display:flex;gap:11px;width:max-content;
     animation:flagSlide 40s linear infinite}
   .fin .flags svg{width:34px;height:23px;border-radius:4px;flex:none;
-    box-shadow:0 3px 10px rgba(0,0,0,.4);display:block}
+    border:1px solid rgba(20,21,26,.1);box-shadow:0 3px 8px rgba(20,21,26,.12);display:block}
   @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(var(--loopx,-50%))}}
   @media (prefers-reduced-motion: reduce){.fin .flags .track{animation:none}}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
     border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
     transition:transform .15s, box-shadow .25s;position:relative}
-  .badge:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(124,77,255,.3)}
+  .badge:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(124,77,255,.28)}
   .badge svg{width:26px;height:26px;fill:#fff}
   .badge .txt{text-align:left;line-height:1.15}
   .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.6px}
   .badge .txt span{font-size:17.5px;font-weight:700}
-  .fin .sub{color:rgba(255,255,255,.38);font-size:13px;margin-top:18px;position:relative}
+  .fin .sub{color:rgba(20,21,26,.42);font-size:13px;margin-top:18px;position:relative}
 
-  footer{padding:36px 0;color:rgba(255,255,255,.38);font-size:13px;border-top:1px solid var(--line)}
+  footer{padding:36px 0;color:rgba(20,21,26,.42);font-size:13px;border-top:1px solid var(--line)}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(255,255,255,.6)}
+  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(20,21,26,.65)}
   .foot-brand img{width:22px;height:22px;border-radius:6px}
-  footer a{color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s}
-  footer a:hover{color:#fff}
+  footer a{color:rgba(20,21,26,.6);text-decoration:none;transition:color .2s}
+  footer a:hover{color:var(--text)}
 
   .reveal-sec{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
   .reveal-sec.in{opacity:1;transform:none}
