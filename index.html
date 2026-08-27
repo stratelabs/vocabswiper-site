@@ -71,8 +71,8 @@
     color:var(--accent2);text-align:center}
 
   /* ============ HERO: the page IS the app ============ */
-  .hero{min-height:calc(100svh - 64px);display:flex;flex-direction:column;align-items:center;
-    text-align:center;position:relative;padding-bottom:44px}
+  .hero{display:flex;flex-direction:column;align-items:center;
+    text-align:center;position:relative;padding:4vh 0 40px}
   .hero .kicker{margin-top:2vh;font-size:clamp(18px,2.4vw,23px);font-weight:800;
     letter-spacing:-.4px;color:rgba(20,21,26,.88)}
   .hero .kicker .accent{color:inherit}
@@ -127,7 +127,7 @@
   .big-word{touch-action:none}
 
   /* ============ manifesto ============ */
-  .manifesto{padding:5vh 24px 16vh;text-align:center}
+  .manifesto{padding:3vh 24px 16vh;text-align:center}
   .manifesto .l1{font-size:clamp(19px,2.8vw,26px);color:rgba(20,21,26,.4);font-weight:700;
     letter-spacing:-.3px}
   .manifesto .l2{font-size:clamp(36px,6.5vw,68px);font-weight:900;letter-spacing:-2.5px;
@@ -145,7 +145,7 @@
   @media (prefers-reduced-motion: reduce){.manifesto .w{opacity:1;transform:none;filter:none;transition:none}}
 
   /* ============ FAQ ============ */
-  .faq-sec{padding:10px 24px 90px;max-width:660px;margin:0 auto}
+  .faq-sec{padding:70px 24px 90px;max-width:660px;margin:0 auto}
   .faq-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
     text-align:center;margin:10px 0 28px}
   .faq-sec details{border:1px solid var(--line);border-radius:14px;
@@ -168,17 +168,13 @@
     text-align:center;margin:10px 0 34px}
   .marq-mask{mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-    overflow:hidden}
-  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px;
-    animation:shotSlide 36s linear infinite}
-  @keyframes shotSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion: reduce){.marq{animation:none}}
+    overflow-x:auto;scrollbar-width:none;cursor:grab}
+  .marq-mask::-webkit-scrollbar{display:none}
+  .marq-mask.dragging{cursor:grabbing}
+  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px}
   .shot{width:246px;perspective:900px;flex:none}
   .shot img{width:246px;border-radius:30px;border:1px solid rgba(20,21,26,.08);
-    box-shadow:0 20px 45px rgba(20,21,26,.14);display:block;
-    transition:transform .35s ease,box-shadow .35s ease}
-  .shot:hover img{transform:rotateY(-7deg) rotateX(3deg) translateY(-10px) scale(1.02);
-    box-shadow:0 30px 60px rgba(20,21,26,.18),0 0 40px rgba(124,77,255,.16)}
+    box-shadow:0 20px 45px rgba(20,21,26,.14);display:block}
   .shot p{text-align:center;color:var(--muted);font-size:13px;margin-top:13px;font-weight:600}
   .shot p b{color:var(--text);font-weight:700}
   .shot:nth-child(odd){transform:translateY(12px)}
@@ -768,10 +764,55 @@ const mio = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold: .4});
 document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 
-/* marquee: pure CSS animation (translateX loop, see @keyframes shotSlide) —
-   no drag/scroll, just a continuous slide. loopSlide (defined above, by the
-   flag row) duplicates the content and sets the exact seamless distance. */
-loopSlide($('marq'), 'shotSlide');
+/* screenshots marquee: native scrollLeft drag+auto-drift, same technique as
+   the language picker above (see its comment for why position is tracked
+   in a plain variable rather than read back from scrollLeft each frame —
+   Safari rounds it to whole pixels and a sub-1px increment never
+   advances). No hover/tap zoom — the only interactions are dragging it and
+   holding it to stop the drift while held. Being native scroll rather than
+   a CSS @keyframes animation, the loop is exact by construction: no seam
+   math, no custom-property-in-keyframes reliance at all. */
+const marq = $('marq');
+const marqMask = marq.parentElement;
+marq.innerHTML += marq.innerHTML;
+let marqAuto = !matchMedia('(prefers-reduced-motion: reduce)').matches, marqIdle;
+function marqPause(){ marqAuto = false; clearTimeout(marqIdle); }
+function marqScheduleResume(){
+  clearTimeout(marqIdle);
+  marqIdle = setTimeout(() => { marqAuto = true; }, 400);
+}
+let marqPos = marqMask.scrollLeft;
+(function marqDrift(){
+  if (marqAuto) {
+    marqPos += .6;
+    const half = marq.scrollWidth / 2;
+    if (marqPos >= half) marqPos -= half;
+    marqMask.scrollLeft = marqPos;
+  }
+  requestAnimationFrame(marqDrift);
+})();
+marqMask.addEventListener('wheel', () => { marqPause(); marqScheduleResume(); }, {passive:true});
+['touchstart','pointerdown'].forEach(ev =>
+  marqMask.addEventListener(ev, marqPause, {passive:true}));
+['touchend','touchcancel','pointerup','pointerleave'].forEach(ev =>
+  marqMask.addEventListener(ev, marqScheduleResume, {passive:true}));
+marqMask.addEventListener('scroll', () => {
+  if (!marqAuto) marqPos = marqMask.scrollLeft;
+}, {passive:true});
+let marqMX = null, marqMSL = 0;
+marqMask.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'mouse') return;
+  marqMX = e.clientX; marqMSL = marqMask.scrollLeft;
+  marqMask.classList.add('dragging');
+});
+window.addEventListener('pointermove', e => {
+  if (marqMX === null) return;
+  marqMask.scrollLeft = marqMSL - (e.clientX - marqMX);
+});
+window.addEventListener('pointerup', () => {
+  marqMX = null;
+  marqMask.classList.remove('dragging');
+});
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
