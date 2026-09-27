@@ -83,13 +83,17 @@
   .demo-vid{width:100%;height:100%;display:block;object-fit:cover}
 
   /* ============ manifesto ============ */
-  .manifesto{padding:3vh 24px 16vh;text-align:center}
+  .manifesto{padding:5vh 24px 0;text-align:center}
+  /* In the hero it is a flex item, and a flex item in a column container
+     takes its CONTENT width on the cross axis: the 600px paragraph pushed
+     the section past a phone's screen and the page scrolled sideways. */
+  .hero .manifesto{align-self:stretch;max-width:100%}
   .manifesto .l1{font-size:clamp(19px,2.8vw,26px);color:rgba(20,21,26,.4);font-weight:700;
     letter-spacing:-.3px}
   .manifesto .l2{font-size:clamp(36px,6.5vw,68px);font-weight:900;letter-spacing:-2.5px;
     margin-top:12px;line-height:1.08}
   .manifesto .l2 .hl{color:inherit}
-  .manifesto .l3{max-width:640px;margin:30px auto 0;font-size:clamp(15px,2vw,18px);
+  .manifesto .l3{max-width:600px;margin:22px auto 0;font-size:clamp(15px,2vw,18px);
     line-height:1.65;color:rgba(20,21,26,.55);font-weight:500;
     opacity:0;transform:translateY(16px);
     transition:opacity .6s ease .45s,transform .6s ease .45s}
@@ -196,6 +200,18 @@
   <!-- ============ THE PAGE IS THE APP ============ -->
   <header class="hero">
     <div class="kicker">Your next language, <span class="accent">one swipe away</span>.</div>
+
+    <!-- The claim, then the phone proving it. The demo used to come first
+         and the reason for it a screen later, which is the wrong way round:
+         a looping card means nothing until you know why it hides the
+         answer. -->
+    <section class="manifesto" id="manifesto">
+      <div class="l2" data-split>Recalling <span class="hl">is</span> learning.</div>
+      <p class="l3"><b>Recall</b> means pulling a word out of your own head <b>before</b> you see
+        the answer, and that effort is what burns it into memory. Vocab Swiper hides the meaning
+        until you've tried, so every card is real practice.</p>
+    </section>
+
     <div class="demo-phone">
       <video class="demo-vid" poster="demo-poster.jpg" src="demo.mp4"
              autoplay muted loop playsinline preload="metadata"
@@ -203,14 +219,6 @@
     </div>
   </header>
 </div>
-
-<!-- ============ manifesto ============ -->
-<section class="manifesto" id="manifesto">
-  <div class="l2" data-split>Recalling <span class="hl">is</span> learning.</div>
-  <p class="l3"><b>Recall</b> means pulling a word out of your own head <b>before</b> you see
-    the answer, and that effort is what burns it into memory. Vocab Swiper hides the meaning
-    until you've tried, so every card is real practice.</p>
-</section>
 
 
 <!-- ============ method / why it works ============ -->
@@ -245,7 +253,7 @@
 <!-- ============ final ============ -->
 <!-- ============ FAQ ============ -->
 <section class="faq-sec reveal-sec" id="faq">
-  <h2>Questions, answered.</h2>
+  <h2>Q&amp;A</h2>
   <details>
     <summary>Which languages can I learn?</summary>
     <div class="a">Twenty-six and counting: Japanese, Korean, Chinese, Spanish, French,
