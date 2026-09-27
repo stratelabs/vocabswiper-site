@@ -76,55 +76,11 @@
   .hero .kicker{margin-top:2vh;font-size:clamp(18px,2.4vw,23px);font-weight:800;
     letter-spacing:-.4px;color:rgba(20,21,26,.88)}
   .hero .kicker .accent{color:inherit}
-  .try-sub{margin-top:9px;font-size:11.5px;font-weight:800;letter-spacing:2.2px;
-    text-transform:uppercase;color:rgba(20,21,26,.35)}
-  .langs-pick{display:flex;gap:13px;flex-wrap:nowrap;justify-content:flex-start;
-    margin-top:16px;width:min(520px,100%);overflow-x:auto;scrollbar-width:none;padding:9px 4px;
-    cursor:grab}
-  .langs-pick.dragging{cursor:grabbing}
-  .langs-pick::-webkit-scrollbar{display:none}
-  .langs-pick button{background:none;border:none;padding:0;cursor:pointer;line-height:0;
-    flex:none;opacity:.85;transition:transform .15s,opacity .15s}
-  .langs-pick button svg{width:40px;height:27px;display:block;border-radius:5px;
-    border:1px solid rgba(20,21,26,.12);box-shadow:0 2px 8px rgba(20,21,26,.14)}
-  .langs-pick button:hover{transform:translateY(-2px);opacity:1}
-  .langs-pick button.on{opacity:1}
-  .langs-pick button.on svg{box-shadow:0 0 0 2px rgba(124,77,255,.85),
-    0 6px 20px rgba(124,77,255,.4)}
-
-  #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    width:100%;max-width:680px;cursor:grab;touch-action:pan-y;
-    transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .3s,filter .35s}
-  #stage:active{cursor:grabbing}
-  #stage.fly{transform:translateY(-70vh) !important;opacity:0;filter:blur(6px)}
-  #stage.enter{transition:none;transform:translateY(46px);opacity:0;filter:blur(10px)}
-
-  .big-word{font-size:clamp(72px,16vw,150px);font-weight:900;line-height:1.08;
-    letter-spacing:-3px;text-shadow:0 0 90px rgba(124,77,255,.16)}
-  .pill{margin-top:13px;font-size:clamp(15px,2vw,17px);color:rgba(20,21,26,.5);
-    letter-spacing:.5px;font-weight:500}
-
-  .meaning-slot{height:52px;margin-top:10px;display:grid;place-items:center}
-  .meaning{font-size:clamp(21px,3.2vw,28px);color:#1c1d24;font-weight:700;letter-spacing:-.4px}
-
-  .example-slot{min-height:62px;margin-top:4px;max-width:560px;padding:0 16px}
-  .example-slot .t{font-size:clamp(15.5px,2.1vw,18px);line-height:1.6;color:rgba(20,21,26,.85)}
-  .example-slot .n{font-size:13.5px;color:rgba(20,21,26,.45);margin-top:5px;min-height:20px}
-
-  /* the recall beat: each new word arrives with its answer veiled — exactly
-     the app's mechanic. Nothing reveals it but a tap — same as the real
-     card's "Show answer" gate, which never fires on its own either. */
-  .meaning-slot > *{grid-area:1/1}
-  #stage .meaning,#stage .example-slot{transition:filter .35s ease,opacity .35s ease}
-  #stage.veiled .meaning,#stage.veiled .example-slot{filter:blur(10px);opacity:.35;
-    user-select:none;pointer-events:none}
-  /* matches the app's own GradeButton: quiet bold text, no pill/fill */
-  .reveal-hint{font-size:14.5px;font-weight:700;color:var(--text);
-    opacity:0;transform:translateY(4px);
-    transition:opacity .3s ease,transform .3s ease;pointer-events:none;z-index:2}
-  #stage.veiled .reveal-hint{opacity:1;transform:none}
-
-  .big-word{touch-action:none}
+  .demo-phone{margin-top:clamp(20px,3.4vh,34px);width:min(296px,70vw);
+    aspect-ratio:560/1218;border:6px solid #15161c;border-radius:42px;overflow:hidden;
+    background:#15161c;position:relative;
+    box-shadow:0 34px 80px rgba(20,21,26,.30),0 3px 10px rgba(20,21,26,.14)}
+  .demo-vid{width:100%;height:100%;display:block;object-fit:cover}
 
   /* ============ manifesto ============ */
   .manifesto{padding:3vh 24px 16vh;text-align:center}
@@ -161,23 +117,6 @@
   .faq-sec .a{padding:0 18px 16px;font-size:14.5px;line-height:1.65;
     color:rgba(20,21,26,.6)}
   .faq-sec .a b{color:rgba(20,21,26,.85)}
-
-  /* ============ screenshots marquee ============ */
-  .shots-sec{padding:10px 0 80px;overflow:hidden}
-  .shots-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
-    text-align:center;margin:10px 0 34px}
-  .marq-mask{mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
-    overflow-x:auto;scrollbar-width:none;cursor:grab}
-  .marq-mask::-webkit-scrollbar{display:none}
-  .marq-mask.dragging{cursor:grabbing}
-  .marq{display:flex;gap:26px;width:max-content;padding:16px 0 8px}
-  .shot{width:246px;perspective:900px;flex:none}
-  .shot img{width:246px;border-radius:30px;border:1px solid rgba(20,21,26,.08);
-    box-shadow:0 20px 45px rgba(20,21,26,.14);display:block}
-  .shot p{text-align:center;color:var(--muted);font-size:13px;margin-top:13px;font-weight:600}
-  .shot p b{color:var(--text);font-weight:700}
-  .shot:nth-child(odd){transform:translateY(12px)}
 
   /* ============ proof / method ============ */
   .proof{padding:40px 0 30px}
@@ -257,19 +196,10 @@
   <!-- ============ THE PAGE IS THE APP ============ -->
   <header class="hero">
     <div class="kicker">Your next language, <span class="accent">one swipe away</span>.</div>
-    <div class="langs-pick" id="langs"></div>
-
-    <div id="stage">
-      <div class="big-word" id="w-surface"></div>
-      <div class="pill" id="w-pill" style="display:none"><span id="w-reading"></span></div>
-      <div class="meaning-slot">
-        <div class="meaning" id="w-meaning"></div>
-        <div class="reveal-hint">Show answer</div>
-      </div>
-      <div class="example-slot">
-        <div class="t" id="w-ex"></div>
-        <div class="n" id="w-exn"></div>
-      </div>
+    <div class="demo-phone">
+      <video class="demo-vid" poster="demo-poster.jpg" src="demo.mp4"
+             autoplay muted loop playsinline preload="metadata"
+             aria-label="The app in use: a Japanese word, Show answer, then the next card."></video>
     </div>
   </header>
 </div>
@@ -282,22 +212,6 @@
     until you've tried, so every card is real practice.</p>
 </section>
 
-<!-- ============ screenshots ============ -->
-<section class="shots-sec">
-  <h2 class="reveal-sec">Straight from the app.</h2>
-  <div class="marq-mask">
-    <div class="marq" id="marq">
-      <div class="shot"><img src="shots/02_grade.png" alt="Grading a word Knew it or Show answer" loading="lazy">
-        <p><b>Grade yourself.</b> Knew it, or Show answer, either way it's honest.</p></div>
-      <div class="shot"><img src="shots/03_challenge.png" alt="Challenge mode multiple choice with Speed Round" loading="lazy">
-        <p><b>Challenge mode.</b> Multiple choice, Speed Round doubles the XP.</p></div>
-      <div class="shot"><img src="shots/05_speak.png" alt="Level up moment with a practice-speaking prompt" loading="lazy">
-        <p><b>Say it too.</b> Practice pronunciation out loud, not just recall.</p></div>
-      <div class="shot"><img src="shots/06_recall.png" alt="New word screen with Show answer or Knew it" loading="lazy">
-        <p><b>Recall first.</b> Every new word starts the same way: try before you peek.</p></div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ method / why it works ============ -->
 <div class="proof reveal-sec">
@@ -388,62 +302,6 @@
 </main>
 
 <script>
-/* ---------- demo data (curated, deliberately textbook-safe) ---------- */
-const DECKS = {
-  ja: {flag:'🇯🇵', voice:'ja-JP', words:[
-    {s:'雪', r:'yuki', m:'snow', ex:'雪が降ったので、山に行くことを決めた。', exn:'Since it snowed, I decided to go to the mountain.'},
-    {s:'借りる', r:'kariru', m:'to borrow', ex:'友達に本を借りるつもりです。', exn:"I'm going to borrow a book from my friend."},
-    {s:'夢', r:'yume', m:'dream', ex:'昨日、不思議な夢を見た。', exn:'I had a strange dream yesterday.'},
-    {s:'約束', r:'yakusoku', m:'promise', ex:'彼との約束を忘れないでね。', exn:"Don't forget your promise to him."},
-    {s:'旅行', r:'ryokou', m:'travel', ex:'来月、家族と旅行に行きます。', exn:"I'm traveling with my family next month."},
-  ]},
-  es: {flag:'🇪🇸', voice:'es-ES', words:[
-    {s:'sueño', r:'', m:'dream', ex:'Anoche tuve un sueño muy extraño.', exn:'Last night I had a very strange dream.'},
-    {s:'prestar', r:'', m:'to lend', ex:'¿Me puedes prestar tu libro?', exn:'Can you lend me your book?'},
-    {s:'viaje', r:'', m:'trip', ex:'El próximo mes haré un viaje con mi familia.', exn:"Next month I'll take a trip with my family."},
-  ]},
-  fr: {flag:'🇫🇷', voice:'fr-FR', words:[
-    {s:'rêve', r:'', m:'dream', ex:"J'ai fait un rêve étrange hier.", exn:'I had a strange dream yesterday.'},
-    {s:'emprunter', r:'', m:'to borrow', ex:'Je vais emprunter un livre à mon ami.', exn:"I'm going to borrow a book from my friend."},
-    {s:'voyage', r:'', m:'trip', ex:'Le mois prochain, je pars en voyage avec ma famille.', exn:"Next month I'm going on a trip with my family."},
-  ]},
-  ko: {flag:'🇰🇷', voice:'ko-KR', words:[
-    {s:'꿈', r:'kkum', m:'dream', ex:'어제 이상한 꿈을 꿨어요.', exn:'I had a strange dream yesterday.'},
-    {s:'빌리다', r:'billida', m:'to borrow', ex:'친구에게 책을 빌릴 거예요.', exn:"I'm going to borrow a book from a friend."},
-    {s:'여행', r:'yeohaeng', m:'travel', ex:'다음 달에 가족과 여행을 가요.', exn:"I'm traveling with my family next month."},
-  ]},
-  zh: {flag:'🇨🇳', voice:'zh-CN', words:[
-    {s:'梦', r:'mèng', m:'dream', ex:'昨天我做了一个奇怪的梦。', exn:'I had a strange dream yesterday.'},
-    {s:'借', r:'jiè', m:'to borrow', ex:'我想跟朋友借一本书。', exn:'I want to borrow a book from a friend.'},
-    {s:'旅行', r:'lǚxíng', m:'travel', ex:'下个月我要和家人去旅行。', exn:"I'm traveling with my family next month."},
-  ]},
-  ru: {flag:'🇷🇺', voice:'ru-RU', words:[
-    {s:'сон', r:'son', m:'dream', ex:'Вчера мне приснился странный сон.', exn:'I had a strange dream yesterday.'},
-    {s:'одолжить', r:'odolzhit’', m:'to lend', ex:'Можешь одолжить мне свою книгу?', exn:'Can you lend me your book?'},
-    {s:'путешествие', r:'puteshestviye', m:'journey', ex:'В следующем месяце я поеду в путешествие с семьёй.', exn:"Next month I'm going on a trip with my family."},
-  ]},
-  nl: {flag:'🇳🇱', voice:'nl-NL', words:[
-    {s:'droom', r:'', m:'dream', ex:'Ik had gisteren een vreemde droom.', exn:'I had a strange dream yesterday.'},
-    {s:'lenen', r:'', m:'to borrow', ex:'Mag ik je boek lenen?', exn:'May I borrow your book?'},
-    {s:'reis', r:'', m:'trip', ex:'Volgende maand ga ik op reis met mijn familie.', exn:"Next month I'm going on a trip with my family."},
-  ]},
-  pt: {flag:'🇵🇹', voice:'pt-BR', words:[
-    {s:'sonho', r:'', m:'dream', ex:'Tive um sonho estranho ontem à noite.', exn:'I had a strange dream last night.'},
-    {s:'emprestar', r:'', m:'to lend', ex:'Você pode me emprestar seu livro?', exn:'Can you lend me your book?'},
-    {s:'viagem', r:'', m:'trip', ex:'No próximo mês farei uma viagem com minha família.', exn:"Next month I'll take a trip with my family."},
-  ]},
-  it: {flag:'🇮🇹', voice:'it-IT', words:[
-    {s:'sogno', r:'', m:'dream', ex:'Stanotte ho fatto un sogno strano.', exn:'Last night I had a strange dream.'},
-    {s:'prestare', r:'', m:'to lend', ex:'Mi puoi prestare il tuo libro?', exn:'Can you lend me your book?'},
-    {s:'viaggio', r:'', m:'trip', ex:'Il mese prossimo farò un viaggio con la mia famiglia.', exn:"Next month I'll take a trip with my family."},
-  ]},
-  de: {flag:'🇩🇪', voice:'de-DE', words:[
-    {s:'Traum', r:'', m:'dream', ex:'Ich hatte gestern einen seltsamen Traum.', exn:'I had a strange dream yesterday.'},
-    {s:'leihen', r:'', m:'to lend', ex:'Kannst du mir dein Buch leihen?', exn:'Can you lend me your book?'},
-    {s:'Reise', r:'', m:'trip', ex:'Nächsten Monat mache ich eine Reise mit meiner Familie.', exn:"Next month I'm taking a trip with my family."},
-  ]},
-};
-
 /* ---------- custom flag icons (emoji flags don't render on Windows) ---------- */
 function starPts(cx, cy, R){
   const p = [];
@@ -485,107 +343,8 @@ const FLAGS = {
 /* all 26 languages the site teaches (FAQ order): 25 target languages + English */
 const ALL_FLAGS = ['gb','ja','ko','zh','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph'];
 
-/* land on a random language + word each visit, instead of always ja/雪 */
-const langCodes = Object.keys(DECKS);
-let lang = langCodes[Math.floor(Math.random() * langCodes.length)];
-let i = Math.floor(Math.random() * DECKS[lang].words.length);
-let busy=false;
 const $ = id => document.getElementById(id);
-const stage = $('stage');
 
-/* language picker: an infinite auto-sliding loop (like the flag rows
-   below) that's still fully interactive — drag it, or tap a flag to
-   switch languages. Content is duplicated once; each button carries
-   data-code so BOTH copies of a flag light up together, and native
-   scrollLeft (not a CSS transform) does the looping, so wraparound is
-   exact by construction — no seam math needed. */
-const langsEl = $('langs');
-function buildLangButton(code){
-  const b = document.createElement('button');
-  b.innerHTML = FLAGS[code]; b.title = code; b.setAttribute('aria-label', code);
-  b.dataset.code = code;
-  if (code === lang) b.classList.add('on');
-  b.addEventListener('click', () => {
-    if (langsJustDragged) return;
-    if (busy || code === lang) return;
-    lang = code; i = 0;
-    langsEl.querySelectorAll('button').forEach(x =>
-      x.classList.toggle('on', x.dataset.code === code));
-    transition();
-    scheduleAuto();
-  });
-  return b;
-}
-langCodes.concat(langCodes).forEach(code => langsEl.appendChild(buildLangButton(code)));
-// scroll so the randomly-chosen starting language is visible on load
-const startBtn = langsEl.querySelector('button.on');
-if (startBtn) langsEl.scrollLeft = Math.max(0,
-  startBtn.offsetLeft - (langsEl.clientWidth - startBtn.offsetWidth) / 2);
-
-let langsAuto = !matchMedia('(prefers-reduced-motion: reduce)').matches, langsIdle;
-function langsPause(){
-  langsAuto = false;
-  clearTimeout(langsIdle);
-  langsIdle = setTimeout(() => { langsAuto = true; }, 2500);
-}
-// Track position in a plain number rather than reading scrollLeft back each
-// frame — Safari rounds scrollLeft to whole pixels on both read and write,
-// so a sub-1px increment (+=.5) read-adds-writes right back to the same
-// rounded integer every frame and the row never visibly moves. Keeping our
-// own running total sidesteps that entirely.
-let langsPos = langsEl.scrollLeft;
-(function langsDrift(){
-  if (langsAuto) {
-    langsPos += .5;
-    const half = langsEl.scrollWidth / 2;
-    if (langsPos >= half) langsPos -= half;
-    langsEl.scrollLeft = langsPos;
-  }
-  requestAnimationFrame(langsDrift);
-})();
-['wheel','touchstart','pointerdown'].forEach(ev =>
-  langsEl.addEventListener(ev, langsPause, {passive:true}));
-// Resync our tracked position after any user-driven scroll (mouse drag
-// below, or native touch scrolling, which never touches langsPos itself)
-// — safe from feedback with the drift's own writes since those only run
-// while langsAuto is true, never during the interaction window that sets
-// it false.
-langsEl.addEventListener('scroll', () => {
-  if (!langsAuto) langsPos = langsEl.scrollLeft;
-}, {passive:true});
-/* mouse drag-to-scroll — touch already scrolls natively */
-let langsMX = null, langsMSL = 0, langsJustDragged = false;
-langsEl.addEventListener('pointerdown', e => {
-  if (e.pointerType !== 'mouse') return;
-  langsMX = e.clientX; langsMSL = langsEl.scrollLeft;
-  langsJustDragged = false;
-  langsEl.classList.add('dragging');
-});
-window.addEventListener('pointermove', e => {
-  if (langsMX === null) return;
-  const dx = e.clientX - langsMX;
-  if (Math.abs(dx) > 4) langsJustDragged = true;
-  langsEl.scrollLeft = langsMSL - dx;
-});
-window.addEventListener('pointerup', () => {
-  if (langsMX === null) return;
-  langsMX = null;
-  langsEl.classList.remove('dragging');
-  // let the click handler see langsJustDragged this tick, then clear it
-  setTimeout(() => { langsJustDragged = false; }, 0);
-});
-
-/* seamless auto-slide loop: duplicate a flex row's content once, then move
-   it by the EXACT pixel width of one set (item widths + gaps + the one
-   extra seam gap before the duplicate starts). A flat -50% looks right but
-   only lands there when total-width happens to split evenly, which it
-   usually doesn't once gaps are in the mix — the mismatch is what shows up
-   as a jump/cut when the animation restarts.
-   The exact distance is injected as a real @keyframes rule (redeclaring the
-   one already in the stylesheet — last one wins), NOT a CSS custom property
-   read inside @keyframes: Safari doesn't reliably pick up custom-property
-   values inside keyframe animations, so that version silently fell back to
-   the imprecise -50% on Safari even though it worked fine in Chrome. */
 function loopSlide(el, keyframeName){
   const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
   const setWidth = el.scrollWidth + gap;
@@ -612,136 +371,6 @@ if (finFlags) {
   loopSlide(track, 'flagSlide');
 }
 
-function cur(){ const d = DECKS[lang]; return d.words[i % d.words.length]; }
-
-/* the recall beat: every card lands veiled (the app's own mechanic — recall
-   before reveal). Only a tap shows the answer — no auto-reveal, so a
-   passive scroller sees the veiled card cycle by same as anyone skipping
-   the real app's "Show answer" gate. */
-const noVeil = matchMedia('(prefers-reduced-motion: reduce)').matches;
-function veil(){
-  if (noVeil) return;              // reduced-motion: answers show immediately
-  stage.classList.add('veiled');
-}
-function reveal(){
-  stage.classList.remove('veiled');
-}
-function isVeiled(){ return stage.classList.contains('veiled'); }
-
-function render(){
-  const w = cur();
-  $('w-surface').textContent = w.s;
-  const pill = $('w-pill');
-  if (w.r){ $('w-reading').textContent = w.r; pill.style.display = 'inline-block'; }
-  else { pill.style.display = 'none'; }
-  $('w-meaning').textContent = w.m;
-  $('w-ex').textContent = w.ex;
-  $('w-exn').textContent = w.exn;
-  veil();
-}
-function transition(afterFly){
-  busy = true;
-  stage.classList.add('fly');
-  setTimeout(() => {
-    if (afterFly) afterFly();
-    render();
-    stage.classList.remove('fly');
-    stage.classList.add('enter');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      stage.classList.remove('enter');
-      stage.style.transform = ''; stage.style.opacity = ''; stage.style.filter = '';
-      busy = false;
-    }));
-  }, 330);
-}
-function next(){
-  if (busy) return;
-  transition(() => { i++; });
-}
-
-/* auto-advance: an endless 5s loop — the words cycle forever and never stop.
-   A manual swipe/keypress just resets the 5s timer so it keeps going. */
-let autoTimer;
-function scheduleAuto(){
-  clearInterval(autoTimer);
-  autoTimer = setInterval(() => { if (!busy) next(); }, 5000);
-}
-function manualNext(){ next(); scheduleAuto(); }
-
-/* mouse drag: physically throw the card up (desktop) */
-let dragY = null;
-stage.addEventListener('pointerdown', e => {
-  if (e.pointerType !== 'mouse' || busy) return;
-  dragY = e.clientY;
-  stage.style.transition = 'none';
-});
-window.addEventListener('pointermove', e => {
-  if (dragY === null) return;
-  const dy = Math.min(0, e.clientY - dragY);
-  stage.style.transform = `translateY(${dy}px)`;
-  stage.style.opacity = String(1 + dy / 900);
-});
-window.addEventListener('pointerup', e => {
-  if (dragY === null) return;
-  const dy = e.clientY - dragY;
-  dragY = null;
-  stage.style.transition = '';
-  if (dy < -80) { manualNext(); }
-  else {
-    stage.style.transform = ''; stage.style.opacity = '';
-    // A click (not a throw) while the answer is veiled = show answer.
-    if (Math.abs(dy) < 8 && isVeiled()) reveal();
-  }
-});
-
-/* touch swipe on the big word itself (rest of the hero still scrolls) */
-let ty = null;
-const bigWord = $('w-surface');
-bigWord.addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, {passive:true});
-bigWord.addEventListener('touchmove', e => {
-  if (ty === null) return;
-  const dy = Math.min(0, e.touches[0].clientY - ty);
-  stage.style.transition = 'none';
-  stage.style.transform = `translateY(${dy}px)`;
-}, {passive:true});
-bigWord.addEventListener('touchend', e => {
-  if (ty === null) return;
-  const dy = e.changedTouches[0].clientY - ty;
-  ty = null;
-  stage.style.transition = '';
-  if (dy < -60) { manualNext(); }
-  else {
-    stage.style.transform = '';
-    if (Math.abs(dy) < 10 && isVeiled()) reveal();  // tap = show answer
-  }
-}, {passive:true});
-
-/* keyboard (silent): space / arrow-up = next */
-window.addEventListener('keydown', e => {
-  const heroVisible = stage.getBoundingClientRect().bottom > 100;
-  if (!heroVisible || busy) return;
-  if ((e.code === 'Space' || e.code === 'ArrowUp') &&
-      document.activeElement.tagName !== 'A') {
-    e.preventDefault(); manualNext();
-  }
-});
-
-/* mouse-reactive glow */
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduce) {
-  window.addEventListener('mousemove', e => {
-    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
-    $('glowa').style.transform = `translate(${x * -60}px, ${y * -60}px)`;
-    $('glowb').style.transform = `translate(${x * 45}px, ${y * 45}px)`;
-  }, {passive: true});
-}
-
-/* sticky nav state */
-const navbar = $('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', scrollY > 12);
-}, {passive:true});
-
 /* manifesto word-by-word */
 document.querySelectorAll('[data-split]').forEach(el => {
   const parts = [];
@@ -764,64 +393,12 @@ const mio = new IntersectionObserver(es => es.forEach(e => {
 }), {threshold: .4});
 document.querySelectorAll('.manifesto').forEach(el => mio.observe(el));
 
-/* screenshots marquee: native scrollLeft drag+auto-drift, same technique as
-   the language picker above (see its comment for why position is tracked
-   in a plain variable rather than read back from scrollLeft each frame —
-   Safari rounds it to whole pixels and a sub-1px increment never
-   advances). No hover/tap zoom — the only interactions are dragging it and
-   holding it to stop the drift while held. Being native scroll rather than
-   a CSS @keyframes animation, the loop is exact by construction: no seam
-   math, no custom-property-in-keyframes reliance at all. */
-const marq = $('marq');
-const marqMask = marq.parentElement;
-marq.innerHTML += marq.innerHTML;
-let marqAuto = !matchMedia('(prefers-reduced-motion: reduce)').matches, marqIdle;
-function marqPause(){ marqAuto = false; clearTimeout(marqIdle); }
-function marqScheduleResume(){
-  clearTimeout(marqIdle);
-  marqIdle = setTimeout(() => { marqAuto = true; }, 400);
-}
-let marqPos = marqMask.scrollLeft;
-(function marqDrift(){
-  if (marqAuto) {
-    marqPos += .6;
-    const half = marq.scrollWidth / 2;
-    if (marqPos >= half) marqPos -= half;
-    marqMask.scrollLeft = marqPos;
-  }
-  requestAnimationFrame(marqDrift);
-})();
-marqMask.addEventListener('wheel', () => { marqPause(); marqScheduleResume(); }, {passive:true});
-['touchstart','pointerdown'].forEach(ev =>
-  marqMask.addEventListener(ev, marqPause, {passive:true}));
-['touchend','touchcancel','pointerup','pointerleave'].forEach(ev =>
-  marqMask.addEventListener(ev, marqScheduleResume, {passive:true}));
-marqMask.addEventListener('scroll', () => {
-  if (!marqAuto) marqPos = marqMask.scrollLeft;
-}, {passive:true});
-let marqMX = null, marqMSL = 0;
-marqMask.addEventListener('pointerdown', e => {
-  if (e.pointerType !== 'mouse') return;
-  marqMX = e.clientX; marqMSL = marqMask.scrollLeft;
-  marqMask.classList.add('dragging');
-});
-window.addEventListener('pointermove', e => {
-  if (marqMX === null) return;
-  marqMask.scrollLeft = marqMSL - (e.clientX - marqMX);
-});
-window.addEventListener('pointerup', () => {
-  marqMX = null;
-  marqMask.classList.remove('dragging');
-});
-
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
 }), {threshold: .15});
 document.querySelectorAll('.reveal-sec').forEach(el => io.observe(el));
 
-render();
-scheduleAuto();
 </script>
 </body>
 </html>
