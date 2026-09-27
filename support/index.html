@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#141519; --card:#212228; --accent:#7C4DFF; --accent2:#9B7DFF;
+    --bg:#141519; --card:#212228; --accent:#1478D4; --accent2:#A9DEFD;
     --green:#63E6BE; --muted:rgba(255,255,255,.55); --line:rgba(255,255,255,.09);
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -21,7 +21,7 @@
   body{background:var(--bg);color:#fff;
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
-  ::selection{background:rgba(124,77,255,.4)}
+  ::selection{background:rgba(20,120,212,.4)}
   a{color:var(--accent2);text-decoration:none}
   a:hover{color:#fff}
   button,input,select,textarea{font-family:inherit}
@@ -29,13 +29,13 @@
   .wrap{max-width:640px;margin:0 auto;padding:0 24px}
 
   .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
-  .glow.a{width:560px;height:560px;background:rgba(124,77,255,.13);top:-200px;right:-160px}
+  .glow.a{width:560px;height:560px;background:rgba(20,120,212,.13);top:-200px;right:-160px}
   .glow.b{width:460px;height:460px;background:rgba(99,230,190,.05);bottom:-220px;left:-200px}
   main{position:relative;z-index:1}
 
   nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
-  .brand img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(124,77,255,.4)}
+  .brand img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(20,120,212,.4)}
   .back{color:rgba(255,255,255,.5);font-size:13.5px;font-weight:600}
 
   header.head{padding:34px 0 10px;text-align:center}
@@ -54,19 +54,19 @@
   input,select,textarea{width:100%;background:rgba(255,255,255,.04);color:#fff;
     border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:15px;
     transition:border-color .18s,background .18s}
-  input:focus,select:focus,textarea:focus{border-color:rgba(155,125,255,.6);
+  input:focus,select:focus,textarea:focus{border-color:rgba(169,222,253,.6);
     background:rgba(255,255,255,.06);outline:none}
   input::placeholder,textarea::placeholder{color:rgba(255,255,255,.32)}
   textarea{min-height:150px;resize:vertical;line-height:1.6}
   select{appearance:none;cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%239B7DFF' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23A9DEFD' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 15px center;padding-right:40px}
   select option{background:#212228;color:#fff}
 
   .submit{width:100%;background:var(--accent);color:#fff;font-size:15.5px;font-weight:700;
     border:none;border-radius:12px;padding:15px;cursor:pointer;letter-spacing:.2px;
-    box-shadow:0 8px 26px rgba(124,77,255,.4);transition:transform .15s,box-shadow .25s,opacity .2s}
-  .submit:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(124,77,255,.55)}
+    box-shadow:0 8px 26px rgba(20,120,212,.4);transition:transform .15s,box-shadow .25s,opacity .2s}
+  .submit:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(20,120,212,.55)}
   .submit:active{transform:translateY(0)}
   .submit:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
 

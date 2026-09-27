@@ -22,7 +22,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#FBFBFC; --bg2:#F1F1F6; --accent:#7C4DFF; --accent2:#6D28D9;
+    --bg:#FBFBFC; --bg2:#F1F1F6; --accent:#1478D4; --accent2:#0B4F96;
     --text:#14151A; --muted:rgba(20,21,26,.58); --line:rgba(20,21,26,.09);
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -34,7 +34,7 @@
     color:var(--text);
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  ::selection{background:rgba(124,77,255,.22)}
+  ::selection{background:rgba(20,120,212,.22)}
   a{color:inherit}
   button{font-family:inherit}
   :focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:6px}
@@ -47,7 +47,7 @@
   /* mouse-reactive glow: extremely subtle now that it's tinting white, not black */
   .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;
     transition:transform 1.4s cubic-bezier(.2,.8,.3,1)}
-  .glow.a{width:640px;height:640px;background:rgba(124,77,255,.09);top:-180px;right:-180px}
+  .glow.a{width:640px;height:640px;background:rgba(20,120,212,.09);top:-180px;right:-180px}
   .glow.b{width:520px;height:520px;background:rgba(99,230,190,.05);bottom:-200px;left:-200px}
 
   main{position:relative;z-index:1}
@@ -60,11 +60,11 @@
   nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
   .brand-img{width:30px;height:30px;border-radius:9px;display:block;
-    box-shadow:0 4px 18px rgba(124,77,255,.35)}
+    box-shadow:0 4px 18px rgba(20,120,212,.35)}
   nav .cta-mini{font-size:13px;font-weight:700;background:var(--accent);
     padding:9px 18px;border-radius:999px;color:#fff;text-decoration:none;
-    transition:all .2s;box-shadow:0 4px 18px rgba(124,77,255,.3)}
-  nav .cta-mini:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(124,77,255,.45)}
+    transition:all .2s;box-shadow:0 4px 18px rgba(20,120,212,.3)}
+  nav .cta-mini:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(20,120,212,.45)}
 
   /* eyebrow */
   .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;
@@ -128,7 +128,7 @@
   .chip{background:#fff;border:1px solid var(--line);border-radius:20px;
     padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s;
     box-shadow:0 1px 2px rgba(20,21,26,.03)}
-  .chip:hover{border-color:rgba(124,77,255,.35);transform:translateY(-4px);
+  .chip:hover{border-color:rgba(20,120,212,.35);transform:translateY(-4px);
     box-shadow:0 16px 34px rgba(20,21,26,.1)}
   .chip svg{width:26px;height:26px;stroke:var(--accent2);stroke-width:1.8;fill:none;
     stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
@@ -138,10 +138,10 @@
   /* ============ final CTA ============ */
   .fin{text-align:center;padding:110px 0 90px;position:relative}
   .fin::before{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);
-    width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(124,77,255,.1),transparent 65%);
+    width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(20,120,212,.1),transparent 65%);
     pointer-events:none}
   .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
-    box-shadow:0 20px 45px rgba(124,77,255,.3),0 0 0 1px rgba(20,21,26,.06)}
+    box-shadow:0 20px 45px rgba(20,120,212,.3),0 0 0 1px rgba(20,21,26,.06)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.08;position:relative}
   .fin .flags{margin-top:20px;position:relative;overflow:hidden;max-width:600px;
     margin-left:auto;margin-right:auto;
@@ -156,7 +156,7 @@
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
     border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
     transition:transform .15s, box-shadow .25s;position:relative}
-  .badge:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(124,77,255,.28)}
+  .badge:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(20,120,212,.28)}
   .badge svg{width:26px;height:26px;fill:#fff}
   .badge .txt{text-align:left;line-height:1.15}
   .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.6px}
