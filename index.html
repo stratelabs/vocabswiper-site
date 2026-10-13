@@ -6,13 +6,13 @@
 <title>Vocab Swiper: Your next language, one swipe away</title>
 <meta name="description" content="Learn Japanese, Spanish, Korean, German and more, ten swipes a day. Recall each word before you reveal it; spaced repetition brings it back right before you'd forget. The page you're on is the demo.">
 <meta property="og:title" content="Vocab Swiper: Your next language, one swipe away">
-<meta property="og:description" content="Twenty-six languages, real graded decks, honest recall. This page is the demo.">
+<meta property="og:description" content="Fifty-six languages, real graded decks, honest recall. This page is the demo.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://vocabswiper.com/shots/01_learn.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"MobileApplication","name":"Vocab Swiper",
  "operatingSystem":"iOS","applicationCategory":"EducationalApplication",
- "description":"Swipe-based vocabulary learning with honest recall and FSRS spaced repetition across twenty-six languages.",
+ "description":"Swipe-based vocabulary learning with honest recall and FSRS spaced repetition across fifty-six languages.",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
 <link rel="icon" type="image/png" href="favicon.png?v=3" media="(prefers-color-scheme: light)">
@@ -78,11 +78,32 @@
   .hero .kicker{margin-top:2vh;font-size:clamp(18px,2.4vw,23px);font-weight:800;
     letter-spacing:-.4px;color:rgba(20,21,26,.88)}
   .hero .kicker .accent{color:inherit}
-  .demo-phone{margin-top:clamp(20px,3.4vh,34px);width:min(296px,70vw);
-    aspect-ratio:560/1218;border:6px solid #15161c;border-radius:42px;overflow:hidden;
-    background:#15161c;position:relative;
-    box-shadow:0 34px 80px rgba(20,21,26,.30),0 3px 10px rgba(20,21,26,.14)}
-  .demo-vid{width:100%;height:100%;display:block;object-fit:cover}
+  /* The banner: one skin per panel, one language per phone. Four panels
+     side by side on a wide screen; on a phone they become a swipeable row,
+     which is the app's own gesture. Greens are kept apart (moss, marble,
+     malachite, bark) so neighbouring panels never blur into one. */
+  .skins{margin-top:clamp(26px,4vh,44px);width:100%;max-width:1040px;display:grid;
+    grid-template-columns:repeat(4,1fr);border-radius:28px;overflow:hidden;
+    box-shadow:0 34px 80px rgba(20,21,26,.26),0 3px 10px rgba(20,21,26,.12)}
+  .skin{position:relative;padding:clamp(26px,4vw,44px) clamp(12px,1.8vw,22px) 26px;
+    background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
+  .skin::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.38)}
+  .skin:nth-child(even) .phone{margin-top:clamp(18px,3vw,36px)}
+  .skin .phone{position:relative;width:100%;max-width:210px;aspect-ratio:1206/2622;
+    border-radius:13.8% / 6.35%;overflow:hidden;background:#000;
+    box-shadow:0 0 0 5px #151515,0 0 0 7px #3b3b3b,0 24px 50px rgba(0,0,0,.5)}
+  .skin .phone img{width:100%;height:100%;display:block;object-fit:cover}
+  .skin .tag{position:relative;margin-top:22px;text-align:center;line-height:1.25;color:#fff}
+  .skin .tag b{display:block;font-size:13px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase}
+  .skin .tag small{display:block;font-size:11px;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;color:rgba(255,255,255,.55)}
+  @media(max-width:760px){
+    .skins{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:22px;
+      scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .skins::-webkit-scrollbar{display:none}
+    .skin{flex:0 0 62%;scroll-snap-align:center}
+    .skin:nth-child(even) .phone{margin-top:0}
+  }
 
   /* ============ manifesto ============ */
   .manifesto{padding:5vh 24px 0;text-align:center}
@@ -154,7 +175,7 @@
     mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
   .fin .flags .track{display:flex;gap:11px;width:max-content;
-    animation:flagSlide 40s linear infinite}
+    animation:flagSlide 80s linear infinite}
   .fin .flags svg{width:34px;height:23px;border-radius:4px;flex:none;
     border:1px solid rgba(20,21,26,.1);box-shadow:0 3px 8px rgba(20,21,26,.12);display:block}
   @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -214,10 +235,23 @@
         until you've tried, so every card is real practice.</p>
     </section>
 
-    <div class="demo-phone">
-      <video class="demo-vid" poster="demo-poster.jpg" src="demo.mp4"
-             autoplay muted loop playsinline preload="metadata"
-             aria-label="The app in use: a Japanese word, Show answer, then the next card."></video>
+    <div class="skins" aria-label="The app in four languages, each in a different skin">
+      <figure class="skin" style="background-image:url(shots/hero/tex_moss.jpg)">
+        <div class="phone"><img src="shots/hero/es_moss.jpg" width="600" height="1305" alt="A Spanish word card: ahora, with an example sentence"></div>
+        <figcaption class="tag"><b>Spanish</b><small>Moss</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_marble.jpg)">
+        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="A Korean word card with an example sentence" loading="lazy"></div>
+        <figcaption class="tag"><b>Korean</b><small>Marble</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_malachite.jpg)">
+        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="An Arabic quiz: what does it mean?" loading="lazy"></div>
+        <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_bark.jpg)">
+        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="A Hindi word card with an example sentence" loading="lazy"></div>
+        <figcaption class="tag"><b>Hindi</b><small>Bark</small></figcaption>
+      </figure>
     </div>
   </header>
 </div>
@@ -238,7 +272,7 @@
         <h3>Spaced repetition</h3><p>FSRS, the memory model behind modern Anki, brings each word back right before you'd forget it.</p></div>
       <div class="chip">
         <svg viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg>
-        <h3>Real graded decks</h3><p>26 languages, thousands of words each, aligned to JLPT / CEFR / HSK and checked against a real dictionary. Never a demo list.</p></div>
+        <h3>Real graded decks</h3><p>56 languages, thousands of words each, aligned to JLPT / CEFR / HSK and checked against a real dictionary. Never a demo list.</p></div>
       <div class="chip">
         <svg viewBox="0 0 24 24"><path d="M4 10v4"/><path d="M8 7v10"/><path d="M12 4v16"/><path d="M16 7v10"/><path d="M20 10v4"/></svg>
         <h3>Native voices</h3><p>Every word and sentence spoken by a native voice, highlighted word-by-word as it reads.</p></div>
@@ -258,13 +292,15 @@
   <h2>Q&amp;A</h2>
   <details>
     <summary>Which languages can I learn?</summary>
-    <div class="a">Twenty-six and counting: Japanese, Korean, Chinese, Spanish, French,
+    <div class="a">Fifty-six and counting: Japanese, Korean, Chinese, Spanish, French,
       German, Italian, Portuguese, Russian, Dutch, Turkish, Polish, Swedish,
-      Danish, Finnish, Greek, Czech, Indonesian, Romanian, Ukrainian, Slovak,
-      Bulgarian, Croatian, Malay and Filipino. Each with a
-      <b>real graded deck</b> of thousands of words aligned to
-      JLPT / CEFR / HSK / TOPIK levels, not a demo list, plus English itself
-      for speakers of the other twenty-five.</div>
+      Danish, Norwegian, Icelandic, Finnish, Greek, Czech, Slovak, Hungarian,
+      Romanian, Ukrainian, Bulgarian, Croatian, Serbian, Slovenian, Lithuanian,
+      Latvian, Estonian, Albanian, Georgian, Armenian, Irish, Welsh, Arabic,
+      Hebrew, Persian, Hindi, Bengali, Urdu, Punjabi, Tamil, Marathi, Gujarati,
+      Thai, Vietnamese, Indonesian, Malay, Filipino, Samoan, Swahili, Zulu,
+      Yoruba and Amharic. Each with a <b>real graded deck</b> of thousands of
+      words, not a demo list, plus English itself.</div>
   </details>
   <details>
     <summary>What's free, and what's Pro?</summary>
@@ -349,9 +385,38 @@ const FLAGS = {
   hr:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#171796"/><rect width="30" height="13.33" fill="#fff"/><rect width="30" height="6.67" fill="#ff0000"/><g fill="#ff0000"><rect x="12.6" y="7" width="1.6" height="1.6"/><rect x="15.8" y="7" width="1.6" height="1.6"/><rect x="14.2" y="8.6" width="1.6" height="1.6"/><rect x="17.4" y="8.6" width="1.6" height="1.6"/><rect x="12.6" y="10.2" width="1.6" height="1.6"/><rect x="15.8" y="10.2" width="1.6" height="1.6"/></g></svg>`,
   my:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><g fill="#cc0001"><rect y="0" width="30" height="1.43"/><rect y="2.86" width="30" height="1.43"/><rect y="5.71" width="30" height="1.43"/><rect y="8.57" width="30" height="1.43"/><rect y="11.43" width="30" height="1.43"/><rect y="14.29" width="30" height="1.43"/><rect y="17.14" width="30" height="1.43"/></g><rect width="15" height="11.43" fill="#010066"/><circle cx="6" cy="5.7" r="3" fill="#fc0"/><circle cx="7" cy="5.7" r="2.4" fill="#010066"/><polygon points="${starPts(11,5.7,1.6)}" fill="#fc0"/></svg>`,
   ph:`<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#0038a8"/><rect y="10" width="30" height="10" fill="#ce1126"/><polygon points="0,0 13,10 0,20" fill="#fff"/><circle cx="4.5" cy="10" r="2.2" fill="#fcd116"/><polygon points="${starPts(2.5,3,1)}" fill="#fcd116"/><polygon points="${starPts(2.5,17,1)}" fill="#fcd116"/><polygon points="${starPts(9,10,1)}" fill="#fcd116"/></svg>`,
+  ws:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ce1126"/><rect width="15" height="10" fill="#002b7f"/><g fill="#fff"><polygon points="${starPts(7.5,2.4,1.1)}"/><polygon points="${starPts(4.6,5,1)}"/><polygon points="${starPts(10.2,4.6,1)}"/><polygon points="${starPts(7.5,7.8,1.2)}"/></g></svg>`,
+  sa:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#006c35"/><rect x="8" y="6" width="14" height="2.4" rx="1" fill="#fff"/><rect x="8" y="12.6" width="14" height="1" fill="#fff"/></svg>`,
+  in:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ff9933"/><rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.4" fill="none" stroke="#000080" stroke-width=".7"/><circle cx="15" cy="10" r=".6" fill="#000080"/></svg>`,
+  vn:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#da251d"/><polygon points="${starPts(15,10,5)}" fill="#ffcd00"/></svg>`,
+  il:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect y="2" width="30" height="2.4" fill="#0038b8"/><rect y="15.6" width="30" height="2.4" fill="#0038b8"/><g fill="none" stroke="#0038b8" stroke-width=".9"><polygon points="15,5.6 18.8,12.2 11.2,12.2"/><polygon points="15,14.4 18.8,7.8 11.2,7.8"/></g></svg>`,
+  hu:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#ce2939"/><rect y="13.33" width="30" height="6.67" fill="#477050"/></svg>`,
+  th:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#a51931"/><rect y="3.33" width="30" height="13.33" fill="#f4f5f8"/><rect y="6.67" width="30" height="6.67" fill="#2d2a4a"/></svg>`,
+  no:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ba0c2f"/><rect x="8" width="6" height="20" fill="#fff"/><rect y="7" width="30" height="6" fill="#fff"/><rect x="9.5" width="3" height="20" fill="#00205b"/><rect y="8.5" width="30" height="3" fill="#00205b"/></svg>`,
+  ir:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#239f40"/><rect y="13.33" width="30" height="6.67" fill="#da0000"/><circle cx="15" cy="10" r="2" fill="none" stroke="#da0000" stroke-width=".8"/></svg>`,
+  ke:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6" fill="#000"/><rect y="7" width="30" height="6" fill="#bb0000"/><rect y="14" width="30" height="6" fill="#006600"/><ellipse cx="15" cy="10" rx="2.6" ry="5.4" fill="#bb0000" stroke="#000" stroke-width=".6"/></svg>`,
+  bd:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#006a4e"/><circle cx="13.5" cy="10" r="5.4" fill="#f42a41"/></svg>`,
+  pk:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#01411c"/><rect width="7.5" height="20" fill="#fff"/><circle cx="19" cy="10" r="5" fill="#fff"/><circle cx="20.4" cy="8.8" r="4.3" fill="#01411c"/><polygon points="${starPts(22,7.6,1.5)}" fill="#fff"/></svg>`,
+  ie:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#169b62"/><rect x="20" width="10" height="20" fill="#ff883e"/></svg>`,
+  za:`<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#e03c31"/><rect y="10" width="30" height="10" fill="#001489"/><path d="M0,0 L13,10 L0,20 M13,10 H30" stroke="#fff" stroke-width="6.4" fill="none"/><path d="M0,0 L13,10 L0,20 M13,10 H30" stroke="#007749" stroke-width="4" fill="none"/><polygon points="0,3.6 8.2,10 0,16.4" fill="#ffb81c"/><polygon points="0,5.4 5.8,10 0,14.6" fill="#000"/></svg>`,
+  rs:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#c6363c"/><rect y="6.67" width="30" height="6.67" fill="#0c4076"/></svg>`,
+  si:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#ed1c24"/><rect width="30" height="13.33" fill="#005da4"/><rect width="30" height="6.67" fill="#fff"/><path d="M6,4.6 h5 v4 a2.5 2.5 0 0 1 -5 0z" fill="#005da4" stroke="#ed1c24" stroke-width=".5"/></svg>`,
+  lt:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#c1272d"/><rect width="30" height="13.33" fill="#006a44"/><rect width="30" height="6.67" fill="#fdb913"/></svg>`,
+  lv:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#9e3039"/><rect y="8" width="30" height="4" fill="#fff"/></svg>`,
+  ee:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#0072ce"/><rect y="6.67" width="30" height="6.67" fill="#000"/></svg>`,
+  al:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#e41e20"/><path d="M15,4 L17.5,6.5 L21,5.5 L19,9 L21,12 L17,11.5 L15,16 L13,11.5 L9,12 L11,9 L9,5.5 L12.5,6.5z" fill="#000"/></svg>`,
+  ge:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect x="13" width="4" height="20" fill="#ff0000"/><rect y="8" width="30" height="4" fill="#ff0000"/><g fill="#ff0000"><rect x="6" y="3" width="2.4" height=".8"/><rect x="6.8" y="2.2" width=".8" height="2.4"/><rect x="21.6" y="3" width="2.4" height=".8"/><rect x="22.4" y="2.2" width=".8" height="2.4"/><rect x="6" y="16" width="2.4" height=".8"/><rect x="6.8" y="15.2" width=".8" height="2.4"/><rect x="21.6" y="16" width="2.4" height=".8"/><rect x="22.4" y="15.2" width=".8" height="2.4"/></g></svg>`,
+  am:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#f2a800"/><rect width="30" height="13.33" fill="#0033a0"/><rect width="30" height="6.67" fill="#d90012"/></svg>`,
+  ng:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="10" height="20" fill="#008751"/><rect x="20" width="10" height="20" fill="#008751"/></svg>`,
+  et:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#da121a"/><rect width="30" height="13.33" fill="#fcdd09"/><rect width="30" height="6.67" fill="#078930"/><circle cx="15" cy="10" r="4.4" fill="#0f47af"/><polygon points="${starPts(15,10,3.2)}" fill="none" stroke="#fcdd09" stroke-width=".6"/></svg>`,
+  wl:`<svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#00b140"/><path d="M7,12 C8,7 12,6 14,8 L17,5 L18,8 C21,8 23,10 23,12 L25,11 L23,14 L20,13 L18,15 L12,15 L10,13z" fill="#d30731"/></svg>`,
+  is:`<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#02529c"/><rect x="8" width="6" height="20" fill="#fff"/><rect y="7" width="30" height="6" fill="#fff"/><rect x="9.5" width="3" height="20" fill="#dc1e35"/><rect y="8.5" width="30" height="3" fill="#dc1e35"/></svg>`,
+
 };
-/* all 26 languages the site teaches (FAQ order): 25 target languages + English */
-const ALL_FLAGS = ['gb','ja','ko','zh','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph'];
+/* one flag per country for the 56 languages the site teaches (FAQ order).
+   India stands for Hindi, Punjabi, Tamil, Marathi and Gujarati, so 52 flags. */
+const ALL_FLAGS = ['gb','ja','ko','zh','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph',
+  'sa','in','vn','il','hu','th','no','ir','bd','pk','ke','ws','ie','za','rs','si','lt','lv','ee','al','ge','am','ng','et','wl','is'];
 
 const $ = id => document.getElementById(id);
 
@@ -366,7 +431,7 @@ function loopSlide(el, keyframeName){
   document.head.appendChild(style);
 }
 
-/* final-CTA flag row: all 26 supported languages, continuously sliding in
+/* final-CTA flag row: every supported language's flag, continuously sliding in
    one row. */
 const finFlags = $('fin-flags');
 if (finFlags) {
