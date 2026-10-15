@@ -151,13 +151,10 @@
 </main>
 
 <script>
-/* Submits straight into Supabase (public `feedback` table, insert-only RLS).
-   The publishable key is designed to be public — security is enforced by the
-   Postgres RLS policy, which allows INSERT only and no reads. */
-const SUPABASE_URL = 'https://blzkhmkrmyhekockdbsf.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_sg3igdOCI-DkWcaV27jKbQ_6kI3EJ2N';
-/* FormSubmit relays each ticket to support@ as an email. */
-const SUPPORT_MAIL_URL = 'https://formsubmit.co/ajax/support@vocabswiper.com';
+/* Sends the ticket to our own backend, which saves it and emails it to
+   support@vocabswiper.com from support@ itself, Reply-To the sender. No keys
+   live here: the backend holds them. */
+const SUPPORT_URL = 'https://mnibwjag2z.us-east-1.awsapprunner.com/support';
 
 const form = document.getElementById('support-form');
 const btn = document.getElementById('submit-btn');
@@ -202,44 +199,33 @@ form.addEventListener('submit', async e => {
   btn.textContent = 'Sending…';
   statusEl.className = 'status';
 
-  // Two copies of every ticket: Supabase is the record, the email is the
-  // nudge in support@'s inbox (Reply goes straight to the sender). Either one
-  // landing counts as sent, so a hiccup on one side never loses a message.
-  const label = document.getElementById('category')
-    .selectedOptions[0].textContent.replace('&', 'and');
-  const saved = fetch(SUPABASE_URL + '/rest/v1/feedback', {
-    method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      email: email || null,
-      category,
-      message,
-      user_agent: navigator.userAgent,
-      source: 'website'
-    })
-  });
-  const mailed = fetch(SUPPORT_MAIL_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      _subject: 'Support: ' + label,
-      _template: 'table',
-      _captcha: 'false',
-      ...(email ? { _replyto: email, email } : {}),
-      category: label,
-      message,
-      device: navigator.userAgent
-    })
-  });
-
   try {
-    const results = await Promise.allSettled([saved, mailed]);
-    if (!results.some(r => r.status === 'fulfilled' && r.value.ok)) throw new Error('not sent');
+    const res = await fetch(SUPPORT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email || null,
+        category,
+        message,
+        user_agent: navigator.userAgent,
+        website: document.getElementById('website').value
+      })
+    });
+    if (res.status === 400) {
+      // The backend's own wording, e.g. a bad email it caught.
+      const body = await res.json().catch(() => ({}));
+      showStatus('err', body.error || 'Please check the form and try again.');
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+      return;
+    }
+    if (res.status === 429) {
+      showStatus('err', 'You’ve sent a few already. Give it a few minutes, or email us directly.');
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+      return;
+    }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     localStorage.setItem('vs_fb_last', String(Date.now()));
     form.reset();
     showStatus('ok', email
