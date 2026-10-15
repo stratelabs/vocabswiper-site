@@ -6,9 +6,10 @@
 <title>Support — Vocab Swiper</title>
 <meta name="description" content="Get help with Vocab Swiper or send feedback. We usually reply within a day.">
 <meta name="robots" content="index,follow">
-<link rel="icon" type="image/png" href="../favicon.png?v=3" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" href="../favicon-dark.png?v=3" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="../favicon.png?v=3">
+<link rel="icon" href="../favicon.ico?v=4" sizes="any">
+<link rel="icon" type="image/png" href="../favicon.png?v=4" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="../favicon-dark.png?v=4" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="../favicon.png?v=4">
 <link rel="apple-touch-icon" href="../icon.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -155,6 +156,8 @@
    Postgres RLS policy, which allows INSERT only and no reads. */
 const SUPABASE_URL = 'https://blzkhmkrmyhekockdbsf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_sg3igdOCI-DkWcaV27jKbQ_6kI3EJ2N';
+/* FormSubmit relays each ticket to support@ as an email. */
+const SUPPORT_MAIL_URL = 'https://formsubmit.co/ajax/support@vocabswiper.com';
 
 const form = document.getElementById('support-form');
 const btn = document.getElementById('submit-btn');
@@ -199,24 +202,44 @@ form.addEventListener('submit', async e => {
   btn.textContent = 'Sending…';
   statusEl.className = 'status';
 
+  // Two copies of every ticket: Supabase is the record, the email is the
+  // nudge in support@'s inbox (Reply goes straight to the sender). Either one
+  // landing counts as sent, so a hiccup on one side never loses a message.
+  const label = document.getElementById('category')
+    .selectedOptions[0].textContent.replace('&', 'and');
+  const saved = fetch(SUPABASE_URL + '/rest/v1/feedback', {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      email: email || null,
+      category,
+      message,
+      user_agent: navigator.userAgent,
+      source: 'website'
+    })
+  });
+  const mailed = fetch(SUPPORT_MAIL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: 'Support: ' + label,
+      _template: 'table',
+      _captcha: 'false',
+      ...(email ? { _replyto: email, email } : {}),
+      category: label,
+      message,
+      device: navigator.userAgent
+    })
+  });
+
   try {
-    const res = await fetch(SUPABASE_URL + '/rest/v1/feedback', {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({
-        email: email || null,
-        category,
-        message,
-        user_agent: navigator.userAgent,
-        source: 'website'
-      })
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const results = await Promise.allSettled([saved, mailed]);
+    if (!results.some(r => r.status === 'fulfilled' && r.value.ok)) throw new Error('not sent');
     localStorage.setItem('vs_fb_last', String(Date.now()));
     form.reset();
     showStatus('ok', email
