@@ -15,8 +15,8 @@ a{color:inherit}
 nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;text-decoration:none}
 .brand-img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(20,120,212,.35)}
-.cta-mini{font-size:13px;font-weight:700;background:var(--accent);padding:9px 18px;border-radius:999px;
-  color:#fff;text-decoration:none;box-shadow:0 4px 18px rgba(20,120,212,.3)}
+.cta-mini{font-size:13px;font-weight:700;background:#0F8A84;padding:9px 18px;border-radius:999px;
+  color:#fff;text-decoration:none;box-shadow:0 4px 18px rgba(15,138,132,.3)}
 
 .hero{text-align:center;padding:56px 0 30px}
 .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent2)}
