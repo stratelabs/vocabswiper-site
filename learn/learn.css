@@ -1,6 +1,6 @@
 /* The /learn/ pages. Same palette, type and cards as the home page. */
 :root{
-  --bg:#FBFCFD; --bg2:#EFF3F8; --accent:#1478D4; --accent2:#0B4F96;
+  --bg:#FBFCFD; --bg2:#EEF5F4; --accent:#0F8A84; --accent2:#0B6B66;
   --text:#14151A; --muted:rgba(20,21,26,.58); --line:rgba(20,21,26,.09);
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -14,7 +14,7 @@ a{color:inherit}
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;text-decoration:none}
-.brand-img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(20,120,212,.35)}
+.brand-img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(15,138,132,.35)}
 .cta-mini{font-size:13px;font-weight:700;background:#0F8A84;padding:9px 18px;border-radius:999px;
   color:#fff;text-decoration:none;box-shadow:0 4px 18px rgba(15,138,132,.3)}
 
@@ -44,7 +44,7 @@ h2{font-size:clamp(20px,3vw,26px);font-weight:800;letter-spacing:-.6px}
 .lvl{display:grid;grid-template-columns:96px 1fr 64px;align-items:center;gap:12px;font-size:14px}
 .lname{font-weight:700}
 .bar{height:10px;border-radius:6px;background:var(--bg2);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#5aa6ea,var(--accent))}
+.bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#4FBDB4,var(--accent))}
 .lcount{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
 
 .words{list-style:none;margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -67,12 +67,12 @@ h2{font-size:clamp(20px,3vw,26px);font-weight:800;letter-spacing:-.6px}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
 .links a{font-size:14px;font-weight:600;text-decoration:none;padding:8px 14px;border-radius:999px;
   background:#fff;border:1px solid var(--line)}
-.links a:hover,.links a.all{border-color:rgba(20,120,212,.4);color:var(--accent2)}
+.links a:hover,.links a.all{border-color:rgba(15,138,132,.4);color:var(--accent2)}
 
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
 .lang{display:flex;flex-direction:column;gap:2px;padding:16px;background:#fff;border:1px solid var(--line);
   border-radius:16px;text-decoration:none;transition:transform .2s,border-color .2s}
-.lang:hover{transform:translateY(-3px);border-color:rgba(20,120,212,.4)}
+.lang:hover{transform:translateY(-3px);border-color:rgba(15,138,132,.4)}
 .lang>span{align-self:flex-start}
 .lang .n{font-weight:800;font-size:15.5px}
 .lang .e{font-size:14px;color:var(--muted)}
