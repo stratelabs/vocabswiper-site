@@ -84,7 +84,7 @@
     letter-spacing:-.4px;color:rgba(236,241,240,.92)}
   .hero .kicker .accent{color:inherit}
   /* The banner: one skin per panel, one language per phone, edge to edge.
-     Ten unique panels drift slowly sideways (paused on hover). The set is
+     Ten unique panels drift slowly sideways, never pausing. The set is
      drawn twice so the loop is seamless, and each panel is sized so the set
      is always wider than the screen plus a panel: the copy of a skin can
      never be on screen next to itself. Phones get a swipe row instead, the
@@ -94,7 +94,6 @@
     mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
   .skins-track{display:flex;width:max-content;animation:skinsDrift 110s linear infinite}
-  .skins:hover .skins-track{animation-play-state:paused}
   @keyframes skinsDrift{to{transform:translateX(-50%)}}
   .skin{flex:0 0 max(220px,13vw);position:relative;padding:clamp(26px,3vw,40px) clamp(12px,1.4vw,22px) 26px;
     background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
