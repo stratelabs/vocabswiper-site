@@ -24,15 +24,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+  /* Dark, like the app: a teal-tinted near-black rather than #000, so cards
+     and the banner keep an edge against it. */
   :root{
-    --bg:#FBFCFD; --bg2:#EEF5F4; --accent:#0F8A84; --accent2:#0B6B66;
-    --text:#14151A; --muted:rgba(20,21,26,.58); --line:rgba(20,21,26,.09);
+    color-scheme:dark;
+    --bg:#0E1312; --surface:#161D1C; --accent:#0F8A84; --accent2:#8FE3D9;
+    --text:#ECF1F0; --muted:rgba(236,241,240,.6); --line:rgba(255,255,255,.08);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:
-      radial-gradient(1100px 650px at 50% -10%, var(--bg2), transparent 60%),
-      radial-gradient(900px 550px at 105% 25%, #E6F3F1, transparent 55%),
+      radial-gradient(1100px 650px at 50% -10%, rgba(15,138,132,.16), transparent 60%),
+      radial-gradient(900px 550px at 105% 25%, rgba(15,138,132,.07), transparent 55%),
       var(--bg);
     color:var(--text);
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -44,13 +47,13 @@
   .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 
   /* film grain */
-  body::after{content:'';position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.025;
+  body::after{content:'';position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.04;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  /* mouse-reactive glow: extremely subtle now that it's tinting white, not black */
+  /* mouse-reactive glow */
   .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;
     transition:transform 1.4s cubic-bezier(.2,.8,.3,1)}
-  .glow.a{width:640px;height:640px;background:rgba(15,138,132,.09);top:-180px;right:-180px}
+  .glow.a{width:640px;height:640px;background:rgba(15,138,132,.14);top:-180px;right:-180px}
   .glow.b{width:520px;height:520px;background:rgba(99,230,190,.05);bottom:-200px;left:-200px}
 
   main{position:relative;z-index:1}
@@ -58,7 +61,7 @@
   /* sticky nav */
   .navbar{position:sticky;top:0;z-index:50;transition:background .3s,border-color .3s;
     border-bottom:1px solid transparent}
-  .navbar.scrolled{background:rgba(251,251,252,.78);backdrop-filter:blur(14px);
+  .navbar.scrolled{background:rgba(14,19,18,.78);backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);border-color:var(--line)}
   nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
@@ -78,19 +81,25 @@
   .hero{display:flex;flex-direction:column;align-items:center;
     text-align:center;position:relative;padding:4vh 0 40px}
   .hero .kicker{margin-top:2vh;font-size:clamp(18px,2.4vw,23px);font-weight:800;
-    letter-spacing:-.4px;color:rgba(20,21,26,.88)}
+    letter-spacing:-.4px;color:rgba(236,241,240,.92)}
   .hero .kicker .accent{color:inherit}
-  /* The banner: one skin per panel, one language per phone. Four panels
-     side by side on a wide screen; on a phone they become a swipeable row,
-     which is the app's own gesture. Greens are kept apart (moss, marble,
-     malachite, bark) so neighbouring panels never blur into one. */
-  .skins{margin-top:clamp(26px,4vh,44px);width:100%;max-width:1040px;display:grid;
-    grid-template-columns:repeat(4,1fr);border-radius:28px;overflow:hidden;
-    box-shadow:0 34px 80px rgba(20,21,26,.26),0 3px 10px rgba(20,21,26,.12)}
-  .skin{position:relative;padding:clamp(26px,4vw,44px) clamp(12px,1.8vw,22px) 26px;
+  /* The banner: one skin per panel, one language per phone, edge to edge.
+     Ten unique panels drift slowly sideways (paused on hover). The set is
+     drawn twice so the loop is seamless, and each panel is sized so the set
+     is always wider than the screen plus a panel: the copy of a skin can
+     never be on screen next to itself. Phones get a swipe row instead, the
+     app's own gesture, with the copy hidden. Neighbours alternate light and
+     dark, and the two greens (moss, malachite) are kept far apart. */
+  .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;
+    mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+  .skins-track{display:flex;width:max-content;animation:skinsDrift 110s linear infinite}
+  .skins:hover .skins-track{animation-play-state:paused}
+  @keyframes skinsDrift{to{transform:translateX(-50%)}}
+  .skin{flex:0 0 max(220px,13vw);position:relative;padding:clamp(26px,3vw,40px) clamp(12px,1.4vw,22px) 26px;
     background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
   .skin::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.38)}
-  .skin:nth-child(even) .phone{margin-top:clamp(18px,3vw,36px)}
+  .skin:nth-child(even) .phone{margin-top:clamp(18px,2.4vw,36px)}
   .skin .phone{position:relative;width:100%;max-width:210px;aspect-ratio:1206/2622;
     border-radius:13.8% / 6.35%;overflow:hidden;background:#000;
     box-shadow:0 0 0 5px #151515,0 0 0 7px #3b3b3b,0 24px 50px rgba(0,0,0,.5)}
@@ -100,31 +109,36 @@
   .skin .tag small{display:block;font-size:11px;font-weight:700;letter-spacing:2px;
     text-transform:uppercase;color:rgba(255,255,255,.55)}
   @media(max-width:760px){
-    .skins{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:22px;
-      scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .skins{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;mask-image:none;-webkit-mask-image:none}
     .skins::-webkit-scrollbar{display:none}
-    .skin{flex:0 0 62%;scroll-snap-align:center}
+    .skins-track{animation:none}
+    .skin{flex:0 0 62vw;scroll-snap-align:center}
+    .skin.dup{display:none}
     .skin:nth-child(even) .phone{margin-top:0}
   }
-
+  @media (prefers-reduced-motion: reduce){
+    .skins{overflow-x:auto;scrollbar-width:thin}
+    .skins-track{animation:none}
+    .skin.dup{display:none}
+  }
 
   /* ============ FAQ ============ */
   .faq-sec{padding:70px 24px 90px;max-width:660px;margin:0 auto}
   .faq-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
     text-align:center;margin:10px 0 28px}
   .faq-sec details{border:1px solid var(--line);border-radius:14px;
-    background:#fff;margin-bottom:10px;overflow:hidden;
-    box-shadow:0 1px 3px rgba(20,21,26,.03)}
+    background:var(--surface);margin-bottom:10px;overflow:hidden}
   .faq-sec summary{cursor:pointer;list-style:none;display:flex;align-items:center;
     justify-content:space-between;gap:14px;padding:15px 18px;font-weight:700;
-    font-size:15.5px;color:rgba(20,21,26,.92)}
+    font-size:15.5px;color:rgba(236,241,240,.92)}
   .faq-sec summary::-webkit-details-marker{display:none}
   .faq-sec summary::after{content:'+';font-size:19px;font-weight:600;
-    color:rgba(20,21,26,.4);transition:transform .2s ease}
+    color:rgba(236,241,240,.4);transition:transform .2s ease}
   .faq-sec details[open] summary::after{transform:rotate(45deg)}
   .faq-sec .a{padding:0 18px 16px;font-size:14.5px;line-height:1.65;
-    color:rgba(20,21,26,.6)}
-  .faq-sec .a b{color:rgba(20,21,26,.85)}
+    color:rgba(236,241,240,.6)}
+  .faq-sec .a b{color:rgba(236,241,240,.85)}
 
   /* ============ proof / method ============ */
   .proof{padding:40px 0 30px}
@@ -133,11 +147,11 @@
     text-align:center;margin:10px 0 2px}
   .proof-lede{text-align:center;color:var(--muted);font-size:15px;max-width:46ch;margin:12px auto 0}
   .proof .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:30px auto 0}
-  .chip{background:#fff;border:1px solid var(--line);border-radius:20px;
+  .chip{background:var(--surface);border:1px solid var(--line);border-radius:20px;
     padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s;
-    box-shadow:0 1px 2px rgba(20,21,26,.03)}
+}
   .chip:hover{border-color:rgba(15,138,132,.35);transform:translateY(-4px);
-    box-shadow:0 16px 34px rgba(20,21,26,.1)}
+    box-shadow:0 16px 34px rgba(0,0,0,.35)}
   .chip svg{width:26px;height:26px;stroke:var(--accent2);stroke-width:1.8;fill:none;
     stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
   .chip h3{font-size:15px;margin-bottom:5px;font-weight:800;letter-spacing:-.2px}
@@ -149,7 +163,7 @@
     width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(15,138,132,.1),transparent 65%);
     pointer-events:none}
   .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
-    box-shadow:0 20px 45px rgba(15,138,132,.3),0 0 0 1px rgba(20,21,26,.06)}
+    box-shadow:0 20px 45px rgba(15,138,132,.3),0 0 0 1px rgba(255,255,255,.08)}
   .fin h2{font-size:clamp(30px,5vw,50px);font-weight:900;letter-spacing:-2px;line-height:1.08;position:relative}
   .fin .flags{margin-top:20px;position:relative;overflow:hidden;max-width:600px;
     margin-left:auto;margin-right:auto;
@@ -158,7 +172,7 @@
   .fin .flags .track{display:flex;gap:11px;width:max-content;
     animation:flagSlide 80s linear infinite}
   .fin .flags svg{width:34px;height:23px;border-radius:4px;flex:none;
-    border:1px solid rgba(20,21,26,.1);box-shadow:0 3px 8px rgba(20,21,26,.12);display:block}
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 3px 8px rgba(0,0,0,.3);display:block}
   @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion: reduce){.fin .flags .track{animation:none}}
   .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
@@ -169,13 +183,13 @@
   .badge .txt{text-align:left;line-height:1.15}
   .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.6px}
   .badge .txt span{font-size:17.5px;font-weight:700;color:#fff}
-  .fin .sub{color:rgba(20,21,26,.42);font-size:13px;margin-top:18px;position:relative}
+  .fin .sub{color:rgba(236,241,240,.42);font-size:13px;margin-top:18px;position:relative}
 
-  footer{padding:36px 0;color:rgba(20,21,26,.42);font-size:13px;border-top:1px solid var(--line)}
+  footer{padding:36px 0;color:rgba(236,241,240,.42);font-size:13px;border-top:1px solid var(--line)}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(20,21,26,.65)}
+  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(236,241,240,.65)}
   .foot-brand img{width:22px;height:22px;border-radius:6px}
-  footer a{color:rgba(20,21,26,.6);text-decoration:none;transition:color .2s}
+  footer a{color:rgba(236,241,240,.6);text-decoration:none;transition:color .2s}
   footer a:hover{color:var(--text)}
 
   .reveal-sec{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
@@ -205,26 +219,94 @@
   <header class="hero">
     <div class="kicker">Your next language, <span class="accent">one swipe away</span>.</div>
 
-    <div class="skins" aria-label="The app in four languages, each in a different skin">
+  </header>
+</div>
+
+<!-- ============ the banner: ten skins, ten languages ============ -->
+<div class="skins" aria-label="The app in ten languages, each in a different skin">
+    <div class="skins-track">
       <figure class="skin" style="background-image:url(shots/hero/tex_moss.jpg)">
         <div class="phone"><img src="shots/hero/es_moss.jpg" width="600" height="1305" alt="A Spanish word card: ahora, with an example sentence"></div>
         <figcaption class="tag"><b>Spanish</b><small>Moss</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_marble.jpg)">
-        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="A Korean word card with an example sentence" loading="lazy"></div>
+        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="A Korean word card with an example sentence"></div>
         <figcaption class="tag"><b>Korean</b><small>Marble</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_bark.jpg)">
+        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="A Hindi word card with an example sentence"></div>
+        <figcaption class="tag"><b>Hindi</b><small>Bark</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_reef.jpg)">
+        <div class="phone"><img src="shots/hero/ja_reef.jpg" width="600" height="1305" alt="A Japanese word card: 大使館, embassy, with an example sentence"></div>
+        <figcaption class="tag"><b>Japanese</b><small>Reef</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_amber.jpg)">
+        <div class="phone"><img src="shots/hero/fr_amber.jpg" width="600" height="1305" alt="A French word card with an example sentence"></div>
+        <figcaption class="tag"><b>French</b><small>Amber</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_feather.jpg)">
+        <div class="phone"><img src="shots/hero/ru_feather.jpg" width="600" height="1305" alt="A Russian quiz: what does it mean?"></div>
+        <figcaption class="tag"><b>Russian</b><small>Feather</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_ice.jpg)">
+        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="A Greek quiz: what does it mean?" loading="lazy"></div>
+        <figcaption class="tag"><b>Greek</b><small>Ice</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_malachite.jpg)">
         <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="An Arabic quiz: what does it mean?" loading="lazy"></div>
         <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
       </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_bark.jpg)">
-        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="A Hindi word card with an example sentence" loading="lazy"></div>
+      <figure class="skin" style="background-image:url(shots/hero/tex_steel.jpg)">
+        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="A Thai word card with an example sentence" loading="lazy"></div>
+        <figcaption class="tag"><b>Thai</b><small>Steel</small></figcaption>
+      </figure>
+      <figure class="skin" style="background-image:url(shots/hero/tex_granite.jpg)">
+        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="A German speaking drill: say the word" loading="lazy"></div>
+        <figcaption class="tag"><b>German</b><small>Granite</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_moss.jpg)">
+        <div class="phone"><img src="shots/hero/es_moss.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Spanish</b><small>Moss</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_marble.jpg)">
+        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Korean</b><small>Marble</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_bark.jpg)">
+        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="" loading="lazy"></div>
         <figcaption class="tag"><b>Hindi</b><small>Bark</small></figcaption>
       </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_reef.jpg)">
+        <div class="phone"><img src="shots/hero/ja_reef.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Japanese</b><small>Reef</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_amber.jpg)">
+        <div class="phone"><img src="shots/hero/fr_amber.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>French</b><small>Amber</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_feather.jpg)">
+        <div class="phone"><img src="shots/hero/ru_feather.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Russian</b><small>Feather</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_ice.jpg)">
+        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Greek</b><small>Ice</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_malachite.jpg)">
+        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_steel.jpg)">
+        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>Thai</b><small>Steel</small></figcaption>
+      </figure>
+      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_granite.jpg)">
+        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="" loading="lazy"></div>
+        <figcaption class="tag"><b>German</b><small>Granite</small></figcaption>
+      </figure>
     </div>
-  </header>
-</div>
+  </div>
 
 
 <!-- ============ method / why it works ============ -->
