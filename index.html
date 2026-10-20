@@ -90,11 +90,18 @@
      never be on screen next to itself. Phones get a swipe row instead, the
      app's own gesture, with the copy hidden. Neighbours alternate light and
      dark, and the two greens (moss, malachite) are kept far apart. */
-  .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;
-    mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-  .skins-track{display:flex;width:max-content;animation:skinsDrift 110s linear infinite}
-  @keyframes skinsDrift{to{transform:translateX(-50%)}}
+  /* The edge fade is two overlays, not a mask-image. Safari tiles a large
+     masked layer and stops painting the tiles nearest the left edge while
+     the track moves, so panels vanished before they had crossed the screen.
+     The track also gets its own GPU layer (translate3d, will-change). */
+  .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;position:relative}
+  .skins::before,.skins::after{content:'';position:absolute;top:0;bottom:0;width:4%;
+    z-index:2;pointer-events:none}
+  .skins::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(14,19,18,0))}
+  .skins::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(14,19,18,0))}
+  .skins-track{display:flex;width:max-content;animation:skinsDrift 110s linear infinite;
+    will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  @keyframes skinsDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
   .skin{flex:0 0 max(220px,13vw);position:relative;padding:clamp(26px,3vw,40px) clamp(12px,1.4vw,22px) 26px;
     background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
   .skin::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.38)}
@@ -109,7 +116,8 @@
     text-transform:uppercase;color:rgba(255,255,255,.55)}
   @media(max-width:760px){
     .skins{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-      -webkit-overflow-scrolling:touch;mask-image:none;-webkit-mask-image:none}
+      -webkit-overflow-scrolling:touch}
+    .skins::before,.skins::after{display:none}
     .skins::-webkit-scrollbar{display:none}
     .skins-track{animation:none}
     .skin{flex:0 0 62vw;scroll-snap-align:center}
@@ -118,6 +126,7 @@
   }
   @media (prefers-reduced-motion: reduce){
     .skins{overflow-x:auto;scrollbar-width:thin}
+    .skins::before,.skins::after{display:none}
     .skins-track{animation:none}
     .skin.dup{display:none}
   }
