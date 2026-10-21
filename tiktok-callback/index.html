@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Connecting TikTok…</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;background:#0F8A84;color:#fff;display:grid;place-items:center;min-height:100vh;margin:0;padding:24px;text-align:center}</style>
+</head>
+<body>
+<p>Connecting TikTok to Post Manager…</p>
+<script>
+// TikTok only accepts an HTTPS redirect on a real domain, so its login lands here
+// and is handed straight on to the self-hosted Post Manager on the same computer.
+// Only the query string (code, state, scopes) is forwarded; nothing is stored.
+location.replace('https://localhost:4443/integrations/social/tiktok' + location.search);
+</script>
+</body>
+</html>
