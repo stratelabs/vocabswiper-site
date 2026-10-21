@@ -124,7 +124,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{up}learn/learn.css?v=5">
+<link rel="stylesheet" href="{up}learn/learn.css?v=6">
 {jsonld}
 </head>
 <body>
@@ -198,7 +198,7 @@ def lang_page(lang, all_langs):
     out.append(f"""<main class="wrap">
 <header class="hero">
   <div class="eyebrow"><a href="../">Languages</a> / {esc(name)}</div>
-  <h1>Learn {esc(name)} vocabulary, one swipe at a time.</h1>
+  <h1>Learn {esc(name)} vocabulary one swipe at a time</h1>
   <p class="endonym" lang="{code}"{d}>{esc(lang['endonym'])}</p>
   <p class="lede">{n:,} real {esc(name)} words, starting from the most common and building up level by level. Every word comes with native audio and example sentences, and spaced repetition brings it back right before you'd forget it.</p>
   {BADGE.format(store=APP_STORE, play=PLAY_STORE)}

@@ -24,8 +24,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0
 .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--accent2)}
 .eyebrow a{text-decoration:none}
 .eyebrow a:hover{text-decoration:underline}
-h1{font-size:clamp(32px,6vw,56px);font-weight:900;letter-spacing:-1.8px;line-height:1.06;
-  margin:14px auto 0;max-width:15ch}
+h1{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1.8px;line-height:1.06;
+  margin:14px auto 0;text-wrap:balance}
 .endonym{margin-top:10px;font-size:20px;font-weight:600;color:var(--muted)}
 .lede{max-width:600px;margin:16px auto 0;font-size:clamp(15px,2vw,17.5px);line-height:1.65;color:rgba(236,241,240,.62)}
 
