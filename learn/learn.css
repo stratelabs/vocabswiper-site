@@ -32,6 +32,7 @@ h1{font-size:clamp(32px,6vw,56px);font-weight:900;letter-spacing:-1.8px;line-hei
 .badge{display:inline-flex;align-items:center;gap:12px;margin-top:26px;background:#000;border:1px solid rgba(255,255,255,.25);border-radius:14px;
   padding:12px 22px;text-decoration:none;transition:transform .15s}
 .badge:hover{transform:translateY(-2px)}
+.badges{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0 12px}
 .badge svg{width:24px;height:24px;fill:#fff}
 .badge .txt{text-align:left;line-height:1.15}
 .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.6px}
