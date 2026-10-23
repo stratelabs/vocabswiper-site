@@ -217,14 +217,6 @@ BADGE = """<span class="badges"><a class="badge" href="{store}" target="_blank" 
   <span class="txt"><small>GET IT ON</small><span>Google Play</span></span>
 </a></span>"""
 
-METHOD = """<section class="method">
-  <h2>How Vocab Swiper teaches {name}</h2>
-  <div class="steps">
-    <div class="step"><b>Recall first</b><p>Each {name} word is shown without its meaning. You try to remember it before you reveal it, which is what makes it stick.</p></div>
-    <div class="step"><b>Spaced repetition</b><p>FSRS, the memory model behind modern Anki, brings each word back right before you'd forget it.</p></div>
-    <div class="step"><b>Hear it, say it</b><p>Native audio for every word, example sentences in context, and speaking practice with pronunciation feedback.</p></div>
-  </div>
-</section>"""
 
 
 def lang_page(lang, all_langs):
@@ -293,7 +285,6 @@ def lang_page(lang, all_langs):
   <ul class="words">{word_html}</ul>
 </section>
 
-{METHOD.format(name=esc(name))}
 
 <section class="cta">
   <h2>Your first {esc(name)} words are one swipe away.</h2>
