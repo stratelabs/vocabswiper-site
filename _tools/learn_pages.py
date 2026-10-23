@@ -190,7 +190,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{up}learn/learn.css?v=7">
+<link rel="stylesheet" href="{up}learn/learn.css?v=8">
 {jsonld}
 </head>
 <body>
@@ -252,6 +252,8 @@ def lang_page(lang, all_langs):
         return f'<div class="lvl">{inner}</div>'
     level_html = "".join(lvl_row(l, c) for l, c in lv)
     graded_n = sum(c for _, c in lv) if linked else n
+    test_link = (f'<a class="testlink" href="{scale.lower()}-test/"><b>Not sure where you are?</b> '
+                 f'Take the free 3-minute {esc(scale)} vocabulary test →</a>' if linked else "")
     level_sub = (f"Tap a level for its full word list, with readings and meanings. In the app you start at your own level and move up as words stick."
                  if linked else
                  f"How the {esc(name)} deck is spread across levels. You start at your own level and the app moves you up as words stick.")
@@ -276,6 +278,7 @@ def lang_page(lang, all_langs):
 <section class="card">
   <h2>{graded_n:,} words, graded by {esc(scale)} level</h2>
   <p class="sub">{level_sub}</p>
+  {test_link}
   <div class="levels">{level_html}</div>
 </section>
 
@@ -403,6 +406,7 @@ def level_pages(lang):
   <h1>{esc(full)} vocabulary list</h1>
   <p class="lede">All {n:,} {esc(full)} words, with readings, romaji and meanings. The most common words come first, so the top of the list is where to start.</p>
   <nav class="pills" aria-label="{esc(scale)} levels">{pills}</nav>
+  <p class="testline"><a href="../{scale.lower()}-test/">Not sure which level you are? Take the free {esc(scale)} test →</a></p>
 </header>
 
 <section class="card">
@@ -447,6 +451,224 @@ def level_pages(lang):
     return pages
 
 
+TEST_PER_LEVEL = 6
+TEST_POOL = 60
+
+
+def short_gloss(g):
+    """An answer option: 'to avoid; to ward off' -> 'to avoid'."""
+    g = re.sub(r"\s*\([^)]*\)", "", g).strip()
+    g = g.split(";")[0].strip()
+    if len(g) > 28:
+        g = g.split(",")[0].strip()
+    return g
+
+
+def test_pool(lang):
+    """Per level, TEST_POOL words spread evenly from most to least common.
+
+    Katakana loanwords are left out: an English speaker can guess ヨーロッパ
+    without knowing any Japanese, and a guess is not a known word."""
+    code = lang["code"]
+    scale, tags, label = SCALES.get(code, CEFR)
+    rows = listed(lang)
+    katakana = re.compile(r"^[\u30A0-\u30FF]+$")
+    pool = {}
+    for tag in tags:
+        cand = []
+        seen = set()
+        for r in sorted((r for r in rows if tag in r.get("tags", [])),
+                        key=lambda r: -(r["translations"][code].get("zipf") or 0)):
+            t = r["translations"][code]
+            w, kana = t.get("word", ""), t.get("kana", "")
+            g = short_gloss(r["translations"]["en"].get("word", "") or r.get("concept", ""))
+            if not w or not g or len(g) > 28 or katakana.match(w) or g.lower() in seen:
+                continue
+            seen.add(g.lower())
+            cand.append([w, kana if kana != w else "", g])
+        if not cand:
+            continue
+        step = max(1, len(cand) / TEST_POOL)
+        pool[label(tag)] = [cand[int(i * step)] for i in range(min(TEST_POOL, len(cand)))]
+    return pool
+
+
+TEST_JS = """<script>
+(function(){
+  var D=JSON.parse(document.getElementById('pool').textContent), PER=%(per)d;
+  var levels=D.levels, $=function(id){return document.getElementById(id);};
+  var qs=[], i=0, score={}, stopped=false;
+  function shuffle(a){for(var j=a.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1)),t=a[j];a[j]=a[k];a[k]=t;}return a;}
+  function build(){
+    qs=[]; score={};
+    levels.forEach(function(l){
+      score[l.name]={right:0,wrong:0,skip:0,asked:0};
+      shuffle(l.words.slice()).slice(0,PER).forEach(function(w){
+        var others=shuffle(l.words.filter(function(o){return o[2]!==w[2];})).slice(0,3).map(function(o){return o[2];});
+        qs.push({level:l.name,word:w[0],kana:w[1],answer:w[2],options:shuffle(others.concat([w[2]]))});
+      });
+    });
+  }
+  function show(id){['intro','quiz','result'].forEach(function(s){$(s).hidden=s!==id;});window.scrollTo(0,$('test').offsetTop-80);}
+  function ask(){
+    var q=qs[i];
+    $('qlevel').textContent=q.level; $('qn').textContent=(i+1)+' / '+qs.length;
+    $('bar').style.width=(100*i/qs.length)+'%%';
+    $('qword').textContent=q.word; $('qkana').textContent=q.kana;
+    var box=$('opts'); box.innerHTML='';
+    q.options.forEach(function(o){var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=o;b.onclick=function(){answer(o,b);};box.appendChild(b);});
+  }
+  function answer(o,btn){
+    var q=qs[i], s=score[q.level], buttons=[].slice.call(document.querySelectorAll('#opts .opt'));
+    buttons.forEach(function(b){b.disabled=true; if(b.textContent===q.answer)b.classList.add('right');});
+    s.asked++;
+    if(o===null){s.skip++;}else if(o===q.answer){s.right++;}else{s.wrong++;btn.classList.add('wrong');}
+    $('skip').disabled=true;
+    setTimeout(next,o===q.answer?450:1100);
+  }
+  function corrected(s){return s.asked?Math.max(0,(s.right-s.wrong/3)/s.asked):0;}
+  function next(){
+    $('skip').disabled=false;
+    var q=qs[i]; i++;
+    // A level that is clearly out of reach ends the test: nobody needs twelve
+    // more N1 questions to learn that N2 was already a stretch.
+    if(i===qs.length||qs[i].level!==q.level){
+      if(corrected(score[q.level])<.25&&i<qs.length){stopped=true;return finish();}
+    }
+    if(i>=qs.length)return finish();
+    ask();
+  }
+  function finish(){
+    var est=null, known=0, rows='';
+    levels.forEach(function(l,k){
+      var s=score[l.name], c=corrected(s);
+      known+=l.count*c;
+      var pass=s.asked&&c>=.6;
+      if(pass&&(k===0||est===levels[k-1].name))est=l.name;
+      var pct=s.asked?Math.round(100*s.right/s.asked):0;
+      rows+='<div class="lvl"><span class="lname">'+l.name+'</span><span class="bar"><i style="width:'+Math.max(3,pct)+'%%"></i></span><span class="lcount">'+(s.asked?s.right+'/'+s.asked:'–')+'</span></div>';
+    });
+    known=Math.round(known/50)*50;
+    var idx=est?levels.map(function(l){return l.name;}).indexOf(est):-1;
+    var nxt=levels[idx+1];
+    $('rlevel').textContent=est?(D.scale+' '+est):'Just starting';
+    $('rline').textContent=est?
+      ('Your vocabulary looks ready for '+D.scale+' '+est+(nxt?'. '+nxt.name+' is your next step.':', the top level.')):
+      ('Start with '+D.scale+' '+levels[0].name+': the most common words in the language.');
+    $('rknown').textContent=known?('About '+known.toLocaleString()+' words'):'';
+    $('rbars').innerHTML=rows;
+    var target=nxt||levels[idx]||levels[0];
+    if(!est)target=levels[0];
+    $('rlist').href='../'+target.slug+'/'; $('rlist').textContent='Study the '+target.name+' words →';
+    window.__result=$('rlevel').textContent;
+    show('result');
+  }
+  $('start').onclick=function(){build();i=0;stopped=false;show('quiz');ask();};
+  $('skip').onclick=function(){answer(null,null);};
+  $('again').onclick=function(){build();i=0;stopped=false;show('quiz');ask();};
+  $('share').onclick=function(){
+    var text='I tested at '+window.__result+' on the free '+D.scale+' vocabulary test:', url=location.href.split('#')[0];
+    if(navigator.share){navigator.share({title:document.title,text:text,url:url}).catch(function(){});}
+    else if(navigator.clipboard){navigator.clipboard.writeText(text+' '+url);$('share').textContent='Link copied';}
+  };
+})();
+</script>"""
+
+
+def test_page(lang):
+    """A free level test: TEST_PER_LEVEL words a level, easiest level first,
+    pick the meaning. It estimates a level and a vocabulary size, and points
+    at the list to study next."""
+    code, name = lang["code"], lang["name"]
+    scale, tags, label = SCALES.get(code, CEFR)
+    pool = test_pool(lang)
+    rows = listed(lang)
+    lv = []
+    for t in tags:
+        if label(t) in pool:
+            lv.append({"name": label(t), "slug": level_slug(t),
+                       "count": sum(1 for r in rows if t in r.get("tags", [])),
+                       "words": pool[label(t)]})
+    nq = TEST_PER_LEVEL * len(lv)
+    url = f"{SITE}/learn/{lang['slug']}/{scale.lower()}-test/"
+    title = f"Free {scale} Vocabulary Test: What's Your {name} Level? | Vocab Swiper"
+    desc = (f"Find your {scale} level in about three minutes. {nq} quick questions from N5 to N1 "
+            f"estimate your {name} vocabulary level and how many words you know. Free, no sign-up.") if code == "ja" else \
+           (f"Find your {name} {scale} level in about three minutes. Free, no sign-up.")
+    up = "../../../"
+    jsonld = ('<script type="application/ld+json">' + json.dumps([
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Vocab Swiper", "item": SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Languages", "item": SITE + "/learn/"},
+            {"@type": "ListItem", "position": 3, "name": f"Learn {name}", "item": f"{SITE}/learn/{lang['slug']}/"},
+            {"@type": "ListItem", "position": 4, "name": f"{scale} vocabulary test", "item": url}]},
+        {"@context": "https://schema.org", "@type": "Quiz", "name": f"{scale} vocabulary level test",
+         "description": desc, "url": url, "inLanguage": "en", "about": f"{name} vocabulary",
+         "educationalLevel": f"{scale} {lv[0]['name']}–{lv[-1]['name']}", "isAccessibleForFree": True,
+         "provider": {"@type": "Organization", "name": "Strate Labs Limited", "url": "https://stratelabs.net"}}],
+        ensure_ascii=False) + "</script>")
+    data = json.dumps({"scale": scale, "levels": lv}, ensure_ascii=False, separators=(",", ":"))
+    level_links = "".join(f'<a class="pill" href="../{l["slug"]}/">{esc(l["name"])}</a>' for l in lv)
+    out = [HEAD.format(title=esc(title), desc=esc(desc), url=url, site=SITE, up=up,
+                       store=APP_STORE, jsonld=jsonld)]
+    out.append(f"""<main class="wrap">
+<header class="hero">
+  <div class="eyebrow"><a href="../../">Languages</a> / <a href="../">{esc(name)}</a> / {esc(scale)} test</div>
+  <h1>What's your {esc(scale)} level?</h1>
+  <p class="lede">A free vocabulary test from {esc(lv[0]['name'])} to {esc(lv[-1]['name'])}. {nq} quick questions, about three minutes, no sign-up.</p>
+</header>
+
+<section id="test" class="card test">
+  <div id="intro">
+    <h2>How it works</h2>
+    <ul class="howto">
+      <li>You see a {esc(name)} word and pick its meaning from four.</li>
+      <li>It starts easy and gets harder, {TEST_PER_LEVEL} words per level.</li>
+      <li>Don't guess: <b>I don't know</b> is the honest answer, and wrong guesses count against you.</li>
+    </ul>
+    <button id="start" class="go-btn" type="button">Start the test</button>
+  </div>
+  <div id="quiz" hidden>
+    <div class="qhead"><span id="qlevel" class="qlevel"></span><span id="qn" class="qn"></span></div>
+    <div class="progress"><i id="bar"></i></div>
+    <div class="qword"><span id="qword" lang="{code}"></span><span id="qkana" class="qkana" lang="{code}"></span></div>
+    <div id="opts" class="opts"></div>
+    <button id="skip" class="skip" type="button">I don't know</button>
+  </div>
+  <div id="result" hidden>
+    <p class="eyebrow">Your result</p>
+    <div id="rlevel" class="rlevel"></div>
+    <p id="rline" class="rline"></p>
+    <p id="rknown" class="rknown"></p>
+    <div id="rbars" class="levels"></div>
+    <div class="ractions">
+      <a id="rlist" class="go-btn" href="#"></a>
+      <button id="share" class="tog" type="button">Share result</button>
+      <button id="again" class="tog" type="button">Take it again</button>
+    </div>
+    <p class="note">This measures vocabulary only. The real {esc(scale)} also tests grammar, reading and listening, so treat it as a guide to which words to study next.</p>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Close the gap to your next level.</h2>
+  <p class="free">Vocab Swiper's {esc(name)} deck has every {esc(scale)} word from {esc(lv[0]['name'])} to {esc(lv[-1]['name'])}. Recall each one, hear it, and let spaced repetition bring it back right before you'd forget it.</p>
+  {BADGE.format(store=APP_STORE, play=PLAY_STORE)}
+</section>
+
+<nav class="more" aria-label="{esc(scale)} word lists">
+  <h2>{esc(scale)} word lists</h2>
+  <div class="pills">{level_links}</div>
+</nav>
+<p class="credit">{SOURCES.get(code, "")}</p>
+</main>
+<script type="application/json" id="pool">{data.replace("</", "<\\/")}</script>
+{TEST_JS % {"per": TEST_PER_LEVEL}}
+""")
+    out.append(FOOT.format(up=up))
+    return "".join(out)
+
+
 def hub_page(all_langs):
     url = f"{SITE}/learn/"
     title = f"Learn Vocabulary in {len(all_langs)} Languages | Vocab Swiper"
@@ -486,6 +708,7 @@ def sitemap(all_langs):
             tags = SCALES.get(l["code"], CEFR)[1]
             urls += [f"learn/{l['slug']}/{level_slug(t)}/" for t in tags
                      if any(t in r.get("tags", []) for r in listed(l))]
+            urls.append(f"learn/{l['slug']}/{SCALES.get(l['code'], CEFR)[0].lower()}-test/")
     body = "".join(f"  <url><loc>{SITE}/{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "</urlset>\n")
@@ -508,6 +731,9 @@ def main():
             for lslug, page in level_pages(l):
                 os.makedirs(os.path.join(d, lslug), exist_ok=True)
                 open(os.path.join(d, lslug, "index.html"), "w", encoding="utf-8").write(page)
+            tdir = os.path.join(d, SCALES.get(l["code"], CEFR)[0].lower() + "-test")
+            os.makedirs(tdir, exist_ok=True)
+            open(os.path.join(tdir, "index.html"), "w", encoding="utf-8").write(test_page(l))
     open(os.path.join(ROOT, "learn", "index.html"), "w", encoding="utf-8").write(hub_page(langs))
     open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sitemap(langs))
     print(f"{len(langs)} language pages, hub and sitemap written")
