@@ -20,6 +20,7 @@
 <link rel="icon" type="image/png" href="favicon-dark.png?v=4" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" href="favicon.png?v=4">
 <link rel="apple-touch-icon" href="icon.png?v=3">
+<link rel="preload" as="image" href="shots/hero/panorama.webp" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -82,55 +83,29 @@
     text-align:center;position:relative;padding:4vh 0 40px}
   .hero .kicker{margin:2vh 0 0;font-size:clamp(30px,5vw,50px);font-weight:900;
     letter-spacing:-2px;line-height:1.08;color:rgba(236,241,240,.92);text-wrap:balance}
-  /* The banner: one skin per panel, one language per phone, edge to edge.
-     Ten unique panels drift slowly sideways, never pausing. The set is
-     drawn twice so the loop is seamless, and each panel is sized so the set
-     is always wider than the screen plus a panel: the copy of a skin can
-     never be on screen next to itself. Phones get a swipe row instead, the
-     app's own gesture, with the copy hidden. Neighbours alternate light and
-     dark, and the two greens (moss, malachite) are kept far apart. */
-  /* The edge fade is two overlays, not a mask-image. Safari tiles a large
-     masked layer and stops painting the tiles nearest the left edge while
-     the track moves, so panels vanished before they had crossed the screen.
-     Nor does the TRACK move: one layer twenty panels wide still lost its left
-     tiles mid-drift in Chrome and Safari. Each panel is moved on its own by
-     the script at the bottom, and wraps to the far end once it is off the
-     left edge, so there are only ten panels and no wide layer at all. */
+  /* The banner: ten skins, ten languages, edge to edge, drifting slowly
+     sideways and never pausing. It is ONE image (shots/hero/panorama.*,
+     rendered from the ten phones and their skins), repeated along x, not
+     twenty <img>s: the phones loaded one by one and popped in as the strip
+     moved, and one 390 KB download replaces twenty requests and 1.5 MB.
+     The image is a background on a screen-wide box and the script moves its
+     position, so there is no wide layer to tile: a layer twenty panels wide
+     lost its left tiles mid-drift in Chrome and Safari. The edge fade is two
+     overlays, not a mask-image, for the same reason. */
   .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;position:relative}
   .skins::before,.skins::after{content:'';position:absolute;top:0;bottom:0;width:4%;
     z-index:2;pointer-events:none}
   .skins::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(14,19,18,0))}
   .skins::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(14,19,18,0))}
-  .skins-track{display:flex;width:max-content}
-  .skin.dup{display:none}
-  .skins.drift .skin{will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-  .skin{flex:0 0 max(220px,13vw);position:relative;padding:clamp(26px,3vw,40px) clamp(12px,1.4vw,22px) 26px;
-    background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
-  .skin::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.38)}
-  .skin:nth-child(even) .phone{margin-top:clamp(18px,2.4vw,36px)}
-  .skin .phone{position:relative;width:100%;max-width:210px;aspect-ratio:1206/2622;
-    border-radius:13.8% / 6.35%;overflow:hidden;background:#000;
-    box-shadow:0 0 0 5px #151515,0 0 0 7px #3b3b3b,0 24px 50px rgba(0,0,0,.5)}
-  .skin .phone img{width:100%;height:100%;display:block;object-fit:cover}
-  .skin .tag{position:relative;margin-top:22px;text-align:center;line-height:1.25;color:#fff}
-  .skin .tag b{display:block;font-size:13px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase}
-  .skin .tag small{display:block;font-size:11px;font-weight:700;letter-spacing:2px;
-    text-transform:uppercase;color:rgba(255,255,255,.55)}
+  /* 640:3000 is the image's own panel: one skin is 300 wide by 640 tall. */
+  .pano{height:clamp(420px,calc(max(220px,13vw) * 640 / 300),640px);
+    background-color:#0c1513;background-repeat:repeat-x;background-size:auto 100%;
+    background-image:url(shots/hero/panorama.jpg);
+    background-image:image-set(url(shots/hero/panorama.webp) type("image/webp"),
+      url(shots/hero/panorama.jpg) type("image/jpeg"))}
   @media(max-width:760px){
-    .skins{overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-      -webkit-overflow-scrolling:touch}
     .skins::before,.skins::after{display:none}
-    .skins::-webkit-scrollbar{display:none}
-    .skins-track{animation:none}
-    .skin{flex:0 0 62vw;scroll-snap-align:center}
-    .skin.dup{display:none}
-    .skin:nth-child(even) .phone{margin-top:0}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .skins{overflow-x:auto;scrollbar-width:thin}
-    .skins::before,.skins::after{display:none}
-    .skins-track{animation:none}
-    .skin.dup{display:none}
+    .pano{height:min(118vw,560px)}
   }
 
   /* ============ FAQ ============ */
@@ -234,90 +209,9 @@
 </div>
 
 <!-- ============ the banner: ten skins, ten languages ============ -->
-<div class="skins" aria-label="The app in ten languages, each in a different skin">
-    <div class="skins-track">
-      <figure class="skin" style="background-image:url(shots/hero/tex_moss.jpg)">
-        <div class="phone"><img src="shots/hero/es_moss.jpg" width="600" height="1305" alt="A Spanish word card: ahora, with an example sentence"></div>
-        <figcaption class="tag"><b>Spanish</b><small>Moss</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_marble.jpg)">
-        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="A Korean word card with an example sentence"></div>
-        <figcaption class="tag"><b>Korean</b><small>Marble</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_bark.jpg)">
-        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="A Hindi word card with an example sentence"></div>
-        <figcaption class="tag"><b>Hindi</b><small>Bark</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_reef.jpg)">
-        <div class="phone"><img src="shots/hero/ja_reef.jpg" width="600" height="1305" alt="A Japanese word card: 大使館, embassy, with an example sentence"></div>
-        <figcaption class="tag"><b>Japanese</b><small>Reef</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_amber.jpg)">
-        <div class="phone"><img src="shots/hero/fr_amber.jpg" width="600" height="1305" alt="A French word card with an example sentence"></div>
-        <figcaption class="tag"><b>French</b><small>Amber</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_feather.jpg)">
-        <div class="phone"><img src="shots/hero/ru_feather.jpg" width="600" height="1305" alt="A Russian quiz: what does it mean?"></div>
-        <figcaption class="tag"><b>Russian</b><small>Feather</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_ice.jpg)">
-        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="A Greek quiz: what does it mean?"></div>
-        <figcaption class="tag"><b>Greek</b><small>Ice</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_malachite.jpg)">
-        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="An Arabic quiz: what does it mean?"></div>
-        <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_steel.jpg)">
-        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="A Thai word card with an example sentence"></div>
-        <figcaption class="tag"><b>Thai</b><small>Steel</small></figcaption>
-      </figure>
-      <figure class="skin" style="background-image:url(shots/hero/tex_granite.jpg)">
-        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="A German speaking drill: say the word"></div>
-        <figcaption class="tag"><b>German</b><small>Granite</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_moss.jpg)">
-        <div class="phone"><img src="shots/hero/es_moss.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Spanish</b><small>Moss</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_marble.jpg)">
-        <div class="phone"><img src="shots/hero/ko_marble.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Korean</b><small>Marble</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_bark.jpg)">
-        <div class="phone"><img src="shots/hero/hi_bark.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Hindi</b><small>Bark</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_reef.jpg)">
-        <div class="phone"><img src="shots/hero/ja_reef.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Japanese</b><small>Reef</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_amber.jpg)">
-        <div class="phone"><img src="shots/hero/fr_amber.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>French</b><small>Amber</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_feather.jpg)">
-        <div class="phone"><img src="shots/hero/ru_feather.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Russian</b><small>Feather</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_ice.jpg)">
-        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Greek</b><small>Ice</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_malachite.jpg)">
-        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_steel.jpg)">
-        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>Thai</b><small>Steel</small></figcaption>
-      </figure>
-      <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_granite.jpg)">
-        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="" loading="lazy"></div>
-        <figcaption class="tag"><b>German</b><small>Granite</small></figcaption>
-      </figure>
-    </div>
-  </div>
+<div class="skins" role="img" aria-label="The app in ten languages, each in a different skin: Spanish in Moss, Korean in Marble, Hindi in Bark, Japanese in Reef, French in Amber, Russian in Feather, Greek in Ice, Arabic in Malachite, Thai in Steel and German in Granite">
+  <div class="pano"></div>
+</div>
 
 
 <!-- ============ method / why it works ============ -->
@@ -452,43 +346,30 @@ if (finFlags) {
 }
 
 
-/* ---------- the skins banner drifts left, one panel at a time ----------
-   Each panel is translated on its own and wraps to the far end once it is
-   fully off the left edge (see the CSS note above .skins). Phones and
-   reduced motion keep the plain swipe row. */
+/* ---------- the skins banner drifts left ----------
+   One image, repeated along x; this moves its position. Reduced motion
+   leaves it still. */
 (function(){
-  const box = document.querySelector('.skins');
-  if (!box) return;
-  const panels = [...box.querySelectorAll('.skin:not(.dup)')];
-  const mq = matchMedia('(min-width:761px) and (prefers-reduced-motion: no-preference)');
-  const SECONDS_PER_SET = 110;  // the pace the CSS drift had: one set of ten per 110s
-  let base = [], width = 0, panelW = 0, shift = 0, last = 0, raf = 0;
-  function measure(){
-    // Fractional sizes, not offsetLeft/offsetWidth: those round to whole
-    // pixels, and the rounding left hairline seams where a panel wrapped.
-    panels.forEach(p => p.style.transform = '');
-    const left = box.getBoundingClientRect().left;
-    base = panels.map(p => p.getBoundingClientRect().left - left);
-    panelW = panels[0].getBoundingClientRect().width;
-    width = panelW * panels.length;
-  }
+  const pano = document.querySelector('.skins .pano');
+  if (!pano) return;
+  const mq = matchMedia('(prefers-reduced-motion: no-preference)');
+  const SECONDS_PER_SET = 110;  // one set of ten skins per 110s, the pace it always had
+  let shift = 0, last = 0, raf = 0;
   function frame(t){
     const dt = last ? Math.min(t - last, 100) : 0;   // a hidden tab resumes, not jumps
     last = t;
-    shift = (shift + dt / 1000 * width / SECONDS_PER_SET) % width;
-    panels.forEach((p, i) => {
-      const x = ((base[i] - shift + panelW) % width + width) % width - panelW;
-      p.style.transform = `translate3d(${x - base[i]}px,0,0)`;
-    });
+    // The set is ten 300x640 panels, drawn at the box's height.
+    const setW = pano.clientHeight * 3000 / 640;
+    shift = (shift + dt / 1000 * setW / SECONDS_PER_SET) % setW;
+    pano.style.backgroundPosition = `${-shift}px 0`;
     raf = requestAnimationFrame(frame);
   }
   function apply(){
     cancelAnimationFrame(raf); last = 0;
-    if (mq.matches){ box.classList.add('drift'); measure(); raf = requestAnimationFrame(frame); }
-    else { box.classList.remove('drift'); panels.forEach(p => p.style.transform = ''); }
+    if (mq.matches) raf = requestAnimationFrame(frame);
+    else pano.style.backgroundPosition = '';
   }
   mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(apply, 150); });
   apply();
 })();
 
