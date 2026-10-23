@@ -94,3 +94,57 @@ footer a:hover{color:var(--text)}
   .grid{grid-template-columns:repeat(2,1fr)}
   .lvl{grid-template-columns:80px 1fr 54px}
 }
+
+/* Level lists (/learn/<lang>/<level>/) */
+a.lvl{text-decoration:none;grid-template-columns:96px 1fr 64px 16px;border-radius:10px;margin:0 -8px;padding:4px 8px;transition:background .15s}
+a.lvl:hover{background:var(--bg2)}
+a.lvl:hover .lname{color:var(--accent2)}
+.lvl .go{color:var(--muted);font-size:13px}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.pill{font-size:13px;font-weight:700;padding:7px 16px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--muted)}
+a.pill:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.prose{color:rgba(236,241,240,.72);font-size:15px;line-height:1.7;margin-top:10px}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;position:sticky;top:59px;z-index:5;
+  background:var(--surface);padding:6px 0 12px;border-bottom:1px solid var(--line)}
+.tools input{flex:1 1 220px;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  padding:10px 14px;color:var(--text);font:inherit;font-size:15px;outline:none}
+.tools input:focus{border-color:var(--accent)}
+.tog{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:9px 15px;color:var(--text);
+  font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.tog[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.count{font-size:13px;color:var(--muted);margin-left:auto}
+.vlist{list-style:none;margin-top:6px}
+.vlist li{display:grid;grid-template-columns:44px minmax(90px,1.1fr) minmax(110px,1.2fr) 2fr 36px;align-items:center;
+  gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);cursor:default}
+.vlist li[hidden]{display:none}
+.vlist .num{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.vlist .w{font-size:20px;font-weight:700;line-height:1.25;word-break:break-word}
+.vlist .rd{display:flex;flex-direction:column;line-height:1.3}
+.vlist .k{font-size:14.5px;color:var(--accent2)}
+.vlist .k:empty{display:none}
+.vlist .ro{font-size:12.5px;color:var(--muted)}
+.vlist .g{font-size:14.5px;color:rgba(236,241,240,.8)}
+.say{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--bg);cursor:pointer;
+  display:grid;place-items:center}
+.say::before{content:"";width:16px;height:16px;background:var(--accent2);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z'/%3E%3C/svg%3E") center/contain no-repeat}
+.say:hover{border-color:var(--accent)}
+.no-say .say{visibility:hidden}
+.hide-g .vlist li{cursor:pointer}
+.hide-g .vlist li:not(.show) .g,.hide-r .vlist li:not(.show) .rd{filter:blur(7px);opacity:.55;user-select:none}
+.faq details{border-top:1px solid var(--line);padding:14px 0}
+.faq details:first-of-type{margin-top:12px}
+.faq summary{cursor:pointer;font-weight:700;font-size:15.5px}
+.faq details p{color:rgba(236,241,240,.72);font-size:14.5px;line-height:1.7;margin-top:8px}
+.credit{font-size:12px;color:var(--muted);line-height:1.6;margin:22px auto 0;max-width:720px;text-align:center}
+.credit a{color:var(--accent2)}
+.more .next{display:inline-block;margin-right:14px;font-weight:700;color:var(--accent2);text-decoration:none}
+@media (max-width:640px){
+  .vlist li{grid-template-columns:34px 1fr 34px;grid-template-areas:"num w say" "num rd say" "num g say";gap:2px 10px}
+  .vlist .num{grid-area:num}.vlist .w{grid-area:w}.vlist .rd{grid-area:rd;flex-direction:row;gap:8px}
+  .vlist .g{grid-area:g}.vlist .say{grid-area:say}
+  .tools{top:57px}.count{margin-left:0}
+  a.lvl{grid-template-columns:80px 1fr 54px 14px}
+}
