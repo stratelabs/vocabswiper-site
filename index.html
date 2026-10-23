@@ -92,15 +92,18 @@
   /* The edge fade is two overlays, not a mask-image. Safari tiles a large
      masked layer and stops painting the tiles nearest the left edge while
      the track moves, so panels vanished before they had crossed the screen.
-     The track also gets its own GPU layer (translate3d, will-change). */
+     Nor does the TRACK move: one layer twenty panels wide still lost its left
+     tiles mid-drift in Chrome and Safari. Each panel is moved on its own by
+     the script at the bottom, and wraps to the far end once it is off the
+     left edge, so there are only ten panels and no wide layer at all. */
   .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;position:relative}
   .skins::before,.skins::after{content:'';position:absolute;top:0;bottom:0;width:4%;
     z-index:2;pointer-events:none}
   .skins::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(14,19,18,0))}
   .skins::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(14,19,18,0))}
-  .skins-track{display:flex;width:max-content;animation:skinsDrift 110s linear infinite;
-    will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-  @keyframes skinsDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+  .skins-track{display:flex;width:max-content}
+  .skin.dup{display:none}
+  .skins.drift .skin{will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .skin{flex:0 0 max(220px,13vw);position:relative;padding:clamp(26px,3vw,40px) clamp(12px,1.4vw,22px) 26px;
     background:#0c1513 center/cover no-repeat;display:flex;flex-direction:column;align-items:center}
   .skin::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.38)}
@@ -257,19 +260,19 @@
         <figcaption class="tag"><b>Russian</b><small>Feather</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_ice.jpg)">
-        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="A Greek quiz: what does it mean?" loading="lazy"></div>
+        <div class="phone"><img src="shots/hero/el_ice.jpg" width="600" height="1305" alt="A Greek quiz: what does it mean?"></div>
         <figcaption class="tag"><b>Greek</b><small>Ice</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_malachite.jpg)">
-        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="An Arabic quiz: what does it mean?" loading="lazy"></div>
+        <div class="phone"><img src="shots/hero/ar_malachite.jpg" width="600" height="1305" alt="An Arabic quiz: what does it mean?"></div>
         <figcaption class="tag"><b>Arabic</b><small>Malachite</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_steel.jpg)">
-        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="A Thai word card with an example sentence" loading="lazy"></div>
+        <div class="phone"><img src="shots/hero/th_steel.jpg" width="600" height="1305" alt="A Thai word card with an example sentence"></div>
         <figcaption class="tag"><b>Thai</b><small>Steel</small></figcaption>
       </figure>
       <figure class="skin" style="background-image:url(shots/hero/tex_granite.jpg)">
-        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="A German speaking drill: say the word" loading="lazy"></div>
+        <div class="phone"><img src="shots/hero/de_granite.jpg" width="600" height="1305" alt="A German speaking drill: say the word"></div>
         <figcaption class="tag"><b>German</b><small>Granite</small></figcaption>
       </figure>
       <figure class="skin dup" aria-hidden="true" style="background-image:url(shots/hero/tex_moss.jpg)">
@@ -446,6 +449,46 @@ if (finFlags) {
   loopSlide(track, 'flagSlide');
 }
 
+
+/* ---------- the skins banner drifts left, one panel at a time ----------
+   Each panel is translated on its own and wraps to the far end once it is
+   fully off the left edge (see the CSS note above .skins). Phones and
+   reduced motion keep the plain swipe row. */
+(function(){
+  const box = document.querySelector('.skins');
+  if (!box) return;
+  const panels = [...box.querySelectorAll('.skin:not(.dup)')];
+  const mq = matchMedia('(min-width:761px) and (prefers-reduced-motion: no-preference)');
+  const SECONDS_PER_SET = 110;  // the pace the CSS drift had: one set of ten per 110s
+  let base = [], width = 0, panelW = 0, shift = 0, last = 0, raf = 0;
+  function measure(){
+    // Fractional sizes, not offsetLeft/offsetWidth: those round to whole
+    // pixels, and the rounding left hairline seams where a panel wrapped.
+    panels.forEach(p => p.style.transform = '');
+    const left = box.getBoundingClientRect().left;
+    base = panels.map(p => p.getBoundingClientRect().left - left);
+    panelW = panels[0].getBoundingClientRect().width;
+    width = panelW * panels.length;
+  }
+  function frame(t){
+    const dt = last ? Math.min(t - last, 100) : 0;   // a hidden tab resumes, not jumps
+    last = t;
+    shift = (shift + dt / 1000 * width / SECONDS_PER_SET) % width;
+    panels.forEach((p, i) => {
+      const x = ((base[i] - shift + panelW) % width + width) % width - panelW;
+      p.style.transform = `translate3d(${x - base[i]}px,0,0)`;
+    });
+    raf = requestAnimationFrame(frame);
+  }
+  function apply(){
+    cancelAnimationFrame(raf); last = 0;
+    if (mq.matches){ box.classList.add('drift'); measure(); raf = requestAnimationFrame(frame); }
+    else { box.classList.remove('drift'); panels.forEach(p => p.style.transform = ''); }
+  }
+  mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(apply, 150); });
+  apply();
+})();
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
