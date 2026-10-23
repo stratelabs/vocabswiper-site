@@ -187,3 +187,8 @@ a.pill:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
 .ractions .go-btn{margin-right:4px}
 .note{font-size:12.5px;color:var(--muted);margin-top:18px;line-height:1.6}
 @media (max-width:640px){.opts{grid-template-columns:1fr}.test{padding:22px 18px}}
+
+/* Every language, in every footer */
+.foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}
+.foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:rgba(236,241,240,.5);margin-bottom:10px}
+.foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}

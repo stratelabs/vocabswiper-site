@@ -190,7 +190,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{up}learn/learn.css?v=8">
+<link rel="stylesheet" href="{up}learn/learn.css?v=9">
 {jsonld}
 </head>
 <body>
@@ -200,7 +200,7 @@ HEAD = """<!DOCTYPE html>
 </nav></div></div>
 """
 
-FOOT = """<footer><div class="wrap foot-row">
+FOOT = """<footer>{langs}<div class="wrap foot-row">
   <span class="foot-brand"><img src="{up}icon.png?v=3" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
   <span><a href="{up}learn/">Languages</a> &nbsp;·&nbsp; <a href="{up}privacy/">Privacy</a> &nbsp;·&nbsp; <a href="{up}support/">Support</a></span>
 </div></footer>
@@ -301,7 +301,7 @@ def lang_page(lang, all_langs):
 </nav>
 </main>
 """)
-    out.append(FOOT.format(up=up))
+    out.append(FOOT.format(up=up, langs=foot_langs(ALL_LANGS, up)))
     return "".join(out)
 
 
@@ -446,7 +446,7 @@ def level_pages(lang):
 </main>
 {LEVEL_JS}
 """)
-        out.append(FOOT.format(up=up))
+        out.append(FOOT.format(up=up, langs=foot_langs(ALL_LANGS, up)))
         pages.append((lslug, "".join(out)))
     return pages
 
@@ -665,8 +665,42 @@ def test_page(lang):
 <script type="application/json" id="pool">{data.replace("</", "<\\/")}</script>
 {TEST_JS % {"per": TEST_PER_LEVEL}}
 """)
-    out.append(FOOT.format(up=up))
+    out.append(FOOT.format(up=up, langs=foot_langs(ALL_LANGS, up)))
     return "".join(out)
+
+
+ALL_LANGS = []  # set in main(); every page's footer links them all
+
+FOOT_LANG_CSS = (".foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}"
+                 ".foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;"
+                 "color:rgba(236,241,240,.5);margin-bottom:10px}"
+                 ".foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}")
+
+
+def foot_langs(all_langs, up):
+    """Every language page, linked from the bottom of every page, so any one
+    of them is a tap away wherever a learner lands. `up` is the path from the
+    page to the site root."""
+    links = "".join(f'<a href="{up}learn/{l["slug"]}/">{esc(l["name"])}</a>' for l in all_langs)
+    return f'<nav class="wrap foot-langs" aria-label="Languages"><b>Learn a language</b><div>{links}</div></nav>'
+
+
+# Hand-written pages carry the same block between these markers.
+FOOT_MARK = ("<!-- foot-langs -->", "<!-- /foot-langs -->")
+HAND_PAGES = {"index.html": "", "support/index.html": "../"}
+
+
+def stamp_hand_pages(all_langs):
+    for rel, up in HAND_PAGES.items():
+        path = os.path.join(ROOT, rel)
+        page = open(path, encoding="utf-8").read()
+        a, b = FOOT_MARK
+        block = a + foot_langs(all_langs, up) + b
+        if a in page:
+            page = page[:page.index(a)] + block + page[page.index(b) + len(b):]
+        else:
+            page = page.replace("<footer>", "<footer>\n  " + block, 1)
+        open(path, "w", encoding="utf-8").write(page)
 
 
 def hub_page(all_langs):
@@ -696,7 +730,7 @@ def hub_page(all_langs):
 </section>
 </main>
 """)
-    out.append(FOOT.format(up=up))
+    out.append(FOOT.format(up=up, langs=foot_langs(ALL_LANGS, up)))
     return "".join(out)
 
 
@@ -722,6 +756,8 @@ def main():
     ap.add_argument("--canonical", default=os.path.join(ios, "assets", "words.json"))
     a = ap.parse_args()
     langs = load(a.decks, a.languages, a.canonical)
+    global ALL_LANGS
+    ALL_LANGS = langs
     os.makedirs(os.path.join(ROOT, "learn"), exist_ok=True)
     for l in langs:
         d = os.path.join(ROOT, "learn", l["slug"])
@@ -736,6 +772,7 @@ def main():
             open(os.path.join(tdir, "index.html"), "w", encoding="utf-8").write(test_page(l))
     open(os.path.join(ROOT, "learn", "index.html"), "w", encoding="utf-8").write(hub_page(langs))
     open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sitemap(langs))
+    stamp_hand_pages(langs)
     print(f"{len(langs)} language pages, hub and sitemap written")
 
 
