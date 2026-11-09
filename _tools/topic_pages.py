@@ -57,7 +57,30 @@ def _carousel_items():
         ("actualmente", "currently", "actually", "en realidad"),
         ("carpeta", "a folder", "carpet", "alfombra"),
     ]
+    out["konbini-ja"] = [
+        ("いらっしゃいませ", "irasshaimase", "Welcome in!", "Staff say it. You don't need to answer."),
+        ("レジ", "reji", "Checkout counter", ""),
+        ("袋", "ふくろ · fukuro", "Bag", "袋いりますか？ Do you need a bag?"),
+        ("温めますか？", "あたためますか · atatamemasu ka", "Shall I heat it up?", "Asked when you buy a bento or other hot food."),
+        ("お箸", "おはし · ohashi", "Chopsticks", ""),
+        ("ポイントカード", "pointo kādo", "Point card", "Asked every time. A head shake is fine."),
+        ("大丈夫です", "だいじょうぶです · daijōbu desu", "No thanks, I'm fine", "The polite way to say no to all of the above."),
+        ("現金", "げんきん · genkin", "Cash", ""),
+        ("電子マネー", "でんしマネー · denshi manē", "IC card / e-money", "Suica, PASMO and friends."),
+        ("レシート", "reshīto", "Receipt", ""),
+    ]
     return out
+
+
+# Carousel slides shorten some readings to fit. The web pages show them in full.
+READING_FIX = {
+    "試着してもいいですか？": "しちゃくしてもいいですか · shichaku shite mo ii desu ka?",
+    "タクシー乗り場": "タクシーのりば · takushī noriba",
+    "〜までお願いします": "〜までおねがいします · … made onegaishimasu",
+    "ここで止めてください": "ここでとめてください · koko de tomete kudasai",
+    "カード使えますか？": "カードつかえますか · kādo tsukaemasu ka?",
+    "お会計お願いします": "おかいけいおねがいします · okaikei onegaishimasu",
+}
 
 
 def _right_html(looks, right):
@@ -123,9 +146,63 @@ TOPICS = [
 ]
 
 
+# Phrase lists: sections of (word, reading, meaning, note), merged from several carousels.
+KONBINI_EXTRA = [
+    ("袋はご利用ですか？", "ふくろはごりようですか · fukuro wa go-riyō desu ka?", "Would you like a bag?", "The politer way staff ask. Bags cost a few yen."),
+    ("お箸おつけしますか？", "おはしおつけしますか · ohashi otsuke shimasu ka?", "Shall I put in chopsticks?", ""),
+    ("ポイントカードはお持ちですか？", "ポイントカードはおもちですか · pointo kādo wa o-mochi desu ka?", "Do you have a point card?", "大丈夫です or a small head shake is fine."),
+    ("お支払いは？", "おしはらいは · o-shiharai wa?", "How will you pay?", ""),
+    ("カードでお願いします", "カードでおねがいします · kādo de onegaishimasu", "By card, please", "Swap カード for 現金 (cash) or 電子マネー."),
+    ("レシートは大丈夫です", "レシートはだいじょうぶです · reshīto wa daijōbu desu", "I don't need the receipt", ""),
+    ("おにぎり", "onigiri", "Rice ball", "Pull tab 1, then corners 2 and 3, and the seaweed stays crisp."),
+    ("ATM", "ē-tī-emu", "Cash machine", "Konbini ATMs, especially 7-Eleven's, usually take foreign cards."),
+]
+
+PHRASE_TOPICS = [
+    dict(lang="japanese", code="ja", speech="ja-JP", slug="travel-phrases", name="Japanese", label="Japanese travel phrases",
+         crumb="Travel phrases",
+         title="Japanese Phrases for Travel: {n} Phrases with Pronunciation",
+         h2="{n} Japanese travel phrases, with readings",
+         desc="{n} Japanese phrases for your trip, with readings and pronunciation: trains, the airport, hotels, taxis, shopping, konbini and izakaya. Hear each one.",
+         h1="Japanese phrases for travel",
+         intro="Everything you'll need between landing and leaving, grouped by where you'll need it. "
+               "Every phrase has its reading and romaji, and the speaker reads it aloud. Save the page for your trip.",
+         sections=[("At the airport", "airport-ja"), ("On the train", "train-words-ja"), ("At the hotel", "hotel-words-ja"),
+                   ("In a taxi", "taxi-ja"), ("At the konbini", "konbini-ja"), ("Shopping", "shopping-ja"),
+                   ("At an izakaya", "izakaya-ja")],
+         faq=[("What Japanese phrases should I learn before a trip?",
+               "Start with すみません (sumimasen: excuse me, sorry, and thank you), これください (kore kudasai: I'll take this), "
+               "and 大丈夫です (daijōbu desu: no thanks, I'm fine). With those three and pointing, you can get through most shops and restaurants."),
+              ("Do I need to speak Japanese to travel in Japan?",
+               "No. Signs in cities and on trains are in English too, and staff are used to visitors. A few phrases make every "
+               "interaction smoother, and people really do appreciate the effort."),
+              ("How do I pronounce Japanese?",
+               "Japanese sounds are simpler than they look. Vowels are always a (ah), i (ee), u (oo), e (eh), o (oh), and a line over a "
+               "vowel (ō, ū) just means hold it twice as long. Tap the speaker next to any phrase to hear it.")]),
+    dict(lang="japanese", code="ja", speech="ja-JP", slug="konbini-phrases", name="Japanese", label="Konbini phrases",
+         crumb="Konbini phrases",
+         title="Japanese Konbini Phrases: {n} Words for the Convenience Store",
+         h2="{n} konbini words and phrases, with readings",
+         desc="Every phrase you'll hear at a Japanese konbini (7-Eleven, Lawson, FamilyMart), from いらっしゃいませ to レシート. {n} words with readings, meanings and audio.",
+         h1="Japanese konbini phrases",
+         intro="The konbini (7-Eleven, Lawson, FamilyMart) is where you'll speak the most Japanese on any trip. "
+               "The staff ask the same few questions every time, so once you know them, checkout takes ten seconds.",
+         sections=[("The words", "konbini-ja"), ("What staff ask, and how to answer", KONBINI_EXTRA)],
+         faq=[("What does the konbini staff say when I walk in?",
+               "いらっしゃいませ (irasshaimase): “welcome in”. It's not a question, so you don't need to answer. A small nod is plenty."),
+              ("How do I say no thank you at a konbini?",
+               "大丈夫です (daijōbu desu). It works for the bag, the chopsticks, heating your food and the point card. "
+               "A small shake of the head works too."),
+              ("Can I use a foreign card at a konbini?",
+               "Usually, yes, for paying and at the ATM. 7-Eleven ATMs are the most reliable for foreign cards.")]),
+]
+
+
 def topics_by_lang():
     """lang slug -> [(topic slug, label)], for links from the language pages."""
     out = {}
+    for t in PHRASE_TOPICS:
+        out.setdefault(t["lang"], []).append((t["slug"], t["label"]))
     for t in TOPICS:
         out.setdefault(t["lang"], []).append((t["slug"], f"{t['name']} false friends"))
     return out
@@ -143,14 +220,23 @@ STYLE = """<style>
 .ff .not .x{color:#F08A7E;font-weight:700}
 .ff .not b{color:var(--text)}
 .ff .say{grid-row:1/span 3;grid-column:3}
+.ph{list-style:none;margin-top:12px;display:grid;gap:8px}
+.ph li{display:grid;grid-template-columns:1fr 34px;gap:2px 12px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg)}
+.ph .w{font-size:19px;font-weight:800}
+.ph .rd{grid-column:1;font-size:13.5px;color:var(--accent2)}
+.ph .g{grid-column:1;font-size:15px;font-weight:600;margin-top:4px}
+.ph .nt{grid-column:1;font-size:13.5px;color:var(--muted);line-height:1.55}
+.ph .say{grid-row:1/span 2;grid-column:2}
+.card h3{font-size:17px;margin-top:22px}
+.card h3:first-of-type{margin-top:14px}
 .related{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
 </style>"""
 
 SAY_JS = """<script>
 (function(){
-  var list=document.getElementById('ff'), lang=list.getAttribute('data-speech');
+  var main=document.querySelector('main'), list=document.querySelector('[data-speech]'), lang=list.getAttribute('data-speech');
   if(!('speechSynthesis' in window)){document.body.classList.add('no-say');return;}
-  list.addEventListener('click',function(e){
+  main.addEventListener('click',function(e){
     var b=e.target.closest('.say'); if(!b)return;
     speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(b.getAttribute('data-say')); u.lang=lang; u.rate=.85;
     var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.replace('_','-').indexOf(lang.split('-')[0])===0;})[0];
@@ -232,9 +318,98 @@ def build(t, items_by_carousel, H):
     return f"learn/{t['lang']}/{t['slug']}/", "".join(out)
 
 
+def _speak(word, reading):
+    """What the voice reads: the kana reading when there is one, else the word, without 〜 or …."""
+    kana = reading.split(" · ")[0] if " · " in reading else ""
+    text = kana if kana and re.search(r"[\u3040-\u30ff]", kana) else word
+    return text.replace("〜", "").replace("…", "").strip()
+
+
+def build_phrases(t, items_by_carousel, H):
+    sections, seen, n = [], set(), 0
+    for heading, src in t["sections"]:
+        rows = []
+        for w, r, g, note in (src if isinstance(src, list) else items_by_carousel.get(src, [])):
+            if w in seen:
+                continue
+            seen.add(w)
+            rows.append((w, READING_FIX.get(w, r), g, note))
+        n += len(rows)
+        sections.append((heading, rows))
+    url = f"{H['SITE']}/learn/{t['lang']}/{t['slug']}/"
+    title = t["title"].format(n=n) + " | Vocab Swiper"
+    desc = t["desc"].format(n=n)
+    up = "../../../"
+    plain = lambda s: re.sub(r"<[^>]+>", "", s)
+    jsonld = ('<script type="application/ld+json">' + json.dumps([
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Vocab Swiper", "item": H["SITE"] + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Languages", "item": H["SITE"] + "/learn/"},
+            {"@type": "ListItem", "position": 3, "name": f"Learn {t['name']}", "item": f"{H['SITE']}/learn/{t['lang']}/"},
+            {"@type": "ListItem", "position": 4, "name": t["label"], "item": url}]},
+        {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(a)}} for q, a in t["faq"]]}],
+        ensure_ascii=False) + "</script>")
+
+    def row(w, r, g, note):
+        return (f'<li><span class="w" lang="{t["code"]}">{esc(w)}</span>'
+                f'<button class="say" type="button" data-say="{esc(_speak(w, r))}" aria-label="Hear {esc(w)}"></button>'
+                + (f'<span class="rd" lang="{t["code"]}">{esc(r)}</span>' if r and r != w else "")
+                + f'<span class="g">{esc(g)}</span>'
+                + (f'<span class="nt">{esc(note)}</span>' if note else "") + "</li>")
+    body = "".join(f'<h3>{esc(h)}</h3><ul class="ph">{"".join(row(*x) for x in rows)}</ul>' for h, rows in sections)
+    others = "".join(f'<a class="pill" href="../{o["slug"]}/">{esc(o["label"])}</a>'
+                     for o in PHRASE_TOPICS if o["lang"] == t["lang"] and o is not t)
+    if t["lang"] == "japanese":
+        others += '<a class="pill" href="../jlpt-n5/">JLPT N5 vocabulary</a>'
+    faq_html = "".join(f"<details><summary>{esc(q)}</summary><p>{a}</p></details>" for q, a in t["faq"])
+    out = [H["HEAD"].format(title=esc(title), desc=esc(desc), url=url, site=H["SITE"], up=up,
+                            store=H["APP_STORE"], jsonld=jsonld + STYLE)]
+    out.append(f"""<main class="wrap">
+<header class="hero">
+  <div class="eyebrow"><a href="../../">Languages</a> / <a href="../">{esc(t['name'])}</a> / {esc(t['crumb'])}</div>
+  <h1>{esc(t['h1'])}</h1>
+  <p class="lede">{t['intro'].format(n=n)}</p>
+</header>
+
+<section class="card" data-speech="{t['speech']}">
+  <h2>{esc(t['h2'].format(n=n))}</h2>
+  <p class="sub">Tap the speaker to hear each one.</p>
+  {body}
+</section>
+
+<section class="cta">
+  <h2>Learn {esc(t['name'])} words the way people use them.</h2>
+  <p class="free">Vocab Swiper shows every word in a real example sentence, with native audio and spaced repetition. 50+ languages, free on the App Store and Google Play.</p>
+  {H['BADGE'].format(store=H['APP_STORE'], play=H['PLAY_STORE'])}
+</section>
+
+<section class="card faq">
+  <h2>Questions</h2>
+  {faq_html}
+</section>
+
+<nav class="more" aria-label="More {esc(t['name'])} word lists">
+  <h2>More {esc(t['name'])} word lists</h2>
+  <div class="related">{others}</div>
+  <p style="margin-top:18px"><a class="all" href="../">Learn {esc(t['name'])} vocabulary →</a></p>
+</nav>
+</main>
+{SAY_JS}
+""")
+    out.append(H["FOOT"].format(up=up, langs=H["foot_langs"](H["ALL_LANGS"], up)))
+    return f"learn/{t['lang']}/{t['slug']}/", "".join(out)
+
+
 def write_all(H):
     items = _carousel_items()
     paths = []
+    for t in PHRASE_TOPICS:
+        rel, page = build_phrases(t, items, H)
+        d = os.path.join(ROOT, rel)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page)
+        paths.append(rel)
     for t in TOPICS:
         rel, page = build(t, items, H)
         d = os.path.join(ROOT, rel)

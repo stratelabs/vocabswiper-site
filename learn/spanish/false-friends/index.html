@@ -32,6 +32,15 @@
 .ff .not .x{color:#F08A7E;font-weight:700}
 .ff .not b{color:var(--text)}
 .ff .say{grid-row:1/span 3;grid-column:3}
+.ph{list-style:none;margin-top:12px;display:grid;gap:8px}
+.ph li{display:grid;grid-template-columns:1fr 34px;gap:2px 12px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg)}
+.ph .w{font-size:19px;font-weight:800}
+.ph .rd{grid-column:1;font-size:13.5px;color:var(--accent2)}
+.ph .g{grid-column:1;font-size:15px;font-weight:600;margin-top:4px}
+.ph .nt{grid-column:1;font-size:13.5px;color:var(--muted);line-height:1.55}
+.ph .say{grid-row:1/span 2;grid-column:2}
+.card h3{font-size:17px;margin-top:22px}
+.card h3:first-of-type{margin-top:14px}
 .related{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
 </style>
 </head>
@@ -79,9 +88,9 @@
 </main>
 <script>
 (function(){
-  var list=document.getElementById('ff'), lang=list.getAttribute('data-speech');
+  var main=document.querySelector('main'), list=document.querySelector('[data-speech]'), lang=list.getAttribute('data-speech');
   if(!('speechSynthesis' in window)){document.body.classList.add('no-say');return;}
-  list.addEventListener('click',function(e){
+  main.addEventListener('click',function(e){
     var b=e.target.closest('.say'); if(!b)return;
     speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(b.getAttribute('data-say')); u.lang=lang; u.rate=.85;
     var v=speechSynthesis.getVoices().filter(function(x){return x.lang&&x.lang.replace('_','-').indexOf(lang.split('-')[0])===0;})[0];
