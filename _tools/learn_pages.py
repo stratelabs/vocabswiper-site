@@ -220,15 +220,18 @@ BADGE = """<span class="badges"><a class="badge" href="{store}" target="_blank" 
 
 
 def lang_page(lang, all_langs):
-    code, name, n = lang["code"], lang["name"], len(lang["rows"])
+    code, name = lang["code"], lang["name"]
     scale, lv = levels(lang)
+    # Languages with level pages count what those pages list (cleaned deck + core words), so the
+    # title, intro and level heading all show the same number.
+    n = sum(c for _, c in lv) if code in LEVEL_PAGES else len(lang["rows"])
     words = starters(lang)
     url = f"{SITE}/learn/{lang['slug']}/"
     title = f"Learn {name} Vocabulary: {n:,} Words, One Swipe at a Time | Vocab Swiper"
     top = lv[-1][0] if lv else ""
     desc = (f"Learn {n:,} {name} words with Vocab Swiper, from the most common "
             f"{lv[0][0] if lv else ''} words up to {top}. Native audio, example "
-            f"sentences and spaced repetition. Free on iPhone.")
+            f"sentences and spaced repetition. Free on iPhone and Android.")
     up = "../../"
     jsonld = ('<script type="application/ld+json">' + json.dumps({
         "@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -266,6 +269,10 @@ def lang_page(lang, all_langs):
     others = [o for o in all_langs if o["code"] != code]
     others = sorted(others, key=lambda o: -len(o["rows"]))[:10]
     other_html = "".join(f'<a href="../{o["slug"]}/">{esc(o["name"])}</a>' for o in others)
+    topic_links = TOPIC_LINKS.get(lang["slug"], [])
+    topic_html = ("" if not topic_links else
+                  f'<nav class="more" aria-label="{esc(name)} word lists"><h2>{esc(name)} word lists</h2><div class="links">'
+                  + "".join(f'<a href="{t}/">{esc(label)}</a>' for t, label in topic_links) + "</div></nav>")
     out.append(f"""<main class="wrap">
 <header class="hero">
   <div class="eyebrow"><a href="../">Languages</a> / {esc(name)}</div>
@@ -295,6 +302,7 @@ def lang_page(lang, all_langs):
   <p class="free">Free to download. Works offline once your deck is on your phone.</p>
 </section>
 
+{topic_html}
 <nav class="more" aria-label="Other languages">
   <h2>Other languages</h2>
   <div class="links">{other_html}<a class="all" href="../">All {len(all_langs)} languages →</a></div>
@@ -670,6 +678,8 @@ def test_page(lang):
 
 
 ALL_LANGS = []  # set in main(); every page's footer links them all
+TOPIC_LINKS = {}  # lang slug -> [(topic slug, label)], from topic_pages.py
+TOPIC_PATHS = []  # sitemap entries for the topic pages
 
 FOOT_LANG_CSS = (".foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}"
                  ".foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;"
@@ -743,6 +753,7 @@ def sitemap(all_langs):
             urls += [f"learn/{l['slug']}/{level_slug(t)}/" for t in tags
                      if any(t in r.get("tags", []) for r in listed(l))]
             urls.append(f"learn/{l['slug']}/{SCALES.get(l['code'], CEFR)[0].lower()}-test/")
+    urls += TOPIC_PATHS
     body = "".join(f"  <url><loc>{SITE}/{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "</urlset>\n")
@@ -756,8 +767,12 @@ def main():
     ap.add_argument("--canonical", default=os.path.join(ios, "assets", "words.json"))
     a = ap.parse_args()
     langs = load(a.decks, a.languages, a.canonical)
-    global ALL_LANGS
+    global ALL_LANGS, TOPIC_LINKS, TOPIC_PATHS
     ALL_LANGS = langs
+    import topic_pages  # word-list pages built from the Instagram carousels
+    TOPIC_LINKS = topic_pages.topics_by_lang()
+    TOPIC_PATHS = topic_pages.write_all({"HEAD": HEAD, "FOOT": FOOT, "BADGE": BADGE, "SITE": SITE, "APP_STORE": APP_STORE,
+                                         "PLAY_STORE": PLAY_STORE, "foot_langs": foot_langs, "ALL_LANGS": langs})
     os.makedirs(os.path.join(ROOT, "learn"), exist_ok=True)
     for l in langs:
         d = os.path.join(ROOT, "learn", l["slug"])
@@ -773,7 +788,7 @@ def main():
     open(os.path.join(ROOT, "learn", "index.html"), "w", encoding="utf-8").write(hub_page(langs))
     open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sitemap(langs))
     stamp_hand_pages(langs)
-    print(f"{len(langs)} language pages, hub and sitemap written")
+    print(f"{len(langs)} language pages, {len(TOPIC_PATHS)} topic pages, hub and sitemap written")
 
 
 if __name__ == "__main__":
