@@ -202,7 +202,7 @@ HEAD = """<!DOCTYPE html>
 
 FOOT = """<footer>{langs}<div class="wrap foot-row">
   <span class="foot-brand"><img src="{up}icon.png?v=3" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
-  <span><a href="{up}learn/">Languages</a> &nbsp;·&nbsp; <a href="{up}privacy/">Privacy</a> &nbsp;·&nbsp; <a href="{up}support/">Support</a></span>
+  <span><a href="{up}flashcards/">Flashcard app</a> &nbsp;·&nbsp; <a href="{up}learn/">Languages</a> &nbsp;·&nbsp; <a href="{up}privacy/">Privacy</a> &nbsp;·&nbsp; <a href="{up}support/">Support</a></span>
 </div></footer>
 </body>
 </html>
@@ -227,9 +227,9 @@ def lang_page(lang, all_langs):
     n = sum(c for _, c in lv) if code in LEVEL_PAGES else len(lang["rows"])
     words = starters(lang)
     url = f"{SITE}/learn/{lang['slug']}/"
-    title = f"Learn {name} Vocabulary: {n:,} Words, One Swipe at a Time | Vocab Swiper"
+    title = f"{name} Vocabulary Flashcards: {n:,} Words with Audio | Vocab Swiper"
     top = lv[-1][0] if lv else ""
-    desc = (f"Learn {n:,} {name} words with Vocab Swiper, from the most common "
+    desc = (f"Learn {n:,} {name} words as swipe flashcards, from the most common "
             f"{lv[0][0] if lv else ''} words up to {top}. Native audio, example "
             f"sentences and spaced repetition. Free on iPhone and Android.")
     up = "../../"
@@ -278,7 +278,7 @@ def lang_page(lang, all_langs):
   <div class="eyebrow"><a href="../">Languages</a> / {esc(name)}</div>
   <h1>Learn {esc(name)} vocabulary one swipe at a time</h1>
   <p class="endonym" lang="{code}"{d}>{esc(lang['endonym'])}</p>
-  <p class="lede">{n:,} real {esc(name)} words, starting from the most common and building up level by level. Every word comes with native audio and example sentences, and spaced repetition brings it back right before you'd forget it.</p>
+  <p class="lede">{n:,} real {esc(name)} words as flashcards you swipe, starting from the most common and building up level by level. Every word comes with native audio and example sentences, and spaced repetition brings it back right before you'd forget it.</p>
   {BADGE.format(store=APP_STORE, play=PLAY_STORE)}
 </header>
 
@@ -367,7 +367,7 @@ def level_pages(lang):
         full = f"{scale} {lname}" if not lname.startswith(scale) else lname
         lslug = level_slug(tag)
         url = f"{SITE}/learn/{lang['slug']}/{lslug}/"
-        title = f"{full} Vocabulary List: All {n:,} Words with Readings & Meanings | Vocab Swiper"
+        title = f"{full} Vocabulary List & Flashcards: All {n:,} Words with Readings | Vocab Swiper"
         desc = (f"The full {full} vocabulary list: {n:,} {name} words with readings, romaji and English "
                 f"meanings, most common first. Quiz yourself, hear each word, and study them free in Vocab Swiper.")
         up = "../../../"
@@ -715,7 +715,7 @@ def stamp_hand_pages(all_langs):
 
 def hub_page(all_langs):
     url = f"{SITE}/learn/"
-    title = f"Learn Vocabulary in {len(all_langs)} Languages | Vocab Swiper"
+    title = f"Vocabulary Flashcards in {len(all_langs)} Languages | Vocab Swiper"
     desc = (f"Pick a language and learn its vocabulary one swipe at a time. "
             f"{len(all_langs)} languages, from Spanish and Japanese to Swahili and Welsh, "
             f"each with a real graded deck.")
@@ -773,6 +773,9 @@ def main():
     TOPIC_LINKS = topic_pages.topics_by_lang()
     TOPIC_PATHS = topic_pages.write_all({"HEAD": HEAD, "FOOT": FOOT, "BADGE": BADGE, "SITE": SITE, "APP_STORE": APP_STORE,
                                          "PLAY_STORE": PLAY_STORE, "foot_langs": foot_langs, "ALL_LANGS": langs})
+    import landing_pages  # /flashcards/ and /compare/… for "flashcard app" searches
+    TOPIC_PATHS += landing_pages.write_all({"HEAD": HEAD, "FOOT": FOOT, "BADGE": BADGE, "SITE": SITE, "APP_STORE": APP_STORE,
+                                            "PLAY_STORE": PLAY_STORE, "foot_langs": foot_langs, "ALL_LANGS": langs})
     os.makedirs(os.path.join(ROOT, "learn"), exist_ok=True)
     for l in langs:
         d = os.path.join(ROOT, "learn", l["slug"])
