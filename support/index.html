@@ -6,40 +6,40 @@
 <title>Support — Vocab Swiper</title>
 <meta name="description" content="Get help with Vocab Swiper or send feedback. We usually reply within a day.">
 <meta name="robots" content="index,follow">
-<link rel="icon" href="../favicon.ico?v=4" sizes="any">
-<link rel="icon" type="image/png" href="../favicon.png?v=4" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" href="../favicon-dark.png?v=4" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="../favicon.png?v=4">
-<link rel="apple-touch-icon" href="../icon.png?v=3">
+<link rel="icon" href="../favicon.ico?v=5" sizes="any">
+<link rel="icon" type="image/png" href="../favicon.png?v=5" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="../favicon-dark.png?v=5" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="../favicon.png?v=5">
+<link rel="apple-touch-icon" href="../icon.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#141519; --card:#212228; --accent:#0F8A84; --accent2:#8FE3D9;
-    --green:#63E6BE; --muted:rgba(255,255,255,.55); --line:rgba(255,255,255,.09);
+    --bg:#FFFFFF; --card:#FFFFFF; --accent:#2F6FD6; --accent2:#1F55B0;
+    --green:#0B7A55; --muted:rgba(11,18,32,.7); --line:rgba(11,18,32,.11);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:#fff;
+  body{background:var(--bg);color:#0B1220;
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
-  ::selection{background:rgba(15,138,132,.4)}
+  ::selection{background:rgba(47,111,214,.4)}
   a{color:var(--accent2);text-decoration:none}
-  a:hover{color:#fff}
+  a:hover{color:#0B1220}
   button,input,select,textarea{font-family:inherit}
   :focus-visible{outline:2px solid var(--accent2);outline-offset:2px;border-radius:8px}
   .wrap{max-width:640px;margin:0 auto;padding:0 24px}
 
   .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
-  .glow.a{width:560px;height:560px;background:rgba(15,138,132,.13);top:-200px;right:-160px}
+  .glow.a{width:560px;height:560px;background:rgba(47,111,214,.13);top:-200px;right:-160px}
   .glow.b{width:460px;height:460px;background:rgba(99,230,190,.05);bottom:-220px;left:-200px}
   main{position:relative;z-index:1}
 
   nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
-  .brand img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(15,138,132,.4)}
-  .back{color:rgba(255,255,255,.5);font-size:13.5px;font-weight:600}
+  .brand img{width:30px;height:30px;border-radius:9px;box-shadow:0 4px 18px rgba(47,111,214,.4)}
+  .back{color:rgba(11,18,32,.65);font-size:13.5px;font-weight:600}
 
   header.head{padding:34px 0 10px;text-align:center}
   .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;color:var(--accent2)}
@@ -47,49 +47,49 @@
   header.head p{color:var(--muted);font-size:15.5px;margin-top:12px;max-width:460px;
     margin-left:auto;margin-right:auto;line-height:1.6}
 
-  .card{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:22px;
+  .card{background:#F3F7FE;border:1px solid var(--line);border-radius:22px;
     padding:28px 26px;margin:26px 0 40px;
-    box-shadow:0 22px 60px rgba(0,0,0,.35)}
+    box-shadow:0 22px 60px rgba(11,18,32,.08)}
   .field{margin-bottom:18px}
   label{display:block;font-size:13px;font-weight:700;letter-spacing:.2px;
-    color:rgba(255,255,255,.8);margin-bottom:8px}
-  label .opt{color:rgba(255,255,255,.4);font-weight:500}
-  input,select,textarea{width:100%;background:rgba(255,255,255,.04);color:#fff;
+    color:rgba(11,18,32,.95);margin-bottom:8px}
+  label .opt{color:rgba(11,18,32,.55);font-weight:500}
+  input,select,textarea{width:100%;background:#fff;color:#0B1220;
     border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:15px;
     transition:border-color .18s,background .18s}
-  input:focus,select:focus,textarea:focus{border-color:rgba(169,222,253,.6);
-    background:rgba(255,255,255,.06);outline:none}
-  input::placeholder,textarea::placeholder{color:rgba(255,255,255,.32)}
+  input:focus,select:focus,textarea:focus{border-color:rgba(47,111,214,.7);
+    background:#fff;outline:none}
+  input::placeholder,textarea::placeholder{color:rgba(11,18,32,.47)}
   textarea{min-height:150px;resize:vertical;line-height:1.6}
   select{appearance:none;cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238FE3D9' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%230A6A65' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 15px center;padding-right:40px}
-  select option{background:#212228;color:#fff}
+  select option{background:#FFFFFF;color:#0B1220}
 
   .submit{width:100%;background:var(--accent);color:#fff;font-size:15.5px;font-weight:700;
     border:none;border-radius:12px;padding:15px;cursor:pointer;letter-spacing:.2px;
-    box-shadow:0 8px 26px rgba(15,138,132,.4);transition:transform .15s,box-shadow .25s,opacity .2s}
-  .submit:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(15,138,132,.55)}
+    box-shadow:0 8px 26px rgba(47,111,214,.4);transition:transform .15s,box-shadow .25s,opacity .2s}
+  .submit:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(47,111,214,.55)}
   .submit:active{transform:translateY(0)}
   .submit:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
 
-  .note{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:14px;text-align:center;line-height:1.6}
+  .note{font-size:12.5px;color:rgba(11,18,32,.55);margin-top:14px;text-align:center;line-height:1.6}
   .status{margin-top:16px;font-size:14px;font-weight:600;text-align:center;border-radius:12px;
     padding:0;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
   .status.show{max-height:200px;padding:14px 16px}
   .status.ok{background:rgba(99,230,190,.1);border:1px solid rgba(99,230,190,.3);color:var(--green)}
-  .status.err{background:rgba(255,99,99,.09);border:1px solid rgba(255,99,99,.3);color:#ff8f8f}
+  .status.err{background:rgba(255,99,99,.09);border:1px solid rgba(255,99,99,.3);color:#C62828}
 
   .hp{position:absolute!important;left:-9999px!important;top:auto;width:1px;height:1px;
     opacity:0;pointer-events:none;overflow:hidden}
   .alt{text-align:center;color:var(--muted);font-size:14px;padding:0 0 60px}
   .alt a{font-weight:600}
 
-  footer{padding:30px 0;color:rgba(255,255,255,.38);font-size:13px;border-top:1px solid var(--line)}
+  footer{padding:30px 0;color:rgba(11,18,32,.53);font-size:13px;border-top:1px solid var(--line)}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(255,255,255,.6)}
+  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(11,18,32,.75)}
   .foot-brand img{width:22px;height:22px;border-radius:6px}
-  .foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}.foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:rgba(236,241,240,.5);margin-bottom:10px}.foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+  .foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(11,18,32,.08)}.foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:rgba(11,18,32,.62);margin-bottom:10px}.foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
 </style>
 </head>
 <body>
@@ -97,7 +97,7 @@
 <main>
 <div class="wrap">
   <nav>
-    <a class="brand" href="../"><img src="../icon.png?v=3" alt="">Vocab Swiper</a>
+    <a class="brand" href="../"><img src="../icon.png?v=4" alt="">Vocab Swiper</a>
     <a class="back" href="../">← Back to site</a>
   </nav>
 
@@ -146,7 +146,7 @@
 <footer>
   <!-- foot-langs --><nav class="wrap foot-langs" aria-label="Languages"><b>Learn a language</b><div><a href="../learn/albanian/">Albanian</a><a href="../learn/amharic/">Amharic</a><a href="../learn/arabic/">Arabic</a><a href="../learn/armenian/">Armenian</a><a href="../learn/bengali/">Bengali</a><a href="../learn/bulgarian/">Bulgarian</a><a href="../learn/chinese/">Chinese</a><a href="../learn/croatian/">Croatian</a><a href="../learn/czech/">Czech</a><a href="../learn/danish/">Danish</a><a href="../learn/dutch/">Dutch</a><a href="../learn/estonian/">Estonian</a><a href="../learn/filipino/">Filipino</a><a href="../learn/finnish/">Finnish</a><a href="../learn/french/">French</a><a href="../learn/georgian/">Georgian</a><a href="../learn/german/">German</a><a href="../learn/greek/">Greek</a><a href="../learn/gujarati/">Gujarati</a><a href="../learn/hebrew/">Hebrew</a><a href="../learn/hindi/">Hindi</a><a href="../learn/hungarian/">Hungarian</a><a href="../learn/icelandic/">Icelandic</a><a href="../learn/indonesian/">Indonesian</a><a href="../learn/irish/">Irish</a><a href="../learn/italian/">Italian</a><a href="../learn/japanese/">Japanese</a><a href="../learn/korean/">Korean</a><a href="../learn/latvian/">Latvian</a><a href="../learn/lithuanian/">Lithuanian</a><a href="../learn/malay/">Malay</a><a href="../learn/marathi/">Marathi</a><a href="../learn/maori/">Māori</a><a href="../learn/norwegian/">Norwegian</a><a href="../learn/persian/">Persian</a><a href="../learn/polish/">Polish</a><a href="../learn/portuguese/">Portuguese</a><a href="../learn/punjabi/">Punjabi</a><a href="../learn/romanian/">Romanian</a><a href="../learn/russian/">Russian</a><a href="../learn/samoan/">Samoan</a><a href="../learn/serbian/">Serbian</a><a href="../learn/slovak/">Slovak</a><a href="../learn/slovenian/">Slovenian</a><a href="../learn/spanish/">Spanish</a><a href="../learn/swahili/">Swahili</a><a href="../learn/swedish/">Swedish</a><a href="../learn/tamil/">Tamil</a><a href="../learn/thai/">Thai</a><a href="../learn/turkish/">Turkish</a><a href="../learn/ukrainian/">Ukrainian</a><a href="../learn/urdu/">Urdu</a><a href="../learn/vietnamese/">Vietnamese</a><a href="../learn/welsh/">Welsh</a><a href="../learn/yoruba/">Yoruba</a><a href="../learn/zulu/">Zulu</a></div></nav><!-- /foot-langs -->
   <div class="wrap foot-row">
-    <span class="foot-brand"><img src="../icon.png?v=3" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
+    <span class="foot-brand"><img src="../icon.png?v=4" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
     <span><a href="../privacy/">Privacy</a></span>
   </div>
 </footer>

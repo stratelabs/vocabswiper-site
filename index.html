@@ -3,382 +3,855 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vocab Swiper: Free Vocabulary Flashcard App for 56 Languages</title>
-<meta name="description" content="Vocabulary flashcards you swipe. Recall each word before you reveal it, and spaced repetition brings it back right before you'd forget. 56 languages, from Japanese and Korean to Spanish and French. Free on iPhone and Android.">
-<meta property="og:title" content="Vocab Swiper: Free Vocabulary Flashcard App for 56 Languages">
-<meta property="og:description" content="Fifty-six languages, real graded decks, honest recall. This page is the demo.">
+<title>Vocab Swiper: Learn Languages with Short Videos &amp; Flashcards</title>
+<meta name="description" content="Scroll short videos in the language you're learning, tap any word in the captions to see what it means, then swipe flashcards to remember it. 56 languages. Free on iPhone and Android.">
+<link rel="canonical" href="https://vocabswiper.com/">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:site_name" content="Vocab Swiper">
+<meta property="og:title" content="Vocab Swiper: Learn a language by doomscrolling">
+<meta property="og:description" content="Short videos in the language you're learning, captions you can tap word by word, and flashcards that make it stick.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://vocabswiper.com/">
 <meta property="og:image" content="https://vocabswiper.com/shots/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vocab Swiper: Learn a language by doomscrolling">
+<meta name="twitter:description" content="Short videos in the language you're learning, captions you can tap word by word, and flashcards that make it stick.">
+<meta name="twitter:image" content="https://vocabswiper.com/shots/og.jpg">
+<meta name="apple-itunes-app" content="app-id=6782795150">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"MobileApplication","name":"Vocab Swiper",
- "operatingSystem":"iOS, Android","applicationCategory":"EducationalApplication",
- "description":"Vocabulary flashcards you swipe, with honest recall and FSRS spaced repetition, across fifty-six languages.",
- "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+[{"@context":"https://schema.org","@type":"MobileApplication","name":"Vocab Swiper",
+  "url":"https://vocabswiper.com/","image":"https://vocabswiper.com/icon.png",
+  "operatingSystem":"iOS, Android","applicationCategory":"EducationalApplication",
+  "description":"A language learning app: scroll short videos in the language you're learning, tap any word in the captions for its meaning, and remember it with swipeable flashcards and FSRS spaced repetition. Fifty-six languages.",
+  "downloadUrl":["https://apps.apple.com/app/id6782795150","https://play.google.com/store/apps/details?id=com.stratelabs.vocab"],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "publisher":{"@type":"Organization","name":"Strate Labs Limited","url":"https://stratelabs.net"}},
+ {"@context":"https://schema.org","@type":"WebSite","name":"Vocab Swiper","url":"https://vocabswiper.com/"},
+ {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"Can you really learn a language by watching short videos?","acceptedAnswer":{"@type":"Answer","text":"Videos are the best listening practice there is: real people, real speed, the words people actually use. On their own they wash over you. Vocab Swiper puts captions on each video that you can tap word by word, and any word you save goes into flashcards that come back until you know it."}},
+  {"@type":"Question","name":"How do the tappable captions work?","acceptedAnswer":{"@type":"Answer","text":"Captions run along the bottom of each video, with each word lighting up as it's said and a translation underneath. Tap a word and the video pauses to show what it means. One more tap adds it to your deck."}},
+  {"@type":"Question","name":"Which languages can I learn?","acceptedAnswer":{"@type":"Answer","text":"Flashcard decks cover fifty-six languages, including Japanese, Korean, Chinese, Spanish, French, German, Italian, Portuguese, Russian, Arabic and Hindi. The video feed covers more than thirty of them."}},
+  {"@type":"Question","name":"Is Vocab Swiper free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's free to download on iPhone and Android, and every deck, spaced repetition, streaks and quizzes are free. Free accounts swipe 50 flashcards a day. An optional Pro subscription adds unlimited swiping, natural-sounding voices, unlimited AI example sentences and reading, and custom topic decks."}},
+  {"@type":"Question","name":"How is it different from other language learning apps?","acceptedAnswer":{"@type":"Answer","text":"Most apps teach you sentences written for a lesson. Vocab Swiper starts from real videos made by native speakers, then uses flashcards with honest recall and FSRS spaced repetition so the words stay. There are no leagues and no guilt trips."}},
+  {"@type":"Question","name":"Does it work offline?","acceptedAnswer":{"@type":"Answer","text":"The flashcard decks and your reviews live on your phone, so studying works on a plane. Videos, AI example sentences and premium voices need a connection."}}
+ ]}]
 </script>
-<link rel="icon" href="favicon.ico?v=4" sizes="any">
-<link rel="icon" type="image/png" href="favicon.png?v=4" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" href="favicon-dark.png?v=4" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="favicon.png?v=4">
-<link rel="apple-touch-icon" href="icon.png?v=3">
-<link rel="preload" as="image" href="shots/hero/panorama.webp" type="image/webp" fetchpriority="high">
+<link rel="icon" href="favicon.ico?v=5" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png?v=5" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="favicon-dark.png?v=5" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="favicon.png?v=5">
+<link rel="apple-touch-icon" href="icon.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  /* Dark, like the app: a teal-tinted near-black rather than #000, so cards
-     and the banner keep an edge against it. */
+  /* White page, the app icon's cornflower blue for the brand, and a coral for the
+     doomscroll side of the app, so the two halves read as two moods. */
   :root{
-    color-scheme:dark;
-    --bg:#0E1312; --surface:#161D1C; --accent:#0F8A84; --accent2:#8FE3D9;
-    --text:#ECF1F0; --muted:rgba(236,241,240,.6); --line:rgba(255,255,255,.08);
+    color-scheme:light;
+    --bg:#FFFFFF; --tint:#F3F7FE; --warm:#FFF3EC; --ink:#0B1220; --muted:#5A6577;
+    --line:#E2E9F3; --blue:#2F6FD6; --blue-deep:#1F55B0; --blue-soft:#E3EEFE;
+    --brand:#5A98F2; --coral:#FF5C39; --coral-deep:#D9421F;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:
-      radial-gradient(1100px 650px at 50% -10%, rgba(15,138,132,.16), transparent 60%),
-      radial-gradient(900px 550px at 105% 25%, rgba(15,138,132,.07), transparent 55%),
-      var(--bg);
-    color:var(--text);
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{background:var(--bg);color:var(--ink);
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  ::selection{background:rgba(15,138,132,.22)}
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  ::selection{background:rgba(47,111,214,.2)}
   a{color:inherit}
-  button{font-family:inherit}
-  :focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:6px}
-  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+  button{font:inherit;color:inherit}
+  img{max-width:100%}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  section{scroll-margin-top:84px}
 
-  /* film grain */
-  body::after{content:'';position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.04;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* ---------- nav ---------- */
+  .navbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;
+    transition:border-color .3s}
+  .navbar.scrolled{border-color:var(--line)}
+  .navbar nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.3px;text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:9px;display:block}
+  .navlinks{display:flex;align-items:center;gap:26px;font-size:14.5px;font-weight:500;color:var(--muted)}
+  .navlinks a{text-decoration:none;transition:color .2s}
+  .navlinks a:hover{color:var(--ink)}
+  .navlinks .get{background:var(--ink);color:#fff;font-weight:700;padding:10px 18px;border-radius:999px;white-space:nowrap}
+  .navlinks .get:hover{color:#fff;background:#1c2536}
 
-  /* mouse-reactive glow */
-  .glow{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;
-    transition:transform 1.4s cubic-bezier(.2,.8,.3,1)}
-  .glow.a{width:640px;height:640px;background:rgba(15,138,132,.14);top:-180px;right:-180px}
-  .glow.b{width:520px;height:520px;background:rgba(99,230,190,.05);bottom:-200px;left:-200px}
+  /* ---------- type ---------- */
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+  .eyebrow.hot{color:var(--coral-deep)}
+  h2{font-size:clamp(30px,4.6vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin-top:14px;text-wrap:balance}
+  .lede{font-size:18px;line-height:1.6;color:var(--muted);margin-top:18px;max-width:34em}
+  .blue{color:var(--blue)} .coral{color:var(--coral)}
 
-  main{position:relative;z-index:1}
-
-  /* sticky nav */
-  .navbar{position:sticky;top:0;z-index:50;transition:background .3s,border-color .3s;
-    border-bottom:1px solid transparent}
-  .navbar.scrolled{background:rgba(14,19,18,.78);backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);border-color:var(--line)}
-  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.2px}
-  .brand-img{width:30px;height:30px;border-radius:9px;display:block;
-    box-shadow:0 4px 18px rgba(15,138,132,.35)}
-  /* The app icon's teal, so the button reads as the app. */
-  nav .cta-mini{font-size:13px;font-weight:700;background:#0F8A84;
-    padding:9px 18px;border-radius:999px;color:#fff;text-decoration:none;
-    transition:all .2s;box-shadow:0 4px 18px rgba(15,138,132,.3)}
-  nav .cta-mini:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(15,138,132,.45)}
-
-  /* eyebrow */
-  .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:2.6px;text-transform:uppercase;
-    color:var(--accent2);text-align:center}
-
-  /* ============ HERO: the page IS the app ============ */
-  .hero{display:flex;flex-direction:column;align-items:center;
-    text-align:center;position:relative;padding:4vh 0 40px}
-  .hero .kicker{margin:2vh 0 0;font-size:clamp(30px,5vw,50px);font-weight:900;
-    letter-spacing:-2px;line-height:1.08;color:rgba(236,241,240,.92);text-wrap:balance}
-  /* The banner: ten skins, ten languages, edge to edge, drifting slowly
-     sideways and never pausing. It is ONE image (shots/hero/panorama.*,
-     rendered from the ten phones and their skins), repeated along x, not
-     twenty <img>s: the phones loaded one by one and popped in as the strip
-     moved, and one 390 KB download replaces twenty requests and 1.5 MB.
-     The image is a background on a screen-wide box and the script moves its
-     position, so there is no wide layer to tile: a layer twenty panels wide
-     lost its left tiles mid-drift in Chrome and Safari. The edge fade is two
-     overlays, not a mask-image, for the same reason. */
-  .skins{margin-top:clamp(26px,4vh,44px);overflow:hidden;position:relative}
-  .skins::before,.skins::after{content:'';position:absolute;top:0;bottom:0;width:4%;
-    z-index:2;pointer-events:none}
-  .skins::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(14,19,18,0))}
-  .skins::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(14,19,18,0))}
-  /* 640:3000 is the image's own panel: one skin is 300 wide by 640 tall. */
-  .pano{height:clamp(420px,calc(max(220px,13vw) * 640 / 300),640px);
-    background-color:#0c1513;background-repeat:repeat-x;background-size:auto 100%;
-    background-image:url(shots/hero/panorama.jpg);
-    background-image:image-set(url(shots/hero/panorama.webp) type("image/webp"),
-      url(shots/hero/panorama.jpg) type("image/jpeg"))}
-  @media(max-width:760px){
-    .skins::before,.skins::after{display:none}
-    .pano{height:min(118vw,560px)}
-  }
-
-  /* ============ FAQ ============ */
-  .faq-sec{padding:70px 24px 40px;max-width:660px;margin:0 auto}
-  .faq-sec h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
-    text-align:center;margin:10px 0 28px}
-  .faq-sec details{border:1px solid var(--line);border-radius:14px;
-    background:var(--surface);margin-bottom:10px;overflow:hidden}
-  .faq-sec summary{cursor:pointer;list-style:none;display:flex;align-items:center;
-    justify-content:space-between;gap:14px;padding:15px 18px;font-weight:700;
-    font-size:15.5px;color:rgba(236,241,240,.92)}
-  .faq-sec summary::-webkit-details-marker{display:none}
-  .faq-sec summary::after{content:'+';font-size:19px;font-weight:600;
-    color:rgba(236,241,240,.4);transition:transform .2s ease}
-  .faq-sec details[open] summary::after{transform:rotate(45deg)}
-  .faq-sec .a{padding:0 18px 16px;font-size:14.5px;line-height:1.65;
-    color:rgba(236,241,240,.6)}
-  .faq-sec .a b{color:rgba(236,241,240,.85)}
-
-  /* ============ proof / method ============ */
-  .proof{padding:40px 0 30px}
-  .proof .eyebrow{margin-bottom:0}
-  .proof-h2{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.8px;
-    text-align:center;margin:10px 0 2px}
-  .proof-lede{text-align:center;color:var(--muted);font-size:15px;max-width:46ch;margin:12px auto 0}
-  .proof .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:30px auto 0}
-  .chip{background:var(--surface);border:1px solid var(--line);border-radius:20px;
-    padding:26px 22px;text-align:center;transition:border-color .25s, transform .25s, box-shadow .25s;
-}
-  .chip:hover{border-color:rgba(15,138,132,.35);transform:translateY(-4px);
-    box-shadow:0 16px 34px rgba(0,0,0,.35)}
-  .chip svg{width:26px;height:26px;stroke:var(--accent2);stroke-width:1.8;fill:none;
-    stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
-  .chip h3{font-size:15px;margin-bottom:5px;font-weight:800;letter-spacing:-.2px}
-  .chip p{color:var(--muted);font-size:13px;line-height:1.55}
-
-  /* ============ final CTA ============ */
-  .fin{text-align:center;padding:50px 0 90px;position:relative}
-  .fin::before{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);
-    width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(15,138,132,.1),transparent 65%);
-    pointer-events:none}
-  .fin-icon{width:92px;height:92px;border-radius:23px;margin-bottom:26px;position:relative;
-    box-shadow:0 20px 45px rgba(15,138,132,.3),0 0 0 1px rgba(255,255,255,.08)}
-  .fin .flags{margin-top:20px;position:relative;overflow:hidden;max-width:600px;
-    margin-left:auto;margin-right:auto;
-    mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-  .fin .flags .track{display:flex;gap:11px;width:max-content;
-    animation:flagSlide 80s linear infinite}
-  .fin .flags img{width:31px;height:23px;border-radius:4px;flex:none;object-fit:cover;
-    border:1px solid rgba(255,255,255,.12);box-shadow:0 3px 8px rgba(0,0,0,.3);display:block}
-  @keyframes flagSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion: reduce){.fin .flags .track{animation:none}}
-  .badge{display:inline-flex;align-items:center;gap:12px;margin-top:30px;background:#000;
-    border:1px solid rgba(255,255,255,.25);border-radius:15px;padding:13px 24px;text-decoration:none;
-    transition:transform .15s, box-shadow .25s;position:relative}
-  .badge:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(15,138,132,.28)}
-  .badges{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:0 14px}
-  .badge svg{width:26px;height:26px;fill:#fff}
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:64px 0 84px}
+  h1{font-size:clamp(44px,6.6vw,80px);font-weight:900;letter-spacing:-.045em;line-height:.98;text-wrap:balance}
+  .hero .big{font-size:21px;line-height:1.45;margin-top:26px;max-width:26em;font-weight:500}
+  .hero .small{color:var(--muted);margin-top:12px;max-width:31em;font-size:16.5px;line-height:1.6}
+  .badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .badge{display:inline-flex;align-items:center;gap:11px;background:#000;border-radius:14px;padding:11px 20px;
+    text-decoration:none;transition:transform .15s,box-shadow .25s}
+  .badge:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(11,18,32,.2)}
+  .badge svg{width:24px;height:24px;fill:#fff;flex:none}
   .badge .txt{text-align:left;line-height:1.15}
-  .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.6px}
-  .badge .txt span{font-size:17.5px;font-weight:700;color:#fff}
-  .fin .sub{color:rgba(236,241,240,.42);font-size:13px;margin-top:18px;position:relative}
+  .badge .txt small{display:block;font-size:10px;color:rgba(255,255,255,.65);letter-spacing:.6px}
+  .badge .txt span{font-size:17px;font-weight:700;color:#fff}
+  .hero .fine{font-size:13.5px;color:var(--muted);margin-top:16px}
 
-  footer{padding:36px 0;color:rgba(236,241,240,.42);font-size:13px;border-top:1px solid var(--line)}
+  /* ---------- the phone: a live caption demo ---------- */
+  .stage{position:relative;display:flex;flex-direction:column;align-items:center}
+  .stage::before{content:'';position:absolute;inset:6% 4% 14%;border-radius:80px;
+    background:linear-gradient(160deg,#FFD9C9,#CFE0FC);filter:blur(46px);opacity:.9}
+  .phone{position:relative;width:min(300px,78vw);aspect-ratio:300/630;background:#0b0d12;border-radius:48px;padding:9px;
+    box-shadow:0 40px 80px -24px rgba(11,18,32,.45),0 0 0 1px rgba(11,18,32,.5)}
+  .screen{position:relative;width:100%;height:100%;border-radius:40px;overflow:hidden;background:#111;color:#fff;
+    cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+  .island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:86px;height:25px;border-radius:20px;
+    background:#000;z-index:6}
+  /* The "video": moving colour standing in for footage, and a voice. */
+  .clip{position:absolute;inset:0;transition:transform .55s cubic-bezier(.3,.8,.2,1),opacity .55s}
+  .clip.out{transform:translateY(-100%)} .clip.in{transform:translateY(100%)}
+  .clip i{position:absolute;border-radius:50%;filter:blur(38px);opacity:.9;animation:drift 9s ease-in-out infinite alternate}
+  .clip i:nth-child(1){width:80%;height:46%;left:-22%;top:4%;background:var(--c1)}
+  .clip i:nth-child(2){width:74%;height:44%;right:-24%;top:30%;background:var(--c2);animation-delay:-3s}
+  .clip i:nth-child(3){width:90%;height:40%;left:6%;bottom:-10%;background:var(--c3);animation-delay:-6s}
+  @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(9%,-7%) scale(1.18)}}
+  .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,0) 26%,rgba(0,0,0,0) 44%,rgba(0,0,0,.78))}
+  .voice{position:absolute;left:50%;top:31%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:5px;height:64px}
+  .voice b{width:5px;border-radius:3px;background:rgba(255,255,255,.9);height:20%;animation:talk 1s ease-in-out infinite}
+  .voice b:nth-child(2){animation-delay:-.2s}.voice b:nth-child(3){animation-delay:-.55s}
+  .voice b:nth-child(4){animation-delay:-.35s}.voice b:nth-child(5){animation-delay:-.75s}
+  .voice b:nth-child(6){animation-delay:-.1s}.voice b:nth-child(7){animation-delay:-.6s}
+  @keyframes talk{0%,100%{height:16%}50%{height:100%}}
+  .paused .voice b,.paused .clip i{animation-play-state:paused}
+  .langpill{position:absolute;top:46px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:7px;
+    background:rgba(0,0,0,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-radius:999px;padding:6px 12px 6px 7px;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .langpill img{width:20px;height:15px;border-radius:3px;object-fit:cover;display:block}
+  .caps{position:absolute;left:14px;right:14px;bottom:26px;z-index:4;text-align:center}
+  .line{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 0;font-size:20px;font-weight:800;line-height:1.3;
+    text-shadow:0 1px 10px rgba(0,0,0,.55)}
+  .line.sp{gap:2px 6px}
+  .w{background:none;border:0;padding:1px 2px;border-radius:6px;font-weight:800;cursor:pointer;color:rgba(255,255,255,.5);
+    transition:color .12s,background .12s;text-shadow:inherit}
+  .w.said{color:#fff} .w.now{color:#FFB199}
+  .w.deck{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.55)}
+  .w.picked{background:rgba(255,255,255,.22);color:#fff}
+  .spec .w.now{color:#FFB199}
+  .tr{margin-top:7px;font-size:13px;font-weight:500;color:rgba(255,255,255,.82);text-shadow:0 1px 8px rgba(0,0,0,.6);min-height:1.4em}
+  .wcard{position:absolute;left:14px;right:14px;bottom:118px;z-index:5;background:rgba(12,15,22,.9);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;padding:14px 14px 14px 16px;display:flex;align-items:center;gap:12px;text-align:left;
+    opacity:0;transform:translateY(10px) scale(.97);pointer-events:none;transition:opacity .2s,transform .2s}
+  .wcard.on{opacity:1;transform:none;pointer-events:auto}
+  .wcard .t{flex:1;min-width:0}
+  .wcard .t b{display:block;font-size:19px;font-weight:800;line-height:1.2}
+  .wcard .t small{display:block;font-size:11.5px;color:#FFB199;font-weight:600;margin-top:1px}
+  .wcard .t small:empty{display:none}
+  .wcard .t span{display:block;font-size:13.5px;color:rgba(255,255,255,.8);margin-top:3px}
+  .wcard button{flex:none;background:var(--coral);color:#fff;border:0;border-radius:999px;padding:8px 15px;font-size:13px;
+    font-weight:800;cursor:pointer;transition:background .2s}
+  .wcard button.done{background:rgba(255,255,255,.16)}
+  .bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.18);z-index:4}
+  .bar i{display:block;height:100%;width:0;background:#fff}
+  .hint{position:relative;margin-top:18px;font-size:14px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px}
+  .hint::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(255,92,57,.18)}
+  .picker{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}
+  .picker button{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:7px 13px 7px 8px;font-size:13.5px;font-weight:600;cursor:pointer;transition:border-color .2s,background .2s}
+  .picker button img{width:20px;height:15px;border-radius:3px;object-fit:cover;display:block;border:1px solid rgba(0,0,0,.06)}
+  .picker button:hover{border-color:#b9c4d6}
+  .picker button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  /* ---------- three steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:96px}
+  .step{border-radius:28px;padding:30px 28px;background:var(--tint)}
+  .step:first-child{background:var(--warm)}
+  .step .n{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--blue)}
+  .step:first-child .n{color:var(--coral-deep)}
+  .step h3{font-size:24px;font-weight:800;letter-spacing:-.03em;margin-top:10px}
+  .step p{color:var(--muted);margin-top:8px;font-size:15.5px;line-height:1.6}
+
+  /* ---------- the maths ---------- */
+  .maths h2{max-width:17em}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+  .fact{background:#fff;border-radius:26px;padding:28px 26px}
+  .fact b{display:block;font-size:clamp(32px,4vw,44px);font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--blue)}
+  .fact span{display:block;margin-top:12px;color:var(--muted);font-size:15.5px;line-height:1.55}
+  .closer{margin-top:36px;font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-.025em}
+
+  /* ---------- free and Pro ---------- */
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+  .plan{border:1px solid var(--line);border-radius:28px;padding:30px 28px;background:#fff}
+  .plan.pro{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .plan h3{font-size:22px;font-weight:800;letter-spacing:-.03em}
+  .plan h3 small{display:block;font-size:14px;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:4px}
+  .plan.pro h3 small{color:rgba(255,255,255,.65)}
+  .plan .ticks{margin-top:20px}
+  .plan.pro .ticks li::before{background-color:var(--brand)}
+
+  /* ---------- privacy ---------- */
+  .quiet{max-width:760px;margin:0 auto;text-align:center}
+  .quiet .lede{margin-left:auto;margin-right:auto}
+
+  /* ---------- start today ---------- */
+  .tips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;list-style:none}
+  .tip{background:#fff;border-radius:26px;padding:28px 26px;display:flex;flex-direction:column}
+  .tip .num{font-size:30px;font-weight:900;color:var(--coral);line-height:1}
+  .tip h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:12px}
+  .tip p{color:var(--muted);font-size:15px;line-height:1.55;margin-top:8px;flex:1}
+  .tip .path{margin-top:16px;background:var(--tint);border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:600;color:var(--ink)}
+  .sub{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:72px}
+  .guides{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 40px;margin-top:30px;font-weight:700}
+  .guides a{text-decoration:none}
+  .guides a:hover{color:var(--blue-deep)}
+  .guides a::after{content:' →';color:var(--coral)}
+
+  /* ---------- feature blocks ---------- */
+  .band{padding:96px 0}
+  .band.warm{background:var(--warm)} .band.tint{background:var(--tint)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .ticks{list-style:none;margin-top:26px;display:grid;gap:14px}
+  .ticks li{display:grid;grid-template-columns:26px 1fr;gap:12px;font-size:16px;line-height:1.55}
+  .ticks li::before{content:'';width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--blue)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+  .warm .ticks li::before{background-color:var(--coral)}
+  .ticks b{font-weight:700}
+  .ticks span{color:var(--muted)}
+
+  /* language wall: every feed, two rows drifting opposite ways */
+  .wall{display:grid;gap:12px;overflow:hidden;
+    mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .row{display:flex;gap:12px;width:max-content;animation:slide 60s linear infinite}
+  .row.back{animation-direction:reverse}
+  .row span{display:flex;align-items:center;gap:9px;background:#fff;border-radius:999px;padding:11px 18px 11px 12px;
+    font-size:16px;font-weight:700;white-space:nowrap;box-shadow:0 1px 0 rgba(11,18,32,.04),0 8px 22px -12px rgba(217,66,31,.35)}
+  .row img{width:26px;height:19px;border-radius:4px;object-fit:cover;display:block;border:1px solid rgba(0,0,0,.06)}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* caption specimen */
+  .spec{background:#0E1320;color:#fff;border-radius:32px;padding:34px 30px 30px;position:relative;
+    box-shadow:0 40px 70px -30px rgba(11,18,32,.5)}
+  .spec .wcard{position:static;opacity:1;transform:none;margin-bottom:22px;background:rgba(255,255,255,.07)}
+  .spec .line{font-size:clamp(22px,3vw,30px);gap:4px 9px}
+  .spec .w{cursor:default}
+  .spec .tr{font-size:15px;margin-top:10px}
+  .notes{display:grid;gap:10px;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);
+    font-size:13.5px;color:rgba(255,255,255,.72);text-align:left}
+  .notes div{display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:baseline}
+  .notes b{font-weight:800;font-size:14px}
+
+  /* real screenshots */
+  .shots{display:flex;justify-content:center;align-items:flex-end;padding:10px 0}
+  .shot{width:min(32%,216px);border-radius:30px;padding:6px;background:#0b0d12;
+    box-shadow:0 30px 60px -24px rgba(11,18,32,.5)}
+  .shot img{display:block;width:100%;height:auto;border-radius:25px}
+  .shot:nth-child(1){transform:rotate(-6deg) translate(14%,3%)}
+  .shot:nth-child(2){position:relative;z-index:2;width:min(36%,240px)}
+  .shot:nth-child(3){transform:rotate(6deg) translate(-14%,3%)}
+  .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px}
+  .chip svg{width:26px;height:26px;stroke:var(--blue);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+  .chip h3{font-size:16.5px;font-weight:800;letter-spacing:-.02em}
+  .chip p{color:var(--muted);font-size:14.5px;line-height:1.55;margin-top:5px}
+
+  /* comparison */
+  .cmp-wrap{margin-top:40px;overflow-x:auto;border:1px solid var(--line);border-radius:24px}
+  .cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:15px}
+  .cmp th,.cmp td{padding:16px 18px;text-align:center;border-top:1px solid var(--line)}
+  .cmp thead th{border-top:0;font-size:13.5px;font-weight:700;color:var(--muted);vertical-align:bottom}
+  .cmp th:first-child,.cmp td:first-child{text-align:left;font-weight:600}
+  .cmp .us{background:var(--tint);color:var(--ink)}
+  .cmp thead .us{font-size:15px;font-weight:800;color:var(--blue-deep)}
+  .y,.n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;font-size:0}
+  .y{background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/15px no-repeat}
+  .n{background:#EDF0F5 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2393A0B4' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 12h10'/%3E%3C/svg%3E") center/15px no-repeat}
+  .cmp small{display:block;font-size:12.5px;color:var(--muted);font-weight:500}
+
+  /* languages */
+  .langs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+  .langs a{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:18px;padding:15px 16px;
+    text-decoration:none;font-weight:700;font-size:16px;background:#fff;transition:transform .2s,border-color .2s,box-shadow .2s}
+  .langs a:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 14px 26px -16px rgba(47,111,214,.5)}
+  .langs img{width:30px;height:22px;border-radius:4px;object-fit:cover;border:1px solid rgba(0,0,0,.06);flex:none}
+  .langs small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+  .all{display:inline-block;margin-top:26px;font-weight:700;color:var(--blue-deep);text-decoration:none}
+  .all:hover{text-decoration:underline}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:0 auto}
+  .faq h2{text-align:center;margin-bottom:34px}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:20px 2px;font-weight:700;font-size:17.5px;letter-spacing:-.01em}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:'+';font-size:24px;font-weight:400;color:var(--muted);transition:transform .2s;flex:none}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq .a{padding:0 2px 22px;font-size:16px;line-height:1.65;color:var(--muted);max-width:40em}
+  .faq .a a{color:var(--blue-deep);font-weight:600}
+
+  /* final */
+  .fin{margin:0 24px 72px}
+  .fin-in{max-width:1072px;margin:0 auto;border-radius:40px;text-align:center;padding:72px 24px;color:#fff;
+    background:radial-gradient(700px 380px at 85% 0%,rgba(255,92,57,.55),transparent 65%),
+      radial-gradient(600px 400px at 0% 100%,rgba(190,215,255,.45),transparent 60%),linear-gradient(160deg,var(--brand),var(--blue))}
+  .fin img{width:84px;height:84px;border-radius:21px;box-shadow:0 18px 40px rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.25)}
+  .fin h2{color:#fff;margin-top:26px}
+  .fin p{color:rgba(255,255,255,.85);font-size:18px;margin-top:14px}
+  .fin .badges{justify-content:center}
+  .fin .fine{font-size:13.5px;color:rgba(255,255,255,.75);margin-top:18px}
+
+  footer{padding:36px 0 44px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:rgba(236,241,240,.65)}
+  .foot-brand{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--ink)}
   .foot-brand img{width:22px;height:22px;border-radius:6px}
-  footer a{color:rgba(236,241,240,.6);text-decoration:none;transition:color .2s}
-  footer a:hover{color:var(--text)}
+  footer a{text-decoration:none;transition:color .2s}
+  footer a:hover{color:var(--ink)}
+  .foot-langs{display:block;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+  .foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+  .foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px}
 
-  .reveal-sec{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-  .reveal-sec.in{opacity:1;transform:none}
-  @media (prefers-reduced-motion: reduce){.reveal-sec{opacity:1;transform:none;transition:none}}
+  /* Hidden only once the script is there to show them again. */
+  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.9,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
 
-  @media(max-width:760px){
-    .proof .grid{grid-template-columns:1fr}
-    .grade{width:44%}
+  @media(max-width:900px){
+    .navlinks a:not(.get){display:none}
+    .hero{grid-template-columns:1fr;gap:48px;padding:36px 0 64px}
+    .facts,.tips,.plans,.guides{grid-template-columns:1fr}
+    .band{padding:64px 0}
+    .split{grid-template-columns:1fr;gap:40px}
+    .split .visual{order:2}
+    .grid6{grid-template-columns:1fr 1fr;margin-top:40px}
+    .langs{grid-template-columns:1fr 1fr}
   }
-  .foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}.foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:rgba(236,241,240,.5);margin-bottom:10px}.foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+  @media(max-width:520px){
+    .wrap{padding:0 16px}
+    .grid6{grid-template-columns:1fr}
+    .hero .big{font-size:19px}
+    .spec{padding:24px 18px 22px;border-radius:26px}
+    .fin{margin:0 16px 56px}.fin-in{border-radius:30px;padding:56px 18px}
+    .langs a{padding:12px;font-size:15px;gap:10px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .row,.clip i,.voice b{animation:none}
+    .js .reveal{opacity:1;transform:none;transition:none}
+    .clip{transition:none}
+  }
 </style>
 </head>
 <body>
-<div class="glow a" id="glowa"></div><div class="glow b" id="glowb"></div>
-<main>
-<div class="navbar" id="navbar">
-  <div class="wrap">
-    <nav>
-      <div class="brand"><img class="brand-img" src="icon.png?v=3" alt="">Vocab Swiper</div>
-      <a class="cta-mini" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener">Get the app</a>
-    </nav>
+<div class="navbar" id="navbar"><div class="wrap"><nav aria-label="Main">
+  <a class="brand" href="./"><img src="icon.png?v=4" alt="" width="32" height="32">Vocab Swiper</a>
+  <div class="navlinks">
+    <a href="#features">Features</a>
+    <a href="#pro">Free vs Pro</a>
+    <a href="#guides">Guides</a>
+    <a href="#faq">FAQ</a>
+    <a class="get" href="#get">Get the app</a>
   </div>
-</div>
+</nav></div></div>
 
+<main>
+<!-- ============ hero: the phone is a working caption demo ============ -->
 <div class="wrap">
-  <!-- ============ THE PAGE IS THE APP ============ -->
   <header class="hero">
-    <h1 class="kicker">Your next language is one swipe away</h1>
+    <div>
+      <h1>Learn a language by <span class="coral">doomscrolling</span></h1>
+      <p class="big">Short videos in the language you're learning, with captions you can tap word by word.</p>
+      <p class="small">Watch real people talk, tap a word to see what it means, and swipe flashcards when you want it to stick.</p>
+      <div class="badges">
+        <a class="badge" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener" aria-label="Download on the App Store">
+          <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+          <span class="txt"><small>DOWNLOAD ON THE</small><span>App Store</span></span>
+        </a>
+        <a class="badge" href="https://play.google.com/store/apps/details?id=com.stratelabs.vocab" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+          <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D7FE" d="M64 24 L64 488 L300 256 Z"/><path fill="#00F076" d="M64 24 L300 256 L376 180 Z"/><path fill="#FF3A44" d="M64 488 L376 332 L300 256 Z"/><path fill="#FFD400" d="M376 180 L466 230 Q494 256 466 282 L376 332 L300 256 Z"/></svg>
+          <span class="txt"><small>GET IT ON</small><span>Google Play</span></span>
+        </a>
+      </div>
+      <p class="fine">Free to download · 56 languages · No account needed</p>
+    </div>
 
+    <div class="stage">
+      <div class="phone">
+        <div class="screen" id="screen" role="group" aria-label="Demo: a video with captions you can tap">
+          <div class="island"></div>
+          <div class="clip" id="clip"><i></i><i></i><i></i></div>
+          <div class="shade"></div>
+          <div class="voice" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <div class="langpill"><img id="pill-flag" src="flags/es.svg" alt=""><span id="pill-name">Spanish</span></div>
+          <div class="wcard" id="wcard">
+            <div class="t"><b id="wc-word"></b><small id="wc-read"></small><span id="wc-mean"></span></div>
+            <button type="button" id="wc-add">Add</button>
+          </div>
+          <div class="caps"><div class="line" id="line"></div><div class="tr" id="tr"></div></div>
+          <div class="bar"><i id="bar"></i></div>
+        </div>
+      </div>
+      <p class="hint">Try it: tap any word in the captions</p>
+      <div class="picker" id="picker" role="group" aria-label="Demo language"></div>
+    </div>
   </header>
+
 </div>
 
-<!-- ============ the banner: ten skins, ten languages ============ -->
-<div class="skins" role="img" aria-label="The app in ten languages, each in a different skin: Spanish in Moss, Korean in Marble, Hindi in Bark, Japanese in Reef, French in Amber, Russian in Feather, Greek in Ice, Arabic in Malachite, Thai in Steel and German in Granite">
-  <div class="pano"></div>
-</div>
+<!-- ============ the maths ============ -->
+<section class="band tint maths" id="maths">
+  <div class="wrap reveal">
+    <p class="eyebrow">The maths</p>
+    <h2>An hour of scrolling a day is <span class="coral">365 hours a year</span></h2>
+    <p class="lede">That's about half the time it takes an English speaker to get properly good at Spanish or French.
+      Most of us spend it on videos we've forgotten by dinner.</p>
+    <div class="facts">
+      <div class="fact"><b>600–750</b><span>hours of study to reach working Spanish, French or Italian, by the US Foreign Service Institute's estimate.</span></div>
+      <div class="fact"><b>1,000</b><span>of the most common words cover roughly four fifths of everyday conversation.</span></div>
+      <div class="fact"><b>10 a day</b><span>new words adds up to 3,650 in a year.</span></div>
+    </div>
+    <p class="closer">You don't need more time. You need the scroll to count.</p>
+  </div>
+</section>
 
-
-<!-- ============ method / why it works ============ -->
-<div class="proof reveal-sec">
-  <div class="wrap">
-    <h2 class="proof-h2">More than flashcards</h2>
-    <div class="grid">
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M2 12s3.4-6.4 10-6.4S22 12 22 12s-3.4 6.4-10 6.4S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/><path d="M3 3l18 18"/></svg>
-        <h3>Honest recall</h3><p>Recall before you reveal. Peeking counts as a miss.</p></div>
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M3 17c3-1 4-7 7-7s4 5 7 5c2 0 3-1 4-3"/><path d="M3 21h18"/></svg>
-        <h3>Spaced repetition</h3><p>FSRS brings each word back just before you'd forget it.</p></div>
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg>
-        <h3>Real graded decks</h3><p>56 languages. Thousands of words each, levelled to JLPT, CEFR and HSK.</p></div>
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M4 10v4"/><path d="M8 7v10"/><path d="M12 4v16"/><path d="M16 7v10"/><path d="M20 10v4"/></svg>
-        <h3>Native voices</h3><p>Hear every word and sentence, highlighted as it's read.</p></div>
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
-        <h3>Spell it, type it, say it</h3><p>As words stick, you build them, type them, then speak them.</p></div>
-      <div class="chip">
-        <svg viewBox="0 0 24 24"><path d="M2 4.5h7a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.5H2z"/><path d="M22 4.5h-7a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.5H22z"/></svg>
-        <h3>Read it in context</h3><p>Short stories and example sentences at your level.</p></div>
+<!-- ============ 1. the feed ============ -->
+<span id="features"></span>
+<section class="band warm" id="videos">
+  <div class="wrap split reveal">
+    <div>
+      <p class="eyebrow hot">The video feed</p>
+      <h2>Doomscroll in the language you're learning</h2>
+      <p class="lede">You were going to scroll anyway. Now every video is listening practice with
+        real people talking at real speed, the way no textbook dialogue ever does.</p>
+      <ul class="ticks">
+        <li><div><b>Actually in your language.</b> <span>Every video is checked to be spoken in the language you picked, not just tagged with it.</span></div></li>
+        <li><div><b>People talking, not background music.</b> <span>Videos with no speech are skipped, so each one teaches you something.</span></div></li>
+        <li><div><b>New videos every day.</b> <span>The feed refreshes daily in more than 30 languages.</span></div></li>
+      </ul>
+    </div>
+    <div class="visual wall" aria-label="Languages with a video feed">
+      <div class="row" id="wall-a"></div>
+      <div class="row back" id="wall-b"></div>
+      <div class="row" id="wall-c"></div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- ============ 2. captions ============ -->
+<section class="band" id="captions">
+  <div class="wrap split reveal">
+    <div class="visual">
+      <div class="spec" aria-label="Example captions: a French sentence with a word looked up">
+        <div class="wcard">
+          <div class="t"><b>boulanger</b><span>baker</span></div>
+          <button type="button" tabindex="-1" aria-hidden="true">Add</button>
+        </div>
+        <div class="line sp">
+          <span class="w said">Je</span><span class="w said">suis</span><span class="w now picked">boulanger</span>
+          <span class="w deck">depuis</span><span class="w">dix</span><span class="w deck">ans.</span>
+        </div>
+        <div class="tr">I've been a baker for ten years.</div>
+        <div class="notes">
+          <div><b style="color:#FFB199">Lit</b><span>The word being said right now, karaoke style.</span></div>
+          <div><b style="text-decoration:underline;text-underline-offset:4px">Underlined</b><span>Words already waiting in your flashcard deck.</span></div>
+          <div><b>Below</b><span>The whole line translated into your own language.</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">Tappable captions</p>
+      <h2>Learn the words in the video, <span class="blue">while you watch it</span></h2>
+      <p class="lede">Interactive subtitles follow along word by word. See one you don't know? Tap it.</p>
+      <ul class="ticks">
+        <li><div><b>Tap for the meaning.</b> <span>The video pauses, the word's meaning comes up, and a tap anywhere carries on.</span></div></li>
+        <li><div><b>Save it in one tap.</b> <span>Add the word to your deck and it joins your flashcard reviews.</span></div></li>
+        <li><div><b>Works for Japanese, Chinese and Korean.</b> <span>Sentences are split into real words, even where the language has no spaces.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. flashcards ============ -->
+<section class="band tint" id="flashcards">
+  <div class="wrap reveal">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Vocab swiping</p>
+        <h2>For when you actually want to study</h2>
+        <p class="lede">No brainrot required. Vocab Swiper is also a full vocabulary flashcard app with
+          spaced repetition: thousands of ready-made words per language, levelled from beginner to advanced.</p>
+        <ul class="ticks">
+          <li><div><b>Swipe to grade yourself.</b> <span>Right if you knew it, left if you didn't. Ten reviews fit in a coffee queue.</span></div></li>
+          <li><div><b>Honest recall.</b> <span>The meaning stays hidden until you've tried. Peeking counts as a miss.</span></div></li>
+          <li><div><b>Spaced repetition that works.</b> <span>FSRS schedules each word for just before you'd forget it.</span></div></li>
+        </ul>
+        <a class="all" href="flashcards/">More about the flashcard app →</a>
+      </div>
+      <div class="visual shots">
+        <div class="shot"><img src="shots/hero/es_moss.jpg" alt="A Spanish flashcard in the Moss skin" width="600" height="1304" loading="lazy"></div>
+        <div class="shot"><img src="shots/hero/ja_reef.jpg" alt="A Japanese flashcard for 大使館 with its reading and an example sentence" width="600" height="1304" loading="lazy"></div>
+        <div class="shot"><img src="shots/hero/ko_marble.jpg" alt="A Korean flashcard in the Marble skin" width="600" height="1304" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="grid6">
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5l9 4.5 9-4.5"/></svg>
+        <h3>Real graded decks</h3><p>Thousands of words per language, levelled to JLPT, CEFR and HSK.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4"/><path d="M8 7v10"/><path d="M12 4v16"/><path d="M16 7v10"/><path d="M20 10v4"/></svg>
+        <h3>Hear every word</h3><p>Audio for each word and example sentence, highlighted as it's read.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/></svg>
+        <h3>Spell it, type it, say it</h3><p>As a word sticks you build it from tiles, type it, then say it aloud.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4.5h7a2 2 0 0 1 2 2V20a1.6 1.6 0 0 0-1.6-1.5H2z"/><path d="M22 4.5h-7a2 2 0 0 0-2 2V20a1.6 1.6 0 0 1 1.6-1.5H22z"/></svg>
+        <h3>Read it in context</h3><p>Short stories and example sentences written at your level.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        <h3>Add your own words</h3><p>From a video, a lesson or a menu. They sit next to the ready-made decks.</p></div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="M8 10h8"/><path d="M8 14h5"/></svg>
+        <h3>A word on your lock screen</h3><p>A home screen widget shows you a new word through the day.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ comparison ============ -->
+<section class="band" id="compare">
+  <div class="wrap reveal">
+    <p class="eyebrow">Why it works</p>
+    <h2>The fun part and the part that makes it stick, in one app</h2>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr>
+          <th scope="col"></th>
+          <th scope="col" class="us">Vocab Swiper</th>
+          <th scope="col">Lesson apps</th>
+          <th scope="col">Flashcard apps</th>
+          <th scope="col">Just watching videos</th>
+        </tr></thead>
+        <tbody>
+          <tr><th scope="row">Real videos by native speakers</th>
+            <td class="us"><i class="y">Yes</i></td><td><i class="n">No</i></td><td><i class="n">No</i></td><td><i class="y">Yes</i></td></tr>
+          <tr><th scope="row">Tap any word for its meaning</th>
+            <td class="us"><i class="y">Yes</i></td><td><i class="n">No</i></td><td><i class="n">No</i></td><td><i class="n">No</i></td></tr>
+          <tr><th scope="row">Spaced repetition so words stay</th>
+            <td class="us"><i class="y">Yes</i></td><td><small>Sometimes</small></td><td><i class="y">Yes</i></td><td><i class="n">No</i></td></tr>
+          <tr><th scope="row">Ready-made decks by level</th>
+            <td class="us"><i class="y">Yes</i></td><td><i class="y">Yes</i></td><td><small>Build your own</small></td><td><i class="n">No</i></td></tr>
+          <tr><th scope="row">Something you'd open for fun</th>
+            <td class="us"><i class="y">Yes</i></td><td><small>Until the streak guilt</small></td><td><i class="n">No</i></td><td><i class="y">Yes</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ free and Pro ============ -->
+<section class="band tint" id="pro">
+  <div class="wrap reveal">
+    <p class="eyebrow">Free vs Pro</p>
+    <h2>Free gets you a long way</h2>
+    <p class="lede">No sign-up and no card to get started. Pro is there when you want to go faster.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free<small>Everything you need to learn</small></h3>
+        <ul class="ticks">
+          <li><div><b>Every deck, all 56 languages.</b> <span>Thousands of words each, levelled from beginner to advanced.</span></div></li>
+          <li><div><b>50 flashcards a day.</b> <span>With spaced repetition, streaks and quizzes.</span></div></li>
+          <li><div><b>Your own words.</b> <span>Add anything you come across and review it with the rest.</span></div></li>
+        </ul>
+      </div>
+      <div class="plan pro">
+        <h3>Pro<small>For when you're hooked</small></h3>
+        <ul class="ticks">
+          <li><div><b>Unlimited swiping.</b> <span style="color:rgba(255,255,255,.7)">No daily cap on flashcards.</span></div></li>
+          <li><div><b>Natural-sounding voices.</b> <span style="color:rgba(255,255,255,.7)">Hear every word and sentence the way a person says it.</span></div></li>
+          <li><div><b>Any word in three real sentences.</b> <span style="color:rgba(255,255,255,.7)">Plus short reading written at your level.</span></div></li>
+          <li><div><b>Custom topic decks.</b> <span style="color:rgba(255,255,255,.7)">Ask for a deck on anything, from football to job interviews.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ privacy ============ -->
+<section class="band" id="privacy">
+  <div class="wrap quiet reveal">
+    <p class="eyebrow">Private by default</p>
+    <h2>No sign-up. No name. Just start.</h2>
+    <p class="lede">Open the app and you're learning. Add an email only if you want your progress backed up and
+      on your other devices, and delete everything whenever you like.</p>
+    <a class="all" href="privacy/">Read the privacy policy →</a>
+  </div>
+</section>
+
+<!-- ============ start today + guides ============ -->
+<section class="band tint" id="guides">
+  <div class="wrap reveal">
+    <p class="eyebrow hot">Start today</p>
+    <h2>3 free changes that turn your phone into a language teacher</h2>
+    <ol class="tips">
+      <li class="tip"><span class="num">1</span><h3>Switch your phone's language</h3>
+        <p>You already know where every button is, so you pick up the words without trying.</p>
+        <div class="path">Settings → General → Language &amp; Region</div></li>
+      <li class="tip"><span class="num">2</span><h3>Subtitles in the language you hear</h3>
+        <p>Reading along in the same language ties each sound to its spelling. English subtitles just get read.</p>
+        <div class="path">Netflix or YouTube → Subtitles</div></li>
+      <li class="tip"><span class="num">3</span><h3>Say new words out loud</h3>
+        <p>A word you've said sticks better than one you've only seen, even if you mutter it.</p>
+        <div class="path">No setting needed</div></li>
+    </ol>
+
+    <h3 class="sub" id="languages">Guides and free word lists</h3>
+    <ul class="guides">
+      <li><a href="flashcards/">How the flashcard app works</a></li>
+      <li><a href="compare/quizlet-alternative/">Vocab Swiper vs Quizlet</a></li>
+      <li><a href="learn/">Word lists for all 56 languages</a></li>
+      <li><a href="learn/japanese/">The Japanese words to learn first</a></li>
+    </ul>
+    <div class="langs">
+      <a href="learn/japanese/"><img src="flags/jp.svg" alt="" loading="lazy"><span>Japanese<small>日本語</small></span></a>
+      <a href="learn/spanish/"><img src="flags/es.svg" alt="" loading="lazy"><span>Spanish<small>Español</small></span></a>
+      <a href="learn/korean/"><img src="flags/kr.svg" alt="" loading="lazy"><span>Korean<small>한국어</small></span></a>
+      <a href="learn/french/"><img src="flags/fr.svg" alt="" loading="lazy"><span>French<small>Français</small></span></a>
+      <a href="learn/chinese/"><img src="flags/cn.svg" alt="" loading="lazy"><span>Chinese<small>中文</small></span></a>
+      <a href="learn/german/"><img src="flags/de.svg" alt="" loading="lazy"><span>German<small>Deutsch</small></span></a>
+      <a href="learn/italian/"><img src="flags/it.svg" alt="" loading="lazy"><span>Italian<small>Italiano</small></span></a>
+      <a href="learn/portuguese/"><img src="flags/pt.svg" alt="" loading="lazy"><span>Portuguese<small>Português</small></span></a>
+      <a href="learn/arabic/"><img src="flags/sa.svg" alt="" loading="lazy"><span>Arabic<small>العربية</small></span></a>
+      <a href="learn/russian/"><img src="flags/ru.svg" alt="" loading="lazy"><span>Russian<small>Русский</small></span></a>
+      <a href="learn/hindi/"><img src="flags/in.svg" alt="" loading="lazy"><span>Hindi<small>हिन्दी</small></span></a>
+      <a href="learn/turkish/"><img src="flags/tr.svg" alt="" loading="lazy"><span>Turkish<small>Türkçe</small></span></a>
+    </div>
+  </div>
+</section>
 
 <!-- ============ FAQ ============ -->
-<section class="faq-sec reveal-sec" id="faq">
-  <h2>Q&amp;A</h2>
-  <details>
-    <summary>Which languages can I learn?</summary>
-    <div class="a">Fifty-six and counting: Japanese, Korean, Chinese, Spanish, French,
-      German, Italian, Portuguese, Russian, Dutch, Turkish, Polish, Swedish,
-      Danish, Norwegian, Icelandic, Finnish, Greek, Czech, Slovak, Hungarian,
-      Romanian, Ukrainian, Bulgarian, Croatian, Serbian, Slovenian, Lithuanian,
-      Latvian, Estonian, Albanian, Georgian, Armenian, Irish, Welsh, Arabic,
-      Hebrew, Persian, Hindi, Bengali, Urdu, Punjabi, Tamil, Marathi, Gujarati,
-      Thai, Vietnamese, Indonesian, Malay, Filipino, Samoan, Swahili, Zulu,
-      Yoruba and Amharic. Each with a <b>real graded deck</b> of thousands of
-      words, not a demo list, plus English itself.
-      <a href="learn/">See every language and its words →</a></div>
-  </details>
-  <details>
-    <summary>What's free, and what's Pro?</summary>
-    <div class="a"><b>Free:</b> every deck, spaced repetition, streaks, quizzes, and an
-      example sentence for each word. <b>Pro:</b> natural human-sounding voices,
-      unlimited AI example sentences and in-context reading, custom topic decks,
-      and a streak shield for the day life gets in the way.</div>
-  </details>
-  <details>
-    <summary>Does it work offline?</summary>
-    <div class="a">Yes. The decks and your reviews live on your phone, so learning works
-      on a plane. AI-generated example sentences and premium voices need a
-      connection; everything else doesn't.</div>
-  </details>
-  <details>
-    <summary>How is this different from other flashcard apps?</summary>
-    <div class="a"><b>Honest recall, and it doesn't stop at cards.</b> The meaning stays
-      hidden until you've tried; revealing counts as a miss, so your stats can't
-      lie to you. As a word sticks, the app makes you <b>produce</b> it: spell it
-      from tiles, type it from memory, say it aloud, then drops you into short
-      readings so it lands in context. Underneath, FSRS spaced repetition brings
-      each word back right before you'd forget. No leagues, no mascot guilt.</div>
-  </details>
+<section class="band" id="faq">
+  <div class="wrap faq reveal">
+    <h2>Questions</h2>
+    <details>
+      <summary>Can you really learn a language by watching short videos?</summary>
+      <div class="a">Videos are the best listening practice there is: real people, real speed, the words people
+        actually use. On their own they wash over you. Vocab Swiper puts captions on each video that you can tap
+        word by word, and any word you save goes into flashcards that come back until you know it.</div>
+    </details>
+    <details>
+      <summary>How do the tappable captions work?</summary>
+      <div class="a">Captions run along the bottom of each video, with each word lighting up as it's said and a
+        translation underneath. Tap a word and the video pauses to show what it means. One more tap adds it to your deck.</div>
+    </details>
+    <details>
+      <summary>Which languages can I learn?</summary>
+      <div class="a">Flashcard decks cover fifty-six languages, including Japanese, Korean, Chinese, Spanish, French,
+        German, Italian, Portuguese, Russian, Arabic and Hindi. The video feed covers more than thirty of them.
+        <a href="learn/">See every language and its words →</a></div>
+    </details>
+    <details>
+      <summary>Is Vocab Swiper free?</summary>
+      <div class="a">Yes. It's free to download on iPhone and Android, and every deck, spaced repetition, streaks and
+        quizzes are free. Free accounts swipe 50 flashcards a day. An optional Pro subscription adds unlimited swiping, natural-sounding voices, unlimited AI example sentences
+        and reading, and custom topic decks.</div>
+    </details>
+    <details>
+      <summary>How is it different from other language learning apps?</summary>
+      <div class="a">Most apps teach you sentences written for a lesson. Vocab Swiper starts from real videos made by
+        native speakers, then uses flashcards with honest recall and FSRS spaced repetition so the words stay.
+        There are no leagues and no guilt trips. Coming from a flashcard app?
+        <a href="compare/quizlet-alternative/">See how it compares with Quizlet →</a></div>
+    </details>
+    <details>
+      <summary>Does it work offline?</summary>
+      <div class="a">The flashcard decks and your reviews live on your phone, so studying works on a plane.
+        Videos, AI example sentences and premium voices need a connection.</div>
+    </details>
+  </div>
 </section>
 
 <!-- ============ final ============ -->
-
 <section class="fin" id="get">
-  <div class="wrap reveal-sec">
-    <img class="fin-icon" src="icon.png?v=3" alt="Vocab Swiper icon">
-    <div class="flags" id="fin-flags"></div>
-    <span class="badges"><a class="badge" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener" aria-label="Download on the App Store">
-      <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
-      <span class="txt"><small>DOWNLOAD ON THE</small><span>App Store</span></span>
-    </a>
-    <a class="badge" href="https://play.google.com/store/apps/details?id=com.stratelabs.vocab" target="_blank" rel="noopener" aria-label="Get it on Google Play">
-      <svg viewBox="0 0 512 512"><path fill="#00D7FE" d="M64 24 L64 488 L300 256 Z"/><path fill="#00F076" d="M64 24 L300 256 L376 180 Z"/><path fill="#FF3A44" d="M64 488 L376 332 L300 256 Z"/><path fill="#FFD400" d="M376 180 L466 230 Q494 256 466 282 L376 332 L300 256 Z"/></svg>
-      <span class="txt"><small>GET IT ON</small><span>Google Play</span></span>
-    </a></span>
-    <p class="sub">Free to download · Pro unlocks everything</p>
+  <div class="fin-in reveal">
+    <img src="icon.png?v=4" alt="Vocab Swiper app icon" width="84" height="84">
+    <h2>Learn your first word in a minute</h2>
+    <p>Free on iPhone and Android.</p>
+    <div class="badges">
+      <a class="badge" href="https://apps.apple.com/app/id6782795150" target="_blank" rel="noopener" aria-label="Download on the App Store">
+        <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <span class="txt"><small>DOWNLOAD ON THE</small><span>App Store</span></span>
+      </a>
+      <a class="badge" href="https://play.google.com/store/apps/details?id=com.stratelabs.vocab" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D7FE" d="M64 24 L64 488 L300 256 Z"/><path fill="#00F076" d="M64 24 L300 256 L376 180 Z"/><path fill="#FF3A44" d="M64 488 L376 332 L300 256 Z"/><path fill="#FFD400" d="M376 180 L466 230 Q494 256 466 282 L376 332 L300 256 Z"/></svg>
+        <span class="txt"><small>GET IT ON</small><span>Google Play</span></span>
+      </a>
+    </div>
+    <p class="fine">Free to download · Pro unlocks premium voices and more</p>
   </div>
 </section>
+</main>
 
 <footer>
   <!-- foot-langs --><nav class="wrap foot-langs" aria-label="Languages"><b>Learn a language</b><div><a href="learn/albanian/">Albanian</a><a href="learn/amharic/">Amharic</a><a href="learn/arabic/">Arabic</a><a href="learn/armenian/">Armenian</a><a href="learn/bengali/">Bengali</a><a href="learn/bulgarian/">Bulgarian</a><a href="learn/chinese/">Chinese</a><a href="learn/croatian/">Croatian</a><a href="learn/czech/">Czech</a><a href="learn/danish/">Danish</a><a href="learn/dutch/">Dutch</a><a href="learn/estonian/">Estonian</a><a href="learn/filipino/">Filipino</a><a href="learn/finnish/">Finnish</a><a href="learn/french/">French</a><a href="learn/georgian/">Georgian</a><a href="learn/german/">German</a><a href="learn/greek/">Greek</a><a href="learn/gujarati/">Gujarati</a><a href="learn/hebrew/">Hebrew</a><a href="learn/hindi/">Hindi</a><a href="learn/hungarian/">Hungarian</a><a href="learn/icelandic/">Icelandic</a><a href="learn/indonesian/">Indonesian</a><a href="learn/irish/">Irish</a><a href="learn/italian/">Italian</a><a href="learn/japanese/">Japanese</a><a href="learn/korean/">Korean</a><a href="learn/latvian/">Latvian</a><a href="learn/lithuanian/">Lithuanian</a><a href="learn/malay/">Malay</a><a href="learn/marathi/">Marathi</a><a href="learn/maori/">Māori</a><a href="learn/norwegian/">Norwegian</a><a href="learn/persian/">Persian</a><a href="learn/polish/">Polish</a><a href="learn/portuguese/">Portuguese</a><a href="learn/punjabi/">Punjabi</a><a href="learn/romanian/">Romanian</a><a href="learn/russian/">Russian</a><a href="learn/samoan/">Samoan</a><a href="learn/serbian/">Serbian</a><a href="learn/slovak/">Slovak</a><a href="learn/slovenian/">Slovenian</a><a href="learn/spanish/">Spanish</a><a href="learn/swahili/">Swahili</a><a href="learn/swedish/">Swedish</a><a href="learn/tamil/">Tamil</a><a href="learn/thai/">Thai</a><a href="learn/turkish/">Turkish</a><a href="learn/ukrainian/">Ukrainian</a><a href="learn/urdu/">Urdu</a><a href="learn/vietnamese/">Vietnamese</a><a href="learn/welsh/">Welsh</a><a href="learn/yoruba/">Yoruba</a><a href="learn/zulu/">Zulu</a></div></nav><!-- /foot-langs -->
   <div class="wrap foot-row">
-    <span class="foot-brand"><img src="icon.png?v=3" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
+    <span class="foot-brand"><img src="icon.png?v=4" alt="" width="22" height="22">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
     <span><a href="flashcards/">Flashcard app</a> &nbsp;·&nbsp; <a href="learn/">Languages</a> &nbsp;·&nbsp; <a href="privacy/">Privacy</a> &nbsp;·&nbsp; <a href="terms/">Terms</a> &nbsp;·&nbsp; <a href="support/">Support</a></span>
   </div>
 </footer>
-</main>
 
 <script>
-/* ---------- flag icons: flag-icons by Panayiotis Lipiridis (MIT, see flags/LICENSE.txt).
-   Real SVG files because emoji flags don't render on Windows. ---------- */
-/* one flag per country for the languages the site shows (FAQ order).
-   India stands for Hindi, Punjabi, Tamil, Marathi and Gujarati. */
-const ALL_FLAGS = ['gb','jp','kr','cn','es','fr','de','it','pt','ru','nl','tr','pl','se','dk','fi','gr','cz','id','ro','ua','sk','bg','hr','my','ph',
-  'sa','in','vn','hu','th','no','ir','bd','pk','ke','ws','ie','za','rs','si','lt','lv','ee','al','ge','am','ng','et','gb-wls','is'];
-
+document.documentElement.classList.add('js');
 const $ = id => document.getElementById(id);
 
-function loopSlide(el, keyframeName){
-  const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
-  const setWidth = el.scrollWidth + gap;
-  el.innerHTML += el.innerHTML;
-  const style = document.createElement('style');
-  style.textContent =
-    `@keyframes ${keyframeName}{from{transform:translateX(0)}` +
-    `to{transform:translateX(-${setWidth}px)}}`;
-  document.head.appendChild(style);
-}
-
-/* final-CTA flag row: every supported language's flag, continuously sliding in
-   one row. */
-const finFlags = $('fin-flags');
-if (finFlags) {
-  const track = document.createElement('div');
-  track.className = 'track';
-  ALL_FLAGS.forEach(code => {
-    const img = document.createElement('img');
-    img.src = `flags/${code}.svg`;
-    img.alt = '';
-    track.appendChild(img);
-  });
-  finFlags.appendChild(track);
-  loopSlide(track, 'flagSlide');
-}
-
-
-/* ---------- the skins banner drifts left ----------
-   One image, repeated along x; this moves its position. Reduced motion
-   leaves it still. */
-(function(){
-  const pano = document.querySelector('.skins .pano');
-  if (!pano) return;
-  const mq = matchMedia('(prefers-reduced-motion: no-preference)');
-  const SECONDS_PER_SET = 110;  // one set of ten skins per 110s, the pace it always had
-  let shift = 0, last = 0, raf = 0;
-  function frame(t){
-    const dt = last ? Math.min(t - last, 100) : 0;   // a hidden tab resumes, not jumps
-    last = t;
-    // The set is ten 300x640 panels, drawn at the box's height.
-    const setW = pano.clientHeight * 3000 / 640;
-    shift = (shift + dt / 1000 * setW / SECONDS_PER_SET) % setW;
-    pano.style.backgroundPosition = `${-shift}px 0`;
-    raf = requestAnimationFrame(frame);
-  }
-  function apply(){
-    cancelAnimationFrame(raf); last = 0;
-    if (mq.matches) raf = requestAnimationFrame(frame);
-    else pano.style.backgroundPosition = '';
-  }
-  mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply);
-  apply();
-})();
+/* nav hairline once the page has moved */
+const navbar = $('navbar');
+const onScroll = () => navbar.classList.toggle('scrolled', scrollY > 8);
+addEventListener('scroll', onScroll, {passive: true}); onScroll();
 
 /* section reveals */
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-}), {threshold: .15});
-document.querySelectorAll('.reveal-sec').forEach(el => io.observe(el));
+}), {threshold: .12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+/* ---------- the language wall ----------
+   Every language with a video feed. Flag icons: flag-icons by Panayiotis
+   Lipiridis (MIT, see flags/LICENSE.txt). */
+const FEEDS = [['es','Español'],['jp','日本語'],['fr','Français'],['kr','한국어'],['de','Deutsch'],['it','Italiano'],
+  ['pt','Português'],['cn','中文'],['sa','العربية'],['in','हिन्दी'],['ru','Русский'],['tr','Türkçe'],['nl','Nederlands'],
+  ['pl','Polski'],['se','Svenska'],['dk','Dansk'],['no','Norsk'],['fi','Suomi'],['gr','Ελληνικά'],['cz','Čeština'],
+  ['sk','Slovenčina'],['hu','Magyar'],['ro','Română'],['bg','Български'],['hr','Hrvatski'],['ua','Українська'],
+  ['in','தமிழ்'],['id','Bahasa Indonesia'],['my','Bahasa Melayu'],['vn','Tiếng Việt'],['gb','English'],['','Te reo Māori']];
+['wall-a','wall-b','wall-c'].forEach((id, r) => {
+  const mine = FEEDS.filter((_, i) => i % 3 === r);
+  const html = mine.map(([f, n]) =>
+    `<span>${f ? `<img src="flags/${f}.svg" alt="" loading="lazy">` : ''}${n}</span>`).join('');
+  $(id).innerHTML = html + html;   // twice, so sliding half its width loops
+});
+
+/* ---------- the caption demo ----------
+   Each clip: lines of [word, meaning, reading?], and the line's translation.
+   A trailing * marks a word already in the deck (drawn underlined). */
+const CLIPS = [
+  {flag:'es', name:'Spanish', spaced:true, c:['#FF7A45','#C2185B','#5B2A86'], lines:[
+    {tr:"What's your favourite food?", w:[['¿Cuál','which'],['es','is'],['tu','your'],['comida*','food'],['favorita?','favourite']]},
+    {tr:'Potato omelette, without a doubt.', w:[['La','the'],['tortilla','omelette'],['de','of'],['patatas,*','potatoes'],['sin','without'],['duda.','doubt']]}]},
+  {flag:'jp', name:'Japanese', spaced:false, c:['#2E6BE6','#12B5A6','#17203F'], lines:[
+    {tr:'What are you eating today?', w:[['今日*','today','きょう'],['は','topic marker'],['何','what','なに'],['を','object marker'],['食べます*','to eat','たべます'],['か？','question marker']]},
+    {tr:'I love ramen.', w:[['ラーメン','ramen'],['が','subject marker'],['大好き*','love, really like','だいすき'],['です。','is (polite)']]}]},
+  {flag:'fr', name:'French', spaced:true, c:['#7C4DFF','#FF5C8A','#1B2B6B'], lines:[
+    {tr:'What do you do for a living?', w:[["Qu'est-ce que",'what'],['tu','you'],['fais*','do'],['dans','in'],['la','the'],['vie ?*','life']]},
+    {tr:"I've been a baker for ten years.", w:[['Je','I'],['suis','am'],['boulanger','baker'],['depuis*','since, for'],['dix','ten'],['ans.*','years']]}]},
+  {flag:'kr', name:'Korean', spaced:true, c:['#FF4D6D','#FFB03A','#3A1C71'], lines:[
+    {tr:'What are you going to eat today?', w:[['오늘*','today','oneul'],['뭐','what','mwo'],['먹을*','to eat','meogeul'],['거예요?','going to','geoyeyo']]},
+    {tr:'I like tteokbokki the most.', w:[['떡볶이가','tteokbokki','tteokbokkiga'],['제일*','the most','jeil'],['좋아요.','to like, be good','joayo']]}]},
+  {flag:'de', name:'German', spaced:true, c:['#F2B01E','#E0452B','#263238'], lines:[
+    {tr:'What do you do at the weekend?', w:[['Was','what'],['machst*','do, make'],['du','you'],['am','on the'],['Wochenende?*','weekend']]},
+    {tr:'I like to go hiking.', w:[['Ich','I'],['gehe*','go'],['gern','gladly'],['wandern.','hiking']]}]},
+];
+const WORD_MS = 430, LINE_REST = 900;
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const screen_ = $('screen'), clipEl = $('clip'), lineEl = $('line'), trEl = $('tr'),
+      card = $('wcard'), addBtn = $('wc-add'), bar = $('bar'), picker = $('picker');
+let ci = 0, li = 0, wi = -1, timer = 0, picked = null;
+
+CLIPS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.innerHTML = `<img src="flags/${c.flag}.svg" alt="">${c.name}`;
+  b.addEventListener('click', () => show(i, true));
+  picker.appendChild(b);
+});
+
+function drawLine() {
+  const clip = CLIPS[ci], line = clip.lines[li];
+  lineEl.className = 'line' + (clip.spaced ? ' sp' : '');
+  lineEl.innerHTML = '';
+  line.w.forEach(([raw, mean, read], i) => {
+    const deck = raw.endsWith('*'), text = deck ? raw.slice(0, -1) : raw;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'w' + (deck ? ' deck' : ''); b.textContent = text;
+    b.setAttribute('aria-label', `${text}: ${mean}`);
+    b.addEventListener('click', e => { e.stopPropagation(); pick(b, text, mean, read); });
+    lineEl.appendChild(b);
+  });
+  trEl.textContent = line.tr;
+  paint();
+}
+function paint() {
+  [...lineEl.children].forEach((b, i) => {
+    b.classList.toggle('said', still || i < wi);
+    b.classList.toggle('now', !still && i === wi);
+  });
+  const clip = CLIPS[ci];
+  const total = clip.lines.reduce((n, l) => n + l.w.length, 0);
+  const done = clip.lines.slice(0, li).reduce((n, l) => n + l.w.length, 0) + Math.max(wi + 1, 0);
+  bar.style.width = (still ? 0 : done / total * 100) + '%';
+}
+function tick() {
+  const line = CLIPS[ci].lines[li];
+  wi++;
+  if (wi < line.w.length) { paint(); timer = setTimeout(tick, WORD_MS); return; }
+  // line finished: rest, then the next line, or swipe to the next video
+  timer = setTimeout(() => {
+    if (li + 1 < CLIPS[ci].lines.length) { li++; wi = -1; drawLine(); tick(); }
+    else show((ci + 1) % CLIPS.length, false);
+  }, LINE_REST);
+}
+function show(i, byHand) {
+  clearTimeout(timer); closeCard();
+  const swap = () => {
+    ci = i; li = 0; wi = -1;
+    const c = CLIPS[ci];
+    clipEl.style.setProperty('--c1', c.c[0]); clipEl.style.setProperty('--c2', c.c[1]);
+    clipEl.style.setProperty('--c3', c.c[2]);
+    $('pill-flag').src = `flags/${c.flag}.svg`; $('pill-name').textContent = c.name;
+    [...picker.children].forEach((b, n) => b.setAttribute('aria-pressed', n === ci));
+    drawLine();
+    if (!still) timer = setTimeout(tick, 350);
+  };
+  if (still || !clipEl.style.getPropertyValue('--c1')) { swap(); return; }
+  // the next video comes up from below, like a swipe
+  clipEl.classList.add('out');
+  setTimeout(() => {
+    clipEl.style.transition = 'none'; clipEl.classList.replace('out', 'in'); swap();
+    clipEl.offsetHeight; clipEl.style.transition = ''; clipEl.classList.remove('in');
+  }, 300);
+}
+function pick(btn, text, mean, read) {
+  clearTimeout(timer);
+  screen_.classList.add('paused');
+  if (picked) picked.classList.remove('picked');
+  picked = btn; btn.classList.add('picked');
+  $('wc-word').textContent = text.replace(/^[¿¡]+|[.,?!？。]+$/g, '').trim();
+  $('wc-read').textContent = read || '';
+  $('wc-mean').textContent = mean;
+  const inDeck = btn.classList.contains('deck');
+  addBtn.textContent = inDeck ? 'In deck' : 'Add';
+  addBtn.classList.toggle('done', inDeck);
+  card.classList.add('on');
+}
+function closeCard() {
+  card.classList.remove('on'); screen_.classList.remove('paused');
+  if (picked) { picked.classList.remove('picked'); picked = null; }
+}
+addBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  if (addBtn.classList.contains('done')) return;
+  addBtn.textContent = 'Saved'; addBtn.classList.add('done');
+  if (picked) picked.classList.add('deck');
+});
+card.addEventListener('click', e => e.stopPropagation());
+// a tap anywhere else carries on, as in the app
+screen_.addEventListener('click', () => {
+  if (!card.classList.contains('on')) return;
+  closeCard();
+  if (!still) timer = setTimeout(tick, 250);
+});
+show(0, true);
 </script>
 </body>
 </html>

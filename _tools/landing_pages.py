@@ -31,7 +31,7 @@ STYLE = """<style>
 .cmp td:first-child{color:var(--muted);width:28%}
 .pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
 .pick div{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--bg)}
-.pick ul{margin:8px 0 0 18px;color:rgba(236,241,240,.72);font-size:14.5px;line-height:1.7}
+.pick ul{margin:8px 0 0 18px;color:rgba(11,18,32,.84);font-size:14.5px;line-height:1.7}
 @media (max-width:560px){.cmp td:first-child{width:auto}.cmp th,.cmp td{padding:10px 6px;font-size:13.5px}}
 </style>"""
 

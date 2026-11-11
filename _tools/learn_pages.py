@@ -182,26 +182,26 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:type" content="website">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{site}/shots/og.jpg">
-<link rel="icon" href="{up}favicon.ico?v=4" sizes="any">
-<link rel="icon" type="image/png" href="{up}favicon.png?v=4" media="(prefers-color-scheme: light)">
-<link rel="icon" type="image/png" href="{up}favicon-dark.png?v=4" media="(prefers-color-scheme: dark)">
-<link rel="icon" type="image/png" href="{up}favicon.png?v=4">
-<link rel="apple-touch-icon" href="{up}icon.png?v=3">
+<link rel="icon" href="{up}favicon.ico?v=5" sizes="any">
+<link rel="icon" type="image/png" href="{up}favicon.png?v=5" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="{up}favicon-dark.png?v=5" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="{up}favicon.png?v=5">
+<link rel="apple-touch-icon" href="{up}icon.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{up}learn/learn.css?v=9">
+<link rel="stylesheet" href="{up}learn/learn.css?v=11">
 {jsonld}
 </head>
 <body>
 <div class="navbar"><div class="wrap"><nav>
-  <a class="brand" href="{up}"><img class="brand-img" src="{up}icon.png?v=3" alt="">Vocab Swiper</a>
+  <a class="brand" href="{up}"><img class="brand-img" src="{up}icon.png?v=4" alt="">Vocab Swiper</a>
   <a class="cta-mini" href="{store}" target="_blank" rel="noopener">Get the app</a>
 </nav></div></div>
 """
 
 FOOT = """<footer>{langs}<div class="wrap foot-row">
-  <span class="foot-brand"><img src="{up}icon.png?v=3" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
+  <span class="foot-brand"><img src="{up}icon.png?v=4" alt="">Vocab Swiper · © 2026 <a href="https://stratelabs.net" style="color:inherit">Strate Labs Limited</a></span>
   <span><a href="{up}flashcards/">Flashcard app</a> &nbsp;·&nbsp; <a href="{up}learn/">Languages</a> &nbsp;·&nbsp; <a href="{up}privacy/">Privacy</a> &nbsp;·&nbsp; <a href="{up}support/">Support</a></span>
 </div></footer>
 </body>
@@ -681,9 +681,9 @@ ALL_LANGS = []  # set in main(); every page's footer links them all
 TOPIC_LINKS = {}  # lang slug -> [(topic slug, label)], from topic_pages.py
 TOPIC_PATHS = []  # sitemap entries for the topic pages
 
-FOOT_LANG_CSS = (".foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06)}"
+FOOT_LANG_CSS = (".foot-langs{display:block;padding-top:0;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid #E2E9F3}"
                  ".foot-langs b{display:block;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;"
-                 "color:rgba(236,241,240,.5);margin-bottom:10px}"
+                 "color:rgba(11,18,32,.62);margin-bottom:10px}"
                  ".foot-langs div{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}")
 
 
