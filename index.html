@@ -112,7 +112,8 @@
   /* The video is a real one from the app's feed, played by YouTube's own
      player. Until it starts (or if it can't), moving colour stands in. */
   .yt{position:absolute;inset:0;opacity:0;transition:opacity .45s;pointer-events:none;background:#000}
-  .yt iframe{position:absolute;top:50%;left:50%;height:100%;aspect-ratio:9/16;transform:translate(-50%,-50%);border:0}
+  .yt iframe{position:absolute;top:50%;left:50%;height:100%;aspect-ratio:9/16;transform:translate(-50%,-50%);border:0;opacity:0}
+  .yt iframe.on{opacity:1}
   .live .yt{opacity:1}
   .live .voice{opacity:0}
   .live .caps{left:8px;right:8px;bottom:18px;padding:12px 8px 10px;border-radius:20px;background:rgba(10,14,28,.74);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
@@ -366,7 +367,7 @@
         <div class="screen" id="screen" role="group" aria-label="Demo: a video with captions you can tap">
           <div class="island"></div>
           <div class="clip" id="clip"><i></i><i></i><i></i></div>
-          <div class="yt"><div id="yt"></div></div>
+          <div class="yt" id="yt"></div>
           <div class="shade"></div>
           <button type="button" class="sound" id="sound" aria-pressed="false" aria-label="Sound">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><g class="off"><path d="M16 9.5l5 5"/><path d="M21 9.5l-5 5"/></g><g class="on"><path d="M15.5 9a4.2 4.2 0 0 1 0 6"/><path d="M18 6.5a7.6 7.6 0 0 1 0 11"/></g></svg>
@@ -708,7 +709,11 @@ const screen_ = $('screen'), clipEl = $('clip'), lineEl = $('line'), trEl = $('t
 /* `live` is true while the real video is playing and setting the time.
    Otherwise the page keeps time itself, so the captions run either way. */
 let ci = 0, li = -1, t = 0, picked = null, paused = false,
-    player = null, ready = false, live = false, waitUntil = 0;
+    api = false, live = false, waitUntil = 0;
+/* Every clip has a player of its own, loaded and held at its first frame
+   before it is asked for, so changing clip is a cut and not a wait. */
+const cur = () => CLIPS[ci].p;
+const usable = c => c.p && c.ready && !c.dead;
 
 CLIPS.forEach((c, i) => {
   const b = document.createElement('button');
@@ -750,8 +755,11 @@ function paint() {
 }
 function show(i) {
   closeCard();
+  const was = CLIPS[ci];
+  if (i !== ci && usable(was)) was.p.pauseVideo();
   ci = i; li = -1; live = false; paused = false;
   const c = CLIPS[ci];
+  CLIPS.forEach(k => { if (k.frame) k.frame.classList.toggle('on', k === c); });
   t = c.from;
   screen_.classList.remove('live');
   clipEl.style.setProperty('--c1', c.c[0]); clipEl.style.setProperty('--c2', c.c[1]);
@@ -760,11 +768,13 @@ function show(i) {
   credit.textContent = c.by; credit.href = `https://www.youtube.com/shorts/${c.id}`;
   [...picker.children].forEach((b, n) => b.setAttribute('aria-pressed', n === ci));
   paint();
-  if (ready && !c.dead) {
+  if (usable(c)) {
     // give the video a moment to start before keeping time without it
     waitUntil = Date.now() + 3500;
-    player.loadVideoById({videoId: c.id, startSeconds: c.from});
-  }
+    sound.getAttribute('aria-pressed') === 'true' ? c.p.unMute() : c.p.mute();
+    c.p.seekTo(c.from, true);
+    c.p.playVideo();
+  } else if (api && !c.p) make(ci);
 }
 function next() { show((ci + 1) % CLIPS.length); }
 
@@ -772,8 +782,8 @@ const STEP = 100;
 if (!still) setInterval(() => {
   if (paused) return;
   const c = CLIPS[ci];
-  if (live) t = player.getCurrentTime();
-  else if (ready && !c.dead && Date.now() < waitUntil) return;
+  if (live) t = c.p.getCurrentTime();
+  else if (usable(c) && Date.now() < waitUntil) return;
   else t += STEP / 1000;
   if (t >= c.to) { next(); return; }
   paint();
@@ -781,7 +791,7 @@ if (!still) setInterval(() => {
 
 function pick(btn, text, mean, read) {
   paused = true;
-  if (live) player.pauseVideo();
+  if (live) cur().pauseVideo();
   screen_.classList.add('paused');
   if (picked) picked.classList.remove('picked');
   picked = btn; btn.classList.add('picked');
@@ -809,38 +819,63 @@ screen_.addEventListener('click', () => {
   if (!card.classList.contains('on')) return;
   closeCard();
   paused = false;
-  if (live) player.playVideo();
+  if (live) cur().playVideo();
 });
 sound.addEventListener('click', e => {
   e.stopPropagation();
   const on = sound.getAttribute('aria-pressed') !== 'true';
   sound.setAttribute('aria-pressed', on);
-  if (player) { on ? player.unMute() : player.mute(); }
+  if (usable(CLIPS[ci])) { on ? cur().unMute() : cur().mute(); }
 });
 show(0);
 
 /* YouTube's player, muted so it may start on its own. Skipped for anyone who
    asked for less motion: they get the captions, standing still. */
-window.onYouTubeIframeAPIReady = () => {
-  const c = CLIPS[ci];
-  player = new YT.Player('yt', {
+function make(i) {
+  const c = CLIPS[i];
+  if (c.p) return;
+  const slot = document.createElement('div');
+  $('yt').appendChild(slot);
+  c.p = new YT.Player(slot, {
     host: 'https://www.youtube-nocookie.com', videoId: c.id,
     playerVars: {autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, start: Math.floor(c.from),
                  disablekb: 1, fs: 0, iv_load_policy: 3, cc_load_policy: 0},
     events: {
-      onReady: () => { ready = true; player.mute(); show(ci); },
+      onReady: () => {
+        c.ready = true; c.p.mute();
+        c.frame = c.p.getIframe(); c.frame.classList.toggle('on', i === ci);
+        if (i === ci) show(ci);
+      },
       onStateChange: e => {
         if (e.data === YT.PlayerState.PLAYING) {
-          if (paused) { player.pauseVideo(); return; }
-          live = true; screen_.classList.add('live');
-        } else if (e.data === YT.PlayerState.ENDED) { next(); }
+          // one that is not on screen stops the moment it is really playing:
+          // its opening is buffered, and it waits there for its turn
+          if (i !== ci || paused) { c.p.pauseVideo(); if (i !== ci) rest(); return; }
+          live = true; screen_.classList.add('live'); rest();
+        } else if (i !== ci) { return; }
+        else if (e.data === YT.PlayerState.ENDED) { next(); }
         else if (e.data === YT.PlayerState.BUFFERING && !paused) { live = false; waitUntil = Date.now() + 3500; }
       },
       // a video that has been taken down or can't be embedded: carry on without it
-      onError: () => { CLIPS[ci].dead = true; live = false; screen_.classList.remove('live'); },
+      onError: () => { c.dead = true; if (i === ci) { live = false; screen_.classList.remove('live'); } rest(); },
     },
   });
-};
+}
+/* Once a video is going, the next one that has no player yet gets one: one
+   at a time, in the order they will play, so they do not fight the first for
+   the connection. Not for anyone saving data. */
+let resting = 0;
+function rest() {
+  if (navigator.connection && navigator.connection.saveData) return;
+  clearTimeout(resting);
+  resting = setTimeout(() => {
+    for (let n = 1; n < CLIPS.length; n++) {
+      const i = (ci + n) % CLIPS.length;
+      if (!CLIPS[i].p) { make(i); return; }
+    }
+  }, 400);
+}
+window.onYouTubeIframeAPIReady = () => { api = true; make(ci); };
 if (!still) {
   const tag = document.createElement('script');
   tag.src = 'https://www.youtube.com/iframe_api';
