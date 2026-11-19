@@ -41,6 +41,11 @@
 <link rel="icon" type="image/png" href="favicon-dark.png?v=5" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" href="favicon.png?v=5">
 <link rel="apple-touch-icon" href="icon.png?v=4">
+<link rel="preconnect" href="https://www.youtube.com">
+<link rel="preconnect" href="https://www.youtube-nocookie.com">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="preload" as="image" href="https://i.ytimg.com/vi/PLqhm6F2fKc/maxresdefault.jpg" fetchpriority="high">
+<link rel="preload" as="script" href="https://www.youtube.com/iframe_api">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -111,6 +116,11 @@
     background:#000;z-index:6}
   /* The video is a real one from the app's feed, played by YouTube's own
      player. Until it starts (or if it can't), moving colour stands in. */
+  /* The video's own first frame, there from the first paint, so the wait for
+     the player is a still of the video and not a placeholder. */
+  .poster{position:absolute;top:0;left:50%;height:100%;width:auto;max-width:none;transform:translateX(-50%);opacity:0;transition:opacity .25s}
+  .poster.on{opacity:1}
+  .posted .voice{opacity:0}
   .yt{position:absolute;inset:0;opacity:0;transition:opacity .45s;pointer-events:none;background:#000}
   .yt iframe{position:absolute;top:50%;left:50%;height:100%;aspect-ratio:9/16;transform:translate(-50%,-50%);border:0;opacity:0}
   .yt iframe.on{opacity:1}
@@ -246,6 +256,7 @@
   .shot:nth-child(1){transform:rotate(-6deg) translate(14%,3%)}
   .shot:nth-child(2){position:relative;z-index:2;width:min(36%,240px)}
   .shot:nth-child(3){transform:rotate(6deg) translate(-14%,3%)}
+  .shots.one .shot{transform:none;width:min(62%,260px)}
   .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:56px}
   .chip{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px}
   .chip svg{width:26px;height:26px;stroke:var(--blue);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
@@ -367,6 +378,7 @@
         <div class="screen" id="screen" role="group" aria-label="Demo: a video with captions you can tap">
           <div class="island"></div>
           <div class="clip" id="clip"><i></i><i></i><i></i></div>
+          <img class="poster" id="poster" alt="" decoding="async">
           <div class="yt" id="yt"></div>
           <div class="shade"></div>
           <button type="button" class="sound" id="sound" aria-pressed="false" aria-label="Sound">
@@ -455,9 +467,9 @@
         <a class="all" href="flashcards/">More about the flashcard app →</a>
       </div>
       <div class="visual shots">
-        <div class="shot"><img src="shots/hero/es_moss.jpg" alt="A Spanish flashcard in the Moss skin" width="600" height="1304" loading="lazy"></div>
-        <div class="shot"><img src="shots/hero/ja_reef.jpg" alt="A Japanese flashcard for 大使館 with its reading and an example sentence" width="600" height="1304" loading="lazy"></div>
-        <div class="shot"><img src="shots/hero/ko_marble.jpg" alt="A Korean flashcard in the Marble skin" width="600" height="1304" loading="lazy"></div>
+        <div class="shot"><img src="shots/app/quiz.jpg" alt="A quiz question: pick the picture that matches the Spanish word rey" width="600" height="1304" loading="lazy"></div>
+        <div class="shot"><img src="shots/app/card.jpg" alt="A Spanish flashcard for copa with its meaning and an example sentence" width="600" height="1304" loading="lazy"></div>
+        <div class="shot"><img src="shots/app/dex.jpg" alt="The dictionary: every word in the language, lighting up as you learn it" width="600" height="1304" loading="lazy"></div>
       </div>
     </div>
     <div class="grid6">
@@ -483,8 +495,27 @@
   </div>
 </section>
 
+<!-- ============ 4. Kito ============ -->
+<section class="band" id="kito">
+  <div class="wrap split reveal">
+    <div class="visual shots one">
+      <div class="shot"><img src="shots/app/kito.jpg" alt="A chat with Kito the fox in Spanish, with a correction under the learner's message" width="600" height="1304" loading="lazy"></div>
+    </div>
+    <div>
+      <p class="eyebrow">Meet Kito</p>
+      <h2>Practise talking <span class="blue">with a fox</span></h2>
+      <ul class="ticks">
+        <li><div>Chat or call in the language you're learning</div></li>
+        <li><div>He fixes your mistakes as you go</div></li>
+        <li><div>Roleplays: order a coffee, check in at the airport</div></li>
+        <li><div>Tap any message to see what it means</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ============ free and Pro ============ -->
-<section class="band" id="pro">
+<section class="band tint" id="pro">
   <div class="wrap reveal">
     <p class="eyebrow">Free vs Pro</p>
     <h2>Free gets you a long way</h2>
@@ -512,7 +543,7 @@
 </section>
 
 <!-- ============ languages ============ -->
-<section class="band tint" id="languages">
+<section class="band" id="languages">
   <div class="wrap reveal">
     <span id="guides"></span>
     <p class="eyebrow">56 languages</p>
@@ -541,7 +572,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="band" id="faq">
+<section class="band tint" id="faq">
   <div class="wrap faq reveal">
     <h2>Questions</h2>
     <details>
@@ -705,7 +736,10 @@ const CLIPS = [
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const screen_ = $('screen'), clipEl = $('clip'), lineEl = $('line'), trEl = $('tr'),
       card = $('wcard'), addBtn = $('wc-add'), bar = $('bar'), picker = $('picker'),
-      sound = $('sound'), credit = $('credit');
+      sound = $('sound'), credit = $('credit'), poster = $('poster');
+const still_of = c => `https://i.ytimg.com/vi/${c.id}/maxresdefault.jpg`;
+poster.addEventListener('load', () => { poster.classList.add('on'); screen_.classList.add('posted'); });
+poster.addEventListener('error', () => { poster.classList.remove('on'); screen_.classList.remove('posted'); });
 /* `live` is true while the real video is playing and setting the time.
    Otherwise the page keeps time itself, so the captions run either way. */
 let ci = 0, li = -1, t = 0, picked = null, paused = false,
@@ -762,6 +796,10 @@ function show(i) {
   CLIPS.forEach(k => { if (k.frame) k.frame.classList.toggle('on', k === c); });
   t = c.from;
   screen_.classList.remove('live');
+  if (poster.dataset.id !== c.id) {
+    poster.classList.remove('on'); screen_.classList.remove('posted');
+    poster.dataset.id = c.id; poster.src = still_of(c);
+  }
   clipEl.style.setProperty('--c1', c.c[0]); clipEl.style.setProperty('--c2', c.c[1]);
   clipEl.style.setProperty('--c3', c.c[2]);
   $('pill-flag').src = `flags/${c.flag}.svg`; $('pill-name').textContent = c.name;
@@ -774,7 +812,13 @@ function show(i) {
     sound.getAttribute('aria-pressed') === 'true' ? c.p.unMute() : c.p.mute();
     c.p.seekTo(c.from, true);
     c.p.playVideo();
-  } else if (api && !c.p) make(ci);
+  } else {
+    // The player is still on its way. The captions wait for it rather than
+    // running over a still picture, but not for ever: a blocked or slow
+    // player and they carry on by themselves.
+    if (!c.dead) waitUntil = Date.now() + 6000;
+    if (api && !c.p) make(ci);
+  }
 }
 function next() { show((ci + 1) % CLIPS.length); }
 
@@ -783,7 +827,7 @@ if (!still) setInterval(() => {
   if (paused) return;
   const c = CLIPS[ci];
   if (live) t = c.p.getCurrentTime();
-  else if (usable(c) && Date.now() < waitUntil) return;
+  else if (!c.dead && Date.now() < waitUntil) return;
   else t += STEP / 1000;
   if (t >= c.to) { next(); return; }
   paint();
@@ -852,6 +896,8 @@ function make(i) {
           // its opening is buffered, and it waits there for its turn
           if (i !== ci || paused) { c.p.pauseVideo(); if (i !== ci) rest(); return; }
           live = true; screen_.classList.add('live'); rest();
+          // the other clips' first frames, so a change of clip has one too
+          if (!poster.dataset.all) { poster.dataset.all = 1; CLIPS.forEach(k => { new Image().src = still_of(k); }); }
         } else if (i !== ci) { return; }
         else if (e.data === YT.PlayerState.ENDED) { next(); }
         else if (e.data === YT.PlayerState.BUFFERING && !paused) { live = false; waitUntil = Date.now() + 3500; }
