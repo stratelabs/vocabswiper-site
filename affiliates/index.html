@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Affiliate program: earn by sharing Vocab Swiper</title>
-<meta name="description" content="Join the Vocab Swiper affiliate program in a minute. Share your code, your audience gets a free month of Pro, and you earn for every person who subscribes. Free to join, paid monthly by PayPal or Wise.">
+<meta name="description" content="Join the Vocab Swiper affiliate program in a minute. Share your code, your audience gets a free month of Pro, and you earn 25% of every subscription for 12 months. Free to join, paid monthly by PayPal or Wise.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://vocabswiper.com/affiliates/">
 <meta property="og:title" content="Vocab Swiper affiliate program">
-<meta property="og:description" content="Share Vocab Swiper, give your audience a free month of Pro, and earn for every subscriber. Free to join, instant code.">
+<meta property="og:description" content="Share Vocab Swiper, give your audience a free month of Pro, and earn 25% recurring for 12 months. Free to join, instant code.">
 <meta property="og:image" content="https://vocabswiper.com/icon.png">
 <link rel="icon" href="../favicon.ico?v=5" sizes="any">
 <link rel="icon" type="image/png" href="../favicon.png?v=5">
@@ -130,16 +130,16 @@
 
   <header class="head">
     <div class="eyebrow">Affiliate program</div>
-    <h1 class="big">Earn <span class="money"><span class="amt">$5</span> per subscriber</span> by sharing Vocab Swiper</h1>
+    <h1 class="big">Earn <span class="money"><span class="amt">25%</span> of every subscription</span> you bring to Vocab Swiper</h1>
     <p>Vocab Swiper is a free app for learning 50+ languages by swiping word cards. Share your own code,
-       your audience gets a month of Pro free, and you earn <b class="amt">$5</b> for every one of them who subscribes.
+       your audience gets a month of Pro free, and you earn <b class="amt">25%</b> of everything each of them pays for their first 12 months.
        Free to join. Your code works the moment you sign up.</p>
   </header>
 
   <div class="steps">
     <div class="step"><b class="n">1</b><div><h3>Sign up below</h3><p>Name, email and where you'll share it. You get your code on the spot, no approval wait.</p></div></div>
     <div class="step"><b class="n">2</b><div><h3>Share your code anywhere</h3><p>Blog posts, TikTok, YouTube, Reels, newsletters, Discord, your class group chat. Anyone who enters it gets a free month of Pro.</p></div></div>
-    <div class="step"><b class="n">3</b><div><h3>Get paid every month</h3><p>You earn <b class="amt">$5</b> for each person who goes on to pay for Pro. Track it live on your own stats page; we pay monthly by PayPal or Wise.</p></div></div>
+    <div class="step"><b class="n">3</b><div><h3>Get paid every month</h3><p>You earn <b class="amt">25%</b> of every payment each person makes for their first year, monthly renewals included. Track it live on your own stats page; we pay monthly by PayPal or Wise.</p></div></div>
   </div>
 
   <h2 class="sec">Get your code</h2>
@@ -180,7 +180,7 @@
   <h2 class="sec">Questions</h2>
   <div class="faq">
     <details><summary>Who can join?</summary><p>Anyone 18 or older with somewhere to share it: a blog, a social account, a newsletter, a study group. There's no follower minimum.</p></details>
-    <details><summary>What exactly do I earn?</summary><p><b class="amt">$5</b> once for each person who redeems your code and then pays for Pro, monthly or yearly. It counts once their payments reach <b class="amt">$5</b>, and is held 30 days in case of a refund. Your stats page shows redemptions, subscribers and what you've earned, live.</p></details>
+    <details><summary>What exactly do I earn?</summary><p><b class="amt">25%</b> of every payment each person who used your code makes in their first 12 months, after the App Store or Google Play cut. A monthly subscriber earns you a share every month; a yearly one pays your share up front. Each payment is held 30 days in case of a refund. Your stats page shows redemptions, subscribers and what you've earned, live.</p></details>
     <details><summary>How do people use my code?</summary><p>They download Vocab Swiper (free on the App Store and Google Play), then enter your code in Profile → Have a code? They get a month of Pro free straight away. Each account can use one creator code, ever, so whoever gets them first gets the credit.</p></details>
     <details><summary>When and how do I get paid?</summary><p>At the start of each month, by PayPal or Wise, for everything that cleared the 30-day refund window. Add your payout email when you sign up or reply to your welcome email.</p></details>
     <details><summary>What can I say about the app?</summary><p>What it really does: swipe-style flashcards with real example sentences in 50+ languages, real native videos with tappable subtitles, and Kito, an AI fox you can chat with. Please don't claim fluency in days, and always mark it as an affiliate or sponsored link.</p></details>
@@ -200,11 +200,11 @@
 <script>
 const API = 'https://mnibwjag2z.us-east-1.awsapprunner.com/affiliate';
 const $ = id => document.getElementById(id);
-let per = 5;
+let pct = 25;
 
 // Show what the backend actually pays.
 fetch(API).then(r => r.json()).then(t => {
-  if (t && t.per_subscriber) { per = t.per_subscriber; document.querySelectorAll('.amt').forEach(e => e.textContent = '$' + per); }
+  if (t && t.share) { pct = Math.round(t.share * 100); document.querySelectorAll('.amt').forEach(e => e.textContent = pct + '%'); }
 }).catch(() => {});
 
 function showStatus(kind, msg) { $('status').textContent = msg; $('status').className = 'status show ' + kind; }
